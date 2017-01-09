@@ -96,9 +96,11 @@ $db->select()->from()->where()->order()->limit()->execute();
 ```
 
 **select($columns)**
+
 $columns → (array|string|empty) Names of columns to select. If left blank select all fields (*).
 
 **from($table)**
+
 $table → (string) Database table name.
 
 **where($clauses, $statements)** (Optional)
