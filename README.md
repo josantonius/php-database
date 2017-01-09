@@ -13,6 +13,14 @@ Library for SQL database management to be used by several providers at the same 
 - [Quick Start and Examples](#quick-start-and-examples)
 - [Available Methods](#available-methods)
 - [Usage](#usage)
+- [Select](#select)
+- [Insert](#insert)
+- [Update](#update)
+- [Replace](#replace)
+- [Delete](#delete)
+- [Create](#create)
+- [Truncate](#truncate)
+- [Drop](#drop)
 - [Tests](#tests)
 - [Exception Handler](#exception-handler)
 - [Contribute](#contribute)
@@ -95,28 +103,33 @@ Select data from database.
 $db->select()->from()->where()->order()->limit()->execute();
 ```
 
-**select($columns)**
+**select(**$columns**)**
 
 $columns → (array|string|empty) Names of columns to select. If left blank select all fields (*).
 
-**from($table)**
+**from(**$table**)**
 
 $table → (string) Database table name.
 
-**where($clauses, $statements)** (Optional)
+**where(**$clauses, $statements**)** (Optional)
+
 $clauses    → (array|string)     → Where clauses.
+
 $statements → (array) (Optional) → Prepared statements.
 
-**order($params)** (Optional)
+**order(**$params**)** (Optional)
+
 $params → (array|string) → Parameters to sort query.
 
-**limit($number)** (Optional)
+**limit(**$number**)** (Optional)
+
 $number → (int) → Rows number limit.
 
-**execute($dataType)**
+**execute(**$dataType**)**
+
 $dataType → (string|empty) → Accepted parameters: 'obj', 'array_num', 'array_assoc' & 'rows'.
 
-SELECT query example. For more examples see the [DatabaseSelectTest](tests/DatabaseSelectTest.php) class.
+**SELECT** query example. For more examples see the [DatabaseSelectTest](tests/DatabaseSelectTest.php) class.
 
 ```php
 $statements[] = [':id',   1,       'int'];
@@ -141,17 +154,21 @@ Insert data into database.
 $db->insert()->in()->execute();
 ```
 
-**insert($data, $statements)**
+**insert(**$data, $statements**)**
+
 $data       → (array)            → Name of columns and values to be inserted.
+
 $statements → (array) (Optional) → Prepared statements.
 
-**in($table)**
+**in(**$table**)**
+
 $table → (string) Database table name.
 
-**execute($dataType)**
+**execute(**$dataType**)**
+
 $dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
 
-INSERT query example. For more examples see the [DatabaseInsertTest](tests/DatabaseInsertTest.php) class.
+**INSERT** query example. For more examples see the [DatabaseInsertTest](tests/DatabaseInsertTest.php) class.
 
 ```php
 $statements[] = [1, "Isis"];
@@ -176,18 +193,23 @@ Update fields in the database.
 $db->update()->in()->where()->execute();
 ```
 
-**update($data, $statements)**
+**update(**$data, $statements**)**
+
 $data       → (array)            → Name of columns and values to be inserted.
+
 $statements → (array) (Optional) → Prepared statements.
 
-**where($clauses, $statements)** (Optional)
+**where(**$clauses, $statements**)** (Optional)
+
 $clauses    → (array|string)     → Where clauses.
+
 $statements → (array) (Optional) → Prepared statements.
 
-**execute($dataType)**
+**execute(**$dataType**)**
+
 $dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
 
-UPDATE query example. For more examples see the [DatabaseUpdateTest](tests/DatabaseUpdateTest.php) class.
+**UPDATE** query example. For more examples see the [DatabaseUpdateTest](tests/DatabaseUpdateTest.php) class.
 
 ```php
 $data = [
@@ -220,17 +242,21 @@ Replace a row in a table if it exists or insert a new row in a table if not exis
 $db->replace()->from()->execute();
 ```
 
-**replace($data, $statements)**
+**replace(**$data, $statements**)**
+
 $data       → (array)            → Name of columns and values to be replaced.
+
 $statements → (array) (Optional) → Prepared statements.
 
-**from($table)**
+**from(**$table**)**
+
 $table → (string) Database table name.
 
-**execute($dataType)**
+**execute(**$dataType**)**
+
 $dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
 
-REPLACE example. For more examples see the [DatabaseReplaceTest](tests/DatabaseReplaceTest.php) class.
+**REPLACE** example. For more examples see the [DatabaseReplaceTest](tests/DatabaseReplaceTest.php) class.
 
 ```php
 $data = [
@@ -254,19 +280,24 @@ $db->delete()->from()->where()->execute();
 ```
 
 **delete()**
+
 This method has no attributes.
 
-**from($table)**
+**from(**$table**)**
+
 $table → (string) Database table name.
 
-**where($clauses, $statements)** (Optional)
+**where(**$clauses, $statements**)** (Optional)
+
 $clauses    → (array|string)     → Where clauses.
+
 $statements → (array) (Optional) → Prepared statements.
 
-**execute($dataType)**
+**execute(**$dataType**)**
+
 $dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
 
-DELETE query example. For more examples see the [DatabaseDeleteTest](tests/DatabaseDeleteTest.php) class.
+**DELETE** query example. For more examples see the [DatabaseDeleteTest](tests/DatabaseDeleteTest.php) class.
 
 ```php
 $query = $db->delete()
@@ -284,16 +315,19 @@ Create table in database.
 $db->create()->table()->execute();
 ```
 
-**create($params)**
+**create(**$params**)**
+
 $params → (array) → Parameters of configuration for the columns.
 
-**table($table)**
+**table(**$table**)**
+
 $table → (string) Database table name.
 
 **execute()**
+
 This method has no attributes.
 
-CREATE query example. For more examples see the [DatabaseCreateTest](tests/DatabaseCreateTest.php) class.
+**CREATE** query example. For more examples see the [DatabaseCreateTest](tests/DatabaseCreateTest.php) class.
 
 ```php
 $params = [
@@ -318,15 +352,18 @@ $db->truncate()->table()->execute();
 ```
 
 **truncate()**
+
 This method has no attributes.
 
-**table($table)**
+**table(**$table**)**
+
 $table → (string) Database table name.
 
 **execute()**
+
 This method has no attributes.
 
-TRUNCATE query example. For more examples see the [DatabaseTruncateTest](tests/DatabaseTruncateTest.php) class.
+**TRUNCATE** query example. For more examples see the [DatabaseTruncateTest](tests/DatabaseTruncateTest.php) class.
 
 ```php
 $query = $db->truncate()
@@ -344,15 +381,18 @@ $db->drop()->table()->execute();
 ```
 
 **drop()**
+
 This method has no attributes.
 
-**table($table)**
+**table(**$table**)**
+
 $table → (string) Database table name.
 
 **execute()**
+
 This method has no attributes.
 
-DROP query example. For more examples see the [DatabaseDropTest](tests/DatabaseDropTest.php) class.
+**DROP** query example. For more examples see the [DatabaseDropTest](tests/DatabaseDropTest.php) class.
 
 ```php
 $query = $db->drop()

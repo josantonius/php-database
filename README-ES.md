@@ -13,6 +13,14 @@ Biblioteca para la administración de bases de datos SQL para ser utilizada por 
 - [Cómo empezar y ejemplos](#cómo-empezar-y-ejemplos)
 - [Métodos disponibles](#métodos-disponibles)
 - [Uso](#uso)
+- [Select](#select)
+- [Insert](#insert)
+- [Update](#update)
+- [Replace](#replace)
+- [Delete](#delete)
+- [Create](#create)
+- [Truncate](#truncate)
+- [Drop](#drop)
 - [Tests](#tests)
 - [Manejador de excepciones](#manejador-de-excepciones)
 - [Contribuir](#contribuir)
@@ -94,26 +102,33 @@ Seleccionar en la base de datos.
 $db->select()->from()->where()->order()->limit()->execute();
 ```
 
-**select($columns)**
+**select(**$columns**)**
+
 $columns → (array|string|empty) Nombres de las columnas a seleccionar. Vacío para seleccionar todo (*).
 
-**from($table)**
+**from(**$table**)**
+
 $table → (string) Nombre de la tabla.
 
-**where($clauses, $statements)** (Opcional) 
+**where(**$clauses, $statements**)** (Opcional) 
+
 $clauses    → (array|string)     → Parámetros para filtrado.
+
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**order($params)** (Opcional)
+**order(**$params**)** (Opcional)
+
 $params → (array|string) → Parámetros de ordenación para la consulta.
 
-**limit($number)** (Opcional) 
+**limit(**$number**)** (Opcional) 
+
 $number → (int) → Limitar el número de filas para la respuesta a la consulta.
 
-**execute($dataType)** 
+**execute(**$dataType**)** 
+
 $dataType → (string|empty) → Parámetros aceptados: 'obj', 'array_num', 'array_assoc' & 'rows'.
 
-Ejemplo de consulta SELECT. Para más ejemplos ver la clase [DatabaseSelectTest](tests/DatabaseSelectTest.php).
+Ejemplo de consulta **SELECT**. Para más ejemplos ver la clase [DatabaseSelectTest](tests/DatabaseSelectTest.php).
 
 ```php
 $statements[] = [':id',   1,       'int'];
@@ -138,17 +153,21 @@ Insertar en la base de datos.
 $db->insert()->in()->execute();
 ```
 
-**insert($data, $statements)**
+**insert(**$data, $statements**)**
+
 $data       → (array)            → Nombre de columnas y valores a insertar.
+
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**in($table)**
+**in(**$table**)**
+
 $table → (string) Nombre de la tabla.
 
-**execute($dataType)**
+**execute(**$dataType**)**
+
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
-Ejemplo de consulta INSERT. Para más ejemplos ver la clase [DatabaseInsertTest](tests/DatabaseInsertTest.php).
+Ejemplo de consulta **INSERT**. Para más ejemplos ver la clase [DatabaseInsertTest](tests/DatabaseInsertTest.php).
 
 ```php
 $statements[] = [1, "Isis"];
@@ -173,18 +192,22 @@ Actualizar en base de datos.
 $db->update()->in()->where()->execute();
 ```
 
-**update($data, $statements)**
+**update(**$data, $statements**)**
+
 $data       → (array)            → Nombre de columnas y valores a actualizar.
+
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**where($clauses, $statements)** (Opcional)
+**where(**$clauses, $statements**)** (Opcional)
+
 $clauses    → (array|string)     → Parámetros para filtrado.
+
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**execute($dataType)**
+**execute(**$dataType**)**
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
-Ejemplo de consulta UPDATE. Para más ejemplos ver la clase [DatabaseUpdateTest](tests/DatabaseUpdateTest.php).
+Ejemplo de consulta **UPDATE**. Para más ejemplos ver la clase [DatabaseUpdateTest](tests/DatabaseUpdateTest.php).
 
 ```php
 $data = [
@@ -217,17 +240,21 @@ Reemplazar si existe o insertar una nueva fila si no existe.
 $db->replace()->from()->execute();
 ```
 
-**replace($data, $statements)**
-$data       → (array)            → Nombre de columnas y valores a insertar.
+**replace(**$data, $statements**)**
+
+$data       → (array)            → Nombre de columnas y valores a insertar o reemplazar.
+
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**from($table)**
+**from(**$table**)**
+
 $table → (string) Nombre de la tabla.
 
-**execute($dataType)**
+**execute(**$dataType**)**
+
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
-Ejemplo de REPLACE. Para más ejemplos ver la clase [DatabaseReplaceTest](tests/DatabaseReplaceTest.php).
+Ejemplo de **REPLACE**. Para más ejemplos ver la clase [DatabaseReplaceTest](tests/DatabaseReplaceTest.php).
 
 ```php
 $data = [
@@ -251,18 +278,24 @@ $db->delete()->from()->where()->execute();
 ```
 
 **delete()**
+
 Este método no tiene atributos.
 
-**from($table)**
+**from(**$table**)**
+
 $table → (string) Nombre de la tabla.
 
-**where($clauses, $statements)** (Opcional)
+**where(**$clauses, $statements**)** (Opcional)
+
 $clauses    → (array|string)     → Parámetros para filtrado.
+
 $statements → (array) (Opcional) → Declaraciones preparadas.
-**execute($dataType)**
+
+**execute(**$dataType**)**
+
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
-Ejemplo de consulta DELETE. Para más ejemplos ver la clase [DatabaseDeleteTest](tests/DatabaseDeleteTest.php).
+Ejemplo de consulta **DELETE**. Para más ejemplos ver la clase [DatabaseDeleteTest](tests/DatabaseDeleteTest.php).
 
 ```php
 $query = $db->delete()
@@ -280,16 +313,19 @@ Crear tabla en base de datos.
 $db->create()->table()->execute();
 ```
 
-**create($params)**
+**create(**$params**)**
+
 $params → (array) → Parámetros de configuración para las columnas.
 
-**table($table)**
+**table(**$table**)**
+
 $table → (string) Nombre de la tabla.
 
 **execute()**
+
 Este método no tiene atributos.
 
-Ejemplo de consulta CREATE. Para más ejemplos ver la clase [DatabaseCreateTest](tests/DatabaseCreateTest.php).
+Ejemplo de consulta **CREATE**. Para más ejemplos ver la clase [DatabaseCreateTest](tests/DatabaseCreateTest.php).
 
 ```php
 $params = [
@@ -314,15 +350,18 @@ $db->truncate()->table()->execute();
 ```
 
 **truncate()**
+
 Este método no tiene atributos.
 
-**table($table)**
+**table(**$table**)**
+
 $table → (string) Nombre de la tabla.
 
 **execute()**
+
 Este método no tiene atributos.
 
-Ejemplo de consulta TRUNCATE. Para más ejemplos ver la clase [DatabaseTruncateTest](tests/DatabaseTruncateTest.php).
+Ejemplo de consulta **TRUNCATE**. Para más ejemplos ver la clase [DatabaseTruncateTest](tests/DatabaseTruncateTest.php).
 
 ```php
 $query = $db->truncate()
@@ -340,15 +379,18 @@ $db->drop()->table()->execute();
 ```
 
 **drop()**
+
 Este método no tiene atributos.
 
-**table($table)**
+**table(**$table**)**
+
 $table → (string) Nombre de la tabla.
 
 **execute()**
+
 Este método no tiene atributos.
 
-Ejemplo de consulta DROP. Para más ejemplos ver la clase [DatabaseDropTest](tests/DatabaseDropTest.php).
+Ejemplo de consulta **DROP**. Para más ejemplos ver la clase [DatabaseDropTest](tests/DatabaseDropTest.php).
 
 ```php
 $query = $db->drop()
