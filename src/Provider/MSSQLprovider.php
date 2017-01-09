@@ -1,0 +1,437 @@
+<?php declare(strict_types=1);
+/**
+ * Library for SQL database management to be used by several providers at the same time.
+ * 
+ * @category   JST
+ * @package    Database
+ * @subpackage Provider
+ * @author     Josantonius - info@josantonius.com
+ * @copyright  Copyright (c) 2017 JST PHP Framework
+ * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
+ * @version    1.0.0
+ * @link       https://github.com/Josantonius/PHP-Database
+ * @since      File available since 1.0.0 - Update: 2017-01-09
+ */
+
+namespace Josantonius\Database\Provider;
+
+use Josantonius\Database\Exception\DBException,
+    Josantonius\Database\Provider\Provider;
+
+/**
+ * MSSQL database provider.
+ *
+ * @since 1.0.0
+ */
+class MSSQLprovider extends Provider {
+
+    /**
+     * Database connection.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $host                → database host
+     * @param string $dbUser              → database user
+     * @param string $dbName              → database name
+     * @param string $pass                → database password
+     * @param array  $settings            → database options
+     * @param array  $settings['port']    → database port
+     * 
+     * @return object|null → returns the object with the connection or null
+     */
+    public function connect(string $host, string $dbUser, 
+                            string $dbName, string $pass, array $settings = []) {
+
+        try {
+
+            $port = $settings['port'] ?? '1433';
+
+            $this->conn = mssql_connect($host . ':' . $port, $user, $pass);
+
+            mssql_select_db($dbname, $this->conn);
+                        
+            return  $this->conn;
+
+        } catch (\Exception $e) {
+           
+            $this->error = $e->getMessage();
+
+            return NULL;
+        }
+    }
+
+    /**
+     * Run database queries.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $query → query
+     * @param string $type  → query type: SELECT INSERT UPDATE DELETE CREATE TRUNCATE
+     * 
+     * @return object|null → returns the object with the connection or null
+     */
+    public function query(string $query, string $type = '') {
+
+        try {
+                 
+            return mssql_query($query, $this->conn);
+
+        } catch (\Exception $e) {
+
+            $this->error = $e->getMessage();
+
+            return NULL;
+
+        }
+    }
+
+    /**
+     * Execute prepared queries.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $query      → query
+     * @param array  $statements → array with prepared parameters
+     * 
+     * @return object|null → returns the object with the connection or null
+     */
+    public function statements(string $query, array $statements) { }
+
+    /**
+     * Create table statement.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $table → table name
+     * @param array  $data  → column name and configuration for data types
+     * 
+     * @return int → 0
+     */
+    public function create(string $table, array $data) {
+
+        $query = 'CREATE TABLE IF NOT EXISTS `' . $table . '` (';
+
+        foreach ($data as $column => $value) {
+
+            $query .= $column . ' ' . $value . ', ';
+        }
+
+        $query = rtrim(trim($query), ',') . ')'; # Remove final comma
+
+        return $this->query($query);
+    }
+
+    /**
+     * Selec statement.
+     *
+     * @since 1.0.0
+     * 
+     * @param mixed $columns     → column/s name
+     * @param string $from       → table name
+     * @param mixed  $where      → where clauses
+     * @param mixed  $order      → query sort parameters
+     * @param int    $limit      → query limiting parameters
+     * @param array  $statements → array with prepared parameters
+     * 
+     * @return object → query response
+     */
+    public function select($columns, $from, $where, $order, $limit, $statements) {
+
+        $query = 'SELECT ';
+
+        $query .= (is_array($columns)) ? implode(', ', $columns) : $columns;
+
+        $query .= ' FROM `' . $from . '` ';
+
+        $query .= (!is_null($where)) ? ' WHERE ' : '';
+
+        $query .= (is_string($where)) ? $where . ' ' : '';
+
+        if (is_array($where)) {
+
+            foreach ($where as $clause) {
+
+                $query .= $clause . ' AND ';
+            }
+
+            $query = rtrim(trim($query), 'AND');
+        } 
+
+        $query .= (!is_null($order)) ? ' ORDER BY ' : '';
+
+        $query .= (is_string($order)) ? $order . ' ' : '';
+
+        if (is_array($order)) {
+
+            foreach ($order as $value) {
+
+                $query .= $value . ', ';
+            }
+
+            $query = rtrim(trim($query), ',');
+        }
+
+        $query .= (!is_null($limit)) ? ' LIMIT ' : '';
+
+        $query .= (is_int($limit)) ? $limit . ' ' : '';
+
+        if (!is_null($statements) && is_array($statements)) {
+
+            return $this->statements(trim($query), $statements);
+        }
+
+        return $this->query(trim($query), 'SELECT');
+    }
+
+    /**
+     * Insert into statement.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $table      → table name
+     * @param array  $data       → column name and value
+     * @param array  $statements → array with prepared parameters
+     * 
+     * @return object → query response
+     */
+    public function insert(string $table, array $data, $statements) {
+
+        $input = ['columns' => '', 
+                  'values'  => ''];
+
+        $query = 'INSERT INTO `' . $table . '` ';
+
+        foreach ($data as $column => $value) {
+
+            $input['columns'] .= $column . ', ';
+
+            $value = (is_null($statements) && is_string($value)) ? "'$value'" : $value;
+
+            $input['values']  .= $value  . ', ';
+        }
+
+        $query .= '(' . rtrim(trim($input['columns']), ',') . ') ';
+
+        $query .= 'VALUES (' . rtrim(trim($input['values']), ',') . ')';
+
+        return $this->query($query, 'INSERT');
+    }
+
+    /**
+     * Update statement.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $table      → table name
+     * @param array  $data       → column name and value
+     * @param array  $statements → array with prepared parameters
+     * @param mixed  $where      → where clauses
+     * 
+     * @return object → query response
+     */
+    public function update(string $table, array $data, $statements, $where) {
+
+        $query = 'UPDATE `' . $table . '`  SET ';
+
+        foreach ($data as $column => $value) {
+
+            $value = (is_null($statements) && is_string($value)) ? "'$value'" : $value;
+
+            $query .= $column . '=' . $value . ', ';
+        }
+
+        $query = rtrim(trim($query), ',');
+
+        $query .= (!is_null($where)) ? ' WHERE ' : '';
+
+        $query .= (is_string($where)) ? $where . ' ' : '';
+
+        if (is_array($where)) {
+
+            foreach ($where as $clause) {
+
+                $query .= $clause . ' AND ';
+            }
+
+            $query = rtrim(trim($query), 'AND');
+        } 
+
+        return $this->query($query, 'INSERT');
+    }
+
+    /**
+     * Replace a row in a table if it exists or insert a new row in a table if not exist.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $table      → table name
+     * @param array  $data       → column name and value
+     * @param array  $statements → array with prepared parameters
+     * 
+     * @return object → query response
+     */
+    public function replace(string $table, $data, $statements) {
+
+        $columns = array_keys($data);
+
+        $columnIdName = $columns[0];
+
+        $id = array_shift($data);
+
+        $where = $columnIdName . ' = ' . $id;
+
+        $result = $this->select($columns, $table, $where, null, 1, $statements);
+
+        if ($this->rowCount($result)) {
+
+            return $this->update($table, $data, $statements, $where);
+        }
+
+        return $this->insert($table, $data, $statements);
+    }
+
+    /**
+     * Delete statement.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $table      → table name
+     * @param array  $statements → array with prepared parameters
+     * @param mixed  $where      → where clauses
+     * 
+     * @return object → query response
+     */
+    public function delete(string $table, $statements, $where) {
+
+        $query = 'DELETE FROM `' . $table . '` ';
+
+        $query .= (!is_null($where)) ? ' WHERE ' : '';
+
+        $query .= (is_string($where)) ? $where . ' ' : '';
+
+        if (is_array($where)) {
+
+            foreach ($where as $clause) {
+
+                $query .= $clause . ' AND ';
+            }
+
+            $query = rtrim(trim($query), 'AND');
+        } 
+
+        return $this->query($query, 'INSERT');
+    }
+
+    /**
+     * Truncate table statement.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $table → table name
+     * 
+     * @return int → 0
+     */
+    public function truncate(string $table) {
+
+        $query = 'TRUNCATE TABLE `' . $table .'`';
+
+        return $this->query($query);
+    }
+
+    /**
+     * Drop table statement.
+     *
+     * @since 1.0.0
+     * 
+     * @param string $table → table name
+     * 
+     * @return int → 0
+     */
+    public function drop(string $table) {
+
+        $query = 'DROP TABLE IF EXISTS `' . $table .'`';
+
+        return $this->query($query);
+    }
+
+    /**
+     * Process query as object or numeric or associative array.
+     *
+     * @since 1.0.0
+     * 
+     * @param object $response → query result
+     * @param string $result   → result as an object or array
+     * 
+     * @return object|array → object or array with results
+     */
+    public function fetchResponse($response, string $result) {
+
+        if ($response) {
+            
+            $data = array();
+            
+            while($row = mssql_fetch_array($response)) {       
+                
+                $data[] = $row;
+            }
+
+            return $data;    
+        }       
+
+        return false;   
+    }
+
+    /**
+     * Get the last id of the query object.
+     *
+     * @since 1.0.0
+     * 
+     * @return int → last row id modified or added
+     */
+    public function lastInsertId(): int { }
+
+    /**
+     * Get rows number.
+     *
+     * @since 1.0.0
+     * 
+     * @param object $response → query result
+     *
+     * @return int → rows number in query object
+     */
+    public function rowCount($response): int { }
+    
+    /**
+     * Get errors.
+     *
+     * @since 1.0.0
+     * 
+     * @return string → get the message if there has been any error
+     */
+    public function getError(): string {
+
+        return $this->error;
+    }
+
+    /**
+     * Check database connection state.
+     *
+     * @since 1.0.0
+     * 
+     * @return bool true|false → check the connection and return true or false
+     */
+    public function isConnected(): bool {
+        
+        return !is_null($this->conn);
+    }
+
+    /**
+     * Close/delete database connection.
+     *
+     * @since 1.0.0
+     */
+    public function kill() {
+        
+        $this->conn = null;
+    }
+}
