@@ -205,6 +205,7 @@ $clauses    → (array|string)     → Parámetros para filtrado.
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
 **execute(**$dataType**)**
+
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
 Ejemplo de consulta **UPDATE**. Para más ejemplos ver la clase [DatabaseUpdateTest](tests/DatabaseUpdateTest.php).
