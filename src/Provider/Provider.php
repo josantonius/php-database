@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Library for SQL database management to be used by several providers at the same time.
  * 
@@ -8,9 +8,9 @@
  * @author     Josantonius - info@josantonius.com
  * @copyright  Copyright (c) 2017 JST PHP Framework
  * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
- * @version    1.0.0
+ * @version    1.1.0
  * @link       https://github.com/Josantonius/PHP-Database
- * @since      File available since 1.0.0 - Update: 2017-01-09
+ * @since      File available since 1.0.0 - Update: 2017-01-30
  */
 
 namespace Josantonius\Database\Provider;
@@ -47,28 +47,27 @@ abstract class Provider {
      *
      * @since 1.0.0
      */
-    public abstract function connect(string $host, string $dbUser, string $dbName, 
-    								 string $pass, array $settings = []);
+    public abstract function connect($host, $dbUser, $dbName, $pass, $settings = []);
     /**
      * Run database queries.
      *
      * @since 1.0.0
      */
-    public abstract function query(string $query, string $type);
+    public abstract function query($query, $type);
 
     /**
      * Execute prepared queries.
      *
      * @since 1.0.0
      */
-    public abstract function statements(string $query, array $statements);
+    public abstract function statements($query, $statements);
 
     /**
      * Create table statement.
      *
      * @since 1.0.0
      */
-    public abstract function create(string $table, array $data);
+    public abstract function create($table, $data);
 
     /**
      * Select into statement.
@@ -82,56 +81,56 @@ abstract class Provider {
      *
      * @since 1.0.0
      */
-    public abstract function insert(string $table, array $data, $statements);
+    public abstract function insert($table, $data, $statements);
 
     /**
      * Update statement.
      *
      * @since 1.0.0
      */
-    public abstract function update(string $table, array $data, $statements, $where);
+    public abstract function update($table, $data, $statements, $where);
 
     /**
      * Delete statement.
      *
      * @since 1.0.0
      */
-    public abstract function delete(string $table, $statements, $where);
+    public abstract function delete($table, $statements, $where);
 
     /**
      * Truncate table statement.
      *
      * @since 1.0.0
      */
-    public abstract function truncate(string $table);
+    public abstract function truncate($table);
 
     /**
      * Drop table statement.
      *
      * @since 1.0.0
      */
-    public abstract function drop(string $table);
+    public abstract function drop($table);
 
     /**
      * Process query as object or numeric or associative array.
      *
      * @since 1.0.0
      */
-    public abstract function fetchResponse($response, string $result);
+    public abstract function fetchResponse($response, $result);
 
     /**
      * Get the last id of the query object.
      *
      * @since 1.0.0
      */
-    public abstract function lastInsertId(): int;
+    public abstract function lastInsertId();
 
     /**
      * Get rows number.
      *
      * @since 1.0.0
      */
-    public abstract function rowCount($response): int;
+    public abstract function rowCount($response);
 
     /**
      * Get errors.

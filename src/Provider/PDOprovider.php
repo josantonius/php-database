@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Library for SQL database management to be used by several providers at the same time.
  * 
@@ -8,9 +8,9 @@
  * @author     Josantonius - info@josantonius.com
  * @copyright  Copyright (c) 2017 JST PHP Framework
  * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
- * @version    1.0.0
+ * @version    1.1.0
  * @link       https://github.com/Josantonius/PHP-Database
- * @since      File available since 1.0.0 - Update: 2017-01-09
+ * @since      File available since 1.0.0 - Update: 2017-01-30
  */
 
 namespace Josantonius\Database\Provider;
@@ -39,12 +39,11 @@ class PDOprovider extends Provider {
      * 
      * @return object|null → returns the object with the connection or null
      */
-    public function connect(string $host, string $dbUser, 
-                            string $dbName, string $pass, array $settings = []) {
+    public function connect($host, $dbUser, $dbName, $pass, $settings = []) {
 
         try {
 
-            $charset = $settings['charset'] ?? 'utf8';
+            $charset = (!isset($settings['charset']) ? $settings['charset'] : 'utf8';
 
             $this->conn = new \PDO('mysql:host=' . $host . 
                                   ';dbname='    . $dbName . 
@@ -74,7 +73,7 @@ class PDOprovider extends Provider {
      * 
      * @return object|null → returns the object with the connection or null
      */
-    public function query(string $query, string $type = '') {
+    public function query($query, $type = '') {
 
         try {
                  
@@ -105,7 +104,7 @@ class PDOprovider extends Provider {
      * 
      * @return object|null → returns the object with the connection or null
      */
-    public function statements(string $query, array $statements) {
+    public function statements($query, $statements) {
 
         try {
 
@@ -115,7 +114,7 @@ class PDOprovider extends Provider {
 
                 $parameter = $statements[$key][0];
                 $value     = $statements[$key][1];
-                $dataType  = $statements[$key][2] ?? false; 
+                $dataType  = (isset($statements[$key][2]) ? $statements[$key][2] : false; 
 
                 switch ($dataType) {
                     case 'bool':
@@ -160,7 +159,7 @@ class PDOprovider extends Provider {
      * 
      * @return int → 0
      */
-    public function create(string $table, array $data) {
+    public function create($table, $data) {
 
         $query = 'CREATE TABLE IF NOT EXISTS `' . $table . '` (';
 
@@ -247,7 +246,7 @@ class PDOprovider extends Provider {
      * 
      * @return object → query response
      */
-    public function insert(string $table, array $data, $statements) {
+    public function insert($table, $data, $statements) {
 
         $input = ['columns' => '', 
                   'values'  => ''];
@@ -287,7 +286,7 @@ class PDOprovider extends Provider {
      * 
      * @return object → query response
      */
-    public function update(string $table, array $data, $statements, $where) {
+    public function update($table, $data, $statements, $where) {
 
         $query = 'UPDATE `' . $table . '`  SET ';
 
@@ -333,7 +332,7 @@ class PDOprovider extends Provider {
      * 
      * @return object → query response
      */
-    public function replace(string $table, $data, $statements) {
+    public function replace($table, $data, $statements) {
 
         $columns = array_keys($data);
 
@@ -364,7 +363,7 @@ class PDOprovider extends Provider {
      * 
      * @return object → query response
      */
-    public function delete(string $table, $statements, $where) {
+    public function delete($table, $statements, $where) {
 
         $query = 'DELETE FROM `' . $table . '` ';
 
@@ -399,7 +398,7 @@ class PDOprovider extends Provider {
      * 
      * @return int → 0
      */
-    public function truncate(string $table) {
+    public function truncate($table) {
 
         $query = 'TRUNCATE TABLE `' . $table .'`';
 
@@ -415,7 +414,7 @@ class PDOprovider extends Provider {
      * 
      * @return int → 0
      */
-    public function drop(string $table) {
+    public function drop($table) {
 
         $query = 'DROP TABLE IF EXISTS `' . $table .'`';
 
@@ -432,7 +431,7 @@ class PDOprovider extends Provider {
      * 
      * @return object|array → object or array with results
      */
-    public function fetchResponse($response, string $result) {
+    public function fetchResponse($response, $result) {
 
         if ($result == 'obj') { 
 
@@ -455,7 +454,7 @@ class PDOprovider extends Provider {
      * 
      * @return int → last row id modified or added
      */
-    public function lastInsertId(): int {
+    public function lastInsertId() {
 
         return (int) $this->conn->lastInsertId();                  
     }
@@ -469,7 +468,7 @@ class PDOprovider extends Provider {
      *
      * @return int → rows number in query object
      */
-    public function rowCount($response): int {
+    public function rowCount($response) {
 
         if (is_object($response)) {
 
@@ -486,7 +485,7 @@ class PDOprovider extends Provider {
      * 
      * @return string → get the message if there has been any error
      */
-    public function getError(): string {
+    public function getError() {
 
         return $this->error;
     }
@@ -498,7 +497,7 @@ class PDOprovider extends Provider {
      * 
      * @return bool true|false → check the connection and return true or false
      */
-    public function isConnected(): bool {
+    public function isConnected() {
         
         return !is_null($this->conn);
     }

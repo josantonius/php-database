@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Library for SQL database management to be used by several providers at the same time.
  * 
@@ -8,9 +8,9 @@
  * @author     Josantonius - info@josantonius.com
  * @copyright  Copyright (c) 2017 JST PHP Framework
  * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
- * @version    1.0.0
+ * @version    1.1.0
  * @link       https://github.com/Josantonius/PHP-Database
- * @since      File available since 1.0.0 - Update: 2017-01-09
+ * @since      File available since 1.0.0 - Update: 2017-01-30
  */
 
 namespace Josantonius\Database;
@@ -184,9 +184,7 @@ class Database {
      * @throws DBException → if the provider class specified does not exist
      * @throws DBException → if there has been no successful connection to the database
      */
-    private function __construct(string $provider, string $host, 
-                                 string $dbUser,   string $dbName, 
-                                 string $pass,     array  $settings) {
+    private function __construct($provider, $host, $dbUser, $dbName, $pass, $settings) {
 
         $providerClass = 'Josantonius\\Database\\Provider\\' . $provider;
         
@@ -226,10 +224,8 @@ class Database {
      * 
      * @return object → object with the connection
      */
-    public static function getConnection(string $databaseID, 
-                                         string $provider, string $host, 
-                                         string $dbUser,   string $dbName, 
-                                         string $pass,     array  $settings) {
+    public static function getConnection($databaseID, $provider, $host, $dbUser, 
+                                                      $dbName,   $pass, $settings) {
 
         if (static::$_databaseID !== $databaseID) {
 
@@ -264,7 +260,7 @@ class Database {
      * @throws DBException → invalid query type
      * @return mixed       → result as object, array, int...
      */
-    public function query(string $query, array $statements = null, string $result = 'obj') {
+    public function query($query, $statements = null, $result = 'obj') {
 
         $this->_type = explode(" ", $query)[0];
 
@@ -328,7 +324,7 @@ class Database {
      * 
      * @return object
      */
-    public function create(array $data) {
+    public function create($data) {
 
         $this->_type = 'CREATE';
 
@@ -365,7 +361,7 @@ class Database {
      * 
      * @return object
      */
-    public function insert(array $data, array $statements = null) {
+    public function insert($data, $statements = null) {
 
         $this->_type = 'INSERT';
 
@@ -386,7 +382,7 @@ class Database {
      * 
      * @return object
      */
-    public function update(array $data, array $statements = null) {
+    public function update($data, $statements = null) {
 
         $this->_type = 'UPDATE';
 
@@ -407,7 +403,7 @@ class Database {
      * 
      * @return object
      */
-    public function replace(array $data, array $statements = null) {
+    public function replace($data, $statements = null) {
 
         $this->_type = 'REPLACE';
 
@@ -469,7 +465,7 @@ class Database {
      * 
      * @return object
      */
-    public function in(string $table) {
+    public function in($table) {
 
         $this->_table = $table;
 
@@ -485,7 +481,7 @@ class Database {
      * 
      * @return object
      */
-    public function table(string $table) {
+    public function table($table) {
 
         $this->_table = $table;
 
@@ -501,7 +497,7 @@ class Database {
      * 
      * @return object
      */
-    public function from(string $table) {
+    public function from($table) {
 
         $this->_table = $table;
 
@@ -518,7 +514,7 @@ class Database {
      * 
      * @return object
      */
-    public function where($clauses, array $statements = null) {
+    public function where($clauses, $statements = null) {
 
         $this->_where = $clauses;
 
@@ -543,7 +539,7 @@ class Database {
      * 
      * @return object
      */
-    public function order(string $params) {
+    public function order($params) {
 
         $this->_order = $params;
 
@@ -559,7 +555,7 @@ class Database {
      * 
      * @return object
      */
-    public function limit(string $params) {
+    public function limit($params) {
 
         $this->_limit = $params;
 
@@ -594,7 +590,7 @@ class Database {
      * 
      * @return int → number of lines updated or 0 if not updated
      */
-    public function execute(string $result = 'obj') {
+    public function execute($result = 'obj') {
 
         $this->_result = $result;
 
@@ -711,10 +707,10 @@ class Database {
 
             if ($this->_result === 'id') { # Display last insert Id
 
-                return $this->lastInsertId ?? $this->_provider->lastInsertId() ?? 0;
+                return $this->lastInsertId;
             }
 
-            return $this->rowCount ?? $this->_provider->rowCount($this->_response) ?? 0;
+            return $this->rowCount;
 
         } else if ($this->_type === 'SELECT') {
 
