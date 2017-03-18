@@ -1,16 +1,12 @@
 <?php
 /**
- * Falta descripción.
+ * Library for SQL database management to be used by several providers at the same time.
  * 
- * @category   JST
- * @package    Database
- * @subpackage DBException
- * @author     Josantonius - info@josantonius.com
- * @copyright  Copyright (c) 2016 JST PHP Framework
+ * @author     Josantonius - hello@josantonius.com
+ * @copyright  Copyright (c) 2017
  * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
- * @version    1.1.0
  * @link       https://github.com/Josantonius/PHP-Database
- * @since      File available since 1.0.0 - Update: 2017-01-30
+ * @since      1.0.0
  */
 
 namespace Josantonius\Database\Exception;
