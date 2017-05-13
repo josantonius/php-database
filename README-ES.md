@@ -108,29 +108,29 @@ Seleccionar en la base de datos.
 $db->select()->from()->where()->order()->limit()->execute();
 ```
 
-**select(**$columns**)**
+**select**($columns)
 
 $columns → (array|string|empty) Nombres de las columnas a seleccionar. Vacío para seleccionar todo (*).
 
-**from(**$table**)**
+**from**($table)
 
 $table → (string) Nombre de la tabla.
 
-**where(**$clauses, $statements**)** (Opcional) 
+**where**($clauses, $statements) (Opcional) 
 
 $clauses    → (array|string)     → Parámetros para filtrado.
 
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**order(**$params**)** (Opcional)
+**order**($params) (Opcional)
 
 $params → (array|string) → Parámetros de ordenación para la consulta.
 
-**limit(**$number**)** (Opcional) 
+**limit**($number) (Opcional) 
 
 $number → (int) → Limitar el número de filas para la respuesta a la consulta.
 
-**execute(**$dataType**)** 
+**execute**($dataType) 
 
 $dataType → (string|empty) → Parámetros aceptados: 'obj', 'array_num', 'array_assoc' & 'rows'.
 
@@ -159,17 +159,17 @@ Insertar en la base de datos.
 $db->insert()->in()->execute();
 ```
 
-**insert(**$data, $statements**)**
+**insert**($data, $statements)
 
 $data       → (array)            → Nombre de columnas y valores a insertar.
 
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**in(**$table**)**
+**in**($table)
 
 $table → (string) Nombre de la tabla.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
@@ -198,19 +198,19 @@ Actualizar en base de datos.
 $db->update()->in()->where()->execute();
 ```
 
-**update(**$data, $statements**)**
+**update**($data, $statements)
 
 $data       → (array)            → Nombre de columnas y valores a actualizar.
 
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**where(**$clauses, $statements**)** (Opcional)
+**where**($clauses, $statements) (Opcional)
 
 $clauses    → (array|string)     → Parámetros para filtrado.
 
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
@@ -247,17 +247,17 @@ Reemplazar si existe o insertar una nueva fila si no existe.
 $db->replace()->from()->execute();
 ```
 
-**replace(**$data, $statements**)**
+**replace**($data, $statements)
 
 $data       → (array)            → Nombre de columnas y valores a insertar o reemplazar.
 
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**from(**$table**)**
+**from**($table)
 
 $table → (string) Nombre de la tabla.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
@@ -288,17 +288,17 @@ $db->delete()->from()->where()->execute();
 
 Este método no tiene atributos.
 
-**from(**$table**)**
+**from**($table)
 
 $table → (string) Nombre de la tabla.
 
-**where(**$clauses, $statements**)** (Opcional)
+**where**($clauses, $statements) (Opcional)
 
 $clauses    → (array|string)     → Parámetros para filtrado.
 
 $statements → (array) (Opcional) → Declaraciones preparadas.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Parámetros aceptados: 'rows' & 'id'.
 
@@ -320,11 +320,11 @@ Crear tabla en base de datos.
 $db->create()->table()->execute();
 ```
 
-**create(**$params**)**
+**create**($params)
 
 $params → (array) → Parámetros de configuración para las columnas.
 
-**table(**$table**)**
+**table**($table)
 
 $table → (string) Nombre de la tabla.
 
@@ -360,7 +360,7 @@ $db->truncate()->table()->execute();
 
 Este método no tiene atributos.
 
-**table(**$table**)**
+**table**($table)
 
 $table → (string) Nombre de la tabla.
 
@@ -389,7 +389,7 @@ $db->drop()->table()->execute();
 
 Este método no tiene atributos.
 
-**table(**$table**)**
+**table**($table)
 
 $table → (string) Nombre de la tabla.
 

@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 1.1.2 - 2017-05-13
+* Added option for foreign key in creating tables.
+
+* Added `Josantonius\Database\Database->foreing()` method.
+* Added `Josantonius\Database\Database->references()` method.
+* Added `Josantonius\Database\Database->on()` method.
+* Added `Josantonius\Database\Database->actions()` method.
+* Added `Josantonius\Database\Database->engine()` method.
+* Added `Josantonius\Database\Database->charset()` method.
+
+* Some bugs were fixed.
+
 ## 1.1.1 - 2017-03-18
 * Some files were excluded from download and comments and readme files were updated.
 
@@ -98,13 +110,3 @@
 * Added `Josantonius\Provider\MSSQLprovider->getError()` method.
 * Added `Josantonius\Provider\MSSQLprovider->isConnected()` method.
 * Added `Josantonius\Provider\MSSQLprovider->kill()` method.
-
-## 1.0.0 - 2017-01-09
-* Added `Josantonius\Database\Tests\DatabaseCreateTest` class.
-* Added `Josantonius\Database\Tests\DatabaseDeleteTest` class.
-* Added `Josantonius\Database\Tests\DatabaseDropTest` class.
-* Added `Josantonius\Database\Tests\DatabaseInsertTest` class.
-* Added `Josantonius\Database\Tests\DatabaseReplaceTest` class.
-* Added `Josantonius\Database\Tests\DatabaseSelectTest` class.
-* Added `Josantonius\Database\Tests\DatabaseTruncateTest` class.
-* Added `Josantonius\Database\Tests\DatabaseUpdateTest` class.

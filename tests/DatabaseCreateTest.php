@@ -118,4 +118,34 @@ class DatabaseCreateTest {
 
         echo '<pre>'; var_dump($result); echo '</pre>';
     }
+
+    /**
+     * [METHOD] [CREATE TABLE] [RETURN TRUE]
+     *
+     * @since 1.0.0
+     */
+    public static function testCreateTableMethod2() {
+
+        static::testGetConnectionPDOProvider();
+
+        $params = [
+            'id'       => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY', 
+            'name'     => 'VARCHAR(30) NOT NULL',
+            'email'    => 'VARCHAR(50)',
+            'reg_date' => 'TIMESTAMP'
+        ];
+
+        $query = $this->db->create($params)
+                          ->table('test_2')
+                          ->foreing('id')
+                          ->reference('id')
+                          ->on('test')
+                          ->actions('ON DELETE CASCADE ON UPDATE CASCADE')
+                          ->engine('innodb')
+                          ->charset('utf8');
+
+        $result = $query->execute();
+
+        echo '<pre>'; var_dump($result); echo '</pre>';
+    }
 }

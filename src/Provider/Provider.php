@@ -63,7 +63,7 @@ abstract class Provider {
      *
      * @since 1.0.0
      */
-    public abstract function create($table, $data);
+    public abstract function create($table, $data, $foreing, $reference, $on, $actions, $engine, $charset);
 
     /**
      * Select into statement.

@@ -39,15 +39,25 @@ class PDOprovider extends Provider {
 
         try {
 
-            $charset = (!isset($settings['charset']) ? $settings['charset'] : 'utf8';
+            $ifExists = (!isset($settings['charset']));
+
+            $charset = $ifExists ? $settings['charset'] : 'utf8';
 
             $this->conn = new \PDO('mysql:host=' . $host . 
-                                  ';dbname='    . $dbName . 
-                                  ';charset='   . $charset, $dbUser, $pass);
+                                  ';dbname='     . $dbName . 
+                                  ';charset='    . $charset, $dbUser, $pass);
             
             $this->conn->exec("SET NAMES" . $charset);
-            $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            $this->conn->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+
+            $this->conn->setAttribute(
+                \PDO::ATTR_ERRMODE, 
+                \PDO::ERRMODE_EXCEPTION
+            );
+
+            $this->conn->setAttribute(
+                \PDO::ATTR_DEFAULT_FETCH_MODE, 
+                \PDO::FETCH_ASSOC
+            );
                         
             return  $this->conn;
 
@@ -65,7 +75,7 @@ class PDOprovider extends Provider {
      * @since 1.0.0
      * 
      * @param string $query → query
-     * @param string $type  → query type: SELECT INSERT UPDATE DELETE CREATE TRUNCATE
+     * @param string $type  → SELECT INSERT UPDATE DELETE CREATE TRUNCATE
      * 
      * @return object|null → returns the object with the connection or null
      */
@@ -108,29 +118,32 @@ class PDOprovider extends Provider {
 
             foreach ($statements as $key => $value) {
 
-                $parameter = $statements[$key][0];
-                $value     = $statements[$key][1];
-                $dataType  = (isset($statements[$key][2]) ? $statements[$key][2] : false; 
+                $param    = $statements[$key][0];
+                $value    = $statements[$key][1];
+
+                $ifExists = (isset($statements[$key][2]));
+
+                $dataType = $ifExists ? $statements[$key][2] : false; 
 
                 switch ($dataType) {
                     case 'bool':
-                        $query->bindValue($parameter, $value, \PDO::PARAM_BOOL);
+                        $query->bindValue($param, $value, \PDO::PARAM_BOOL);
                         continue;
 
                     case 'null':
-                        $query->bindValue($parameter, $value, \PDO::PARAM_NULL);
+                        $query->bindValue($param, $value, \PDO::PARAM_NULL);
                         continue;
 
                     case 'int':
-                        $query->bindValue($parameter, $value, \PDO::PARAM_INT);
+                        $query->bindValue($param, $value, \PDO::PARAM_INT);
                         continue;
 
                     case 'str':
-                        $query->bindValue($parameter, $value, \PDO::PARAM_STR);
+                        $query->bindValue($param, $value, \PDO::PARAM_STR);
                         continue;
                 }
 
-                $query->bindValue($parameter, $value);
+                $query->bindValue($param, $value);
             }
 
             $query->execute();
@@ -150,12 +163,31 @@ class PDOprovider extends Provider {
      *
      * @since 1.0.0
      * 
-     * @param string $table → table name
-     * @param array  $data  → column name and configuration for data types
+     * @param string $table   → table name
+     * @param array  $data    → column name and configuration for data types
+     * @param string $engine  → database engine
+     * @param array  $charset → database charset
      * 
      * @return int → 0
      */
-    public function create($table, $data) {
+    public function create($table, $data, $foreing, $reference, $on, $actions, $engine, $charset) {
+
+        $index      = '';
+        $references = '';
+
+        if (!is_null($foreing, $reference, $on) && $count = count($foreing) === count($on) && count($reference) === count($foreing)) {
+
+            for ($i=0; $i < $count; $i++) {
+
+                $action = (isset($actions[$i])) ? $actions[$i] : $actions;
+                
+                $index .= ' INDEX (' . $foreing[$i] . '), ';
+
+                $references .= ' FOREIGN KEY (' . $foreing[$i] . ') ' .
+                               'REFERENCES ' . $on[$i] . ' (' . 
+                               $reference[$i] . ') ' . $action . ',';
+            }
+        }
 
         $query = 'CREATE TABLE IF NOT EXISTS `' . $table . '` (';
 
@@ -164,7 +196,13 @@ class PDOprovider extends Provider {
             $query .= $column . ' ' . $value . ', ';
         }
 
-        $query = rtrim(trim($query), ',') . ')'; # Remove final comma
+        $engine = (!is_null($engine)) ? ' ENGINE=' . $engine : '';
+
+        $charset = (!is_null($engine)) ? ' CHARSET=' . $charset : '';
+
+        $query = $query . $index . $references;
+
+        $query = rtrim(trim($query), ',') . ')' . $engine . ' ' . $charset;
 
         return $this->query($query);
     }
@@ -318,7 +356,7 @@ class PDOprovider extends Provider {
     }
 
     /**
-     * Replace a row in a table if it exists or insert a new row in a table if not exist.
+     * Replace a row in a table if it exists or insert a new row if not exist.
      *
      * @since 1.0.0
      * 
@@ -338,7 +376,9 @@ class PDOprovider extends Provider {
 
         $where = $columnIdName . ' = ' . $id;
 
-        $result = $this->select($columns, $table, $where, null, 1, $statements);
+        $result = $this->select(
+            $columns, $table, $where, null, 1, $statements
+        );
 
         if ($this->rowCount($result)) {
 

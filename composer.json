@@ -1,6 +1,6 @@
 {
     "name":        "josantonius/database",
-    "version":     "1.1.1",
+    "version":     "1.1.2",
     "type":        "library",
     "description": "Library for SQL database management to be used by several providers at the same time.",
     "keywords": [

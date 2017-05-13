@@ -109,29 +109,29 @@ Select data from database.
 $db->select()->from()->where()->order()->limit()->execute();
 ```
 
-**select(**$columns**)**
+**select**($columns)
 
 $columns → (array|string|empty) Names of columns to select. If left blank select all fields (*).
 
-**from(**$table**)**
+**from**($table)
 
 $table → (string) Database table name.
 
-**where(**$clauses, $statements**)** (Optional)
+**where**($clauses, $statements) (Optional)
 
 $clauses    → (array|string)     → Where clauses.
 
 $statements → (array) (Optional) → Prepared statements.
 
-**order(**$params**)** (Optional)
+**order**($params) (Optional)
 
 $params → (array|string) → Parameters to sort query.
 
-**limit(**$number**)** (Optional)
+**limit**($number) (Optional)
 
 $number → (int) → Rows number limit.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Accepted parameters: 'obj', 'array_num', 'array_assoc' & 'rows'.
 
@@ -160,17 +160,17 @@ Insert data into database.
 $db->insert()->in()->execute();
 ```
 
-**insert(**$data, $statements**)**
+**insert**($data, $statements)
 
 $data       → (array)            → Name of columns and values to be inserted.
 
 $statements → (array) (Optional) → Prepared statements.
 
-**in(**$table**)**
+**in**($table)
 
 $table → (string) Database table name.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
 
@@ -199,19 +199,19 @@ Update fields in the database.
 $db->update()->in()->where()->execute();
 ```
 
-**update(**$data, $statements**)**
+**update**($data, $statements)
 
 $data       → (array)            → Name of columns and values to be inserted.
 
 $statements → (array) (Optional) → Prepared statements.
 
-**where(**$clauses, $statements**)** (Optional)
+**where**($clauses, $statements) (Optional)
 
 $clauses    → (array|string)     → Where clauses.
 
 $statements → (array) (Optional) → Prepared statements.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
 
@@ -248,17 +248,17 @@ Replace a row in a table if it exists or insert a new row in a table if not exis
 $db->replace()->from()->execute();
 ```
 
-**replace(**$data, $statements**)**
+**replace**($data, $statements)
 
 $data       → (array)            → Name of columns and values to be replaced.
 
 $statements → (array) (Optional) → Prepared statements.
 
-**from(**$table**)**
+**from**($table)
 
 $table → (string) Database table name.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
 
@@ -289,17 +289,17 @@ $db->delete()->from()->where()->execute();
 
 This method has no attributes.
 
-**from(**$table**)**
+**from**($table)
 
 $table → (string) Database table name.
 
-**where(**$clauses, $statements**)** (Optional)
+**where**($clauses, $statements) (Optional)
 
 $clauses    → (array|string)     → Where clauses.
 
 $statements → (array) (Optional) → Prepared statements.
 
-**execute(**$dataType**)**
+**execute**($dataType)
 
 $dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
 
@@ -321,11 +321,11 @@ Create table in database.
 $db->create()->table()->execute();
 ```
 
-**create(**$params**)**
+**create**($params)
 
 $params → (array) → Parameters of configuration for the columns.
 
-**table(**$table**)**
+**table**($table)
 
 $table → (string) Database table name.
 
@@ -361,7 +361,7 @@ $db->truncate()->table()->execute();
 
 This method has no attributes.
 
-**table(**$table**)**
+**table**($table)
 
 $table → (string) Database table name.
 
@@ -390,7 +390,7 @@ $db->drop()->table()->execute();
 
 This method has no attributes.
 
-**table(**$table**)**
+**table**($table)
 
 $table → (string) Database table name.
 

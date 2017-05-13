@@ -101,6 +101,60 @@ class Database {
     private $_table;
 
     /**
+     * Foreing.
+     *
+     * @since 1.1.2
+     *
+     * @var array
+     */
+    private $_foreing;
+
+    /**
+     * References for foreing.
+     *
+     * @since 1.1.2
+     *
+     * @var array
+     */
+    private $_references;
+
+    /**
+     * Database reference table for foreing key.
+     *
+     * @since 1.1.2
+     *
+     * @var array
+     */
+    private $_on;
+
+    /**
+     * Actions when delete or update for foreing key.
+     *
+     * @since 1.1.2
+     *
+     * @var array
+     */
+    private $_actions;
+
+    /**
+     * Database engine.
+     *
+     * @since 1.1.2
+     *
+     * @var string
+     */
+    private $_engine;
+
+    /**
+     * Database charset.
+     *
+     * @since 1.1.2
+     *
+     * @var string
+     */
+    private $_charset;
+
+    /**
      * Order clause.
      *
      * @since 1.0.0
@@ -178,9 +232,10 @@ class Database {
      * @param array  $settings['charset'] → database charset
      *
      * @throws DBException → if the provider class specified does not exist
-     * @throws DBException → if there has been no successful connection to the database
+     * @throws DBException → if could not connect to provider
      */
-    private function __construct($provider, $host, $dbUser, $dbName, $pass, $settings) {
+    private function __construct($provider, $host, $dbUser, 
+                                 $dbName,   $pass, $settings) {
 
         $providerClass = 'Josantonius\\Database\\Provider\\' . $provider;
         
@@ -199,12 +254,15 @@ class Database {
 
             $message = 'Could not connect to provider: ' . $provider . '. ';
 
-            throw new DBException($message . $this->_provider->getError(), 701);
+            throw new DBException(
+                $message . $this->_provider->getError(), 701
+            );
         } 
     }
 
     /**
-     * Check connection or create a new if it doesn't exist or another provider is used.
+     * Check connection or create a new if it doesn't exist 
+     * or another provider is used.
      *
      * @since 1.0.0
      *
@@ -220,8 +278,8 @@ class Database {
      * 
      * @return object → object with the connection
      */
-    public static function getConnection($databaseID, $provider, $host, $dbUser, 
-                                                      $dbName,   $pass, $settings) {
+    static function getConnection($databaseID, $provider, $host, $dbUser, 
+                                               $dbName,   $pass, $settings) {
 
         if (static::$_databaseID !== $databaseID) {
 
@@ -245,12 +303,12 @@ class Database {
      * @since 1.0.0
      *
      * @param string $query      → query
-     * @param array  $statements → null by default or array with prepared query
+     * @param array  $statements → null by default or array for statements
      *        
      * @param string $result → 'obj'         → result as object
      *                       → 'array_num'   → result as numeric array
      *                       → 'array_assoc' → result as associative array
-     *                       → 'rows'        → number of rows affected in the query
+     *                       → 'rows'        → affected rows number
      *                       → 'id'          → last insert id
      * 
      * @throws DBException → invalid query type
@@ -264,7 +322,9 @@ class Database {
         $this->_result     = $result;
         $this->_statements = $statements;
 
-        if (!strpos('|SELECT|INSERT|UPDATE|DELETE|CREATE|TRUNCATE|DROP', $this->_type)) {
+        $types = '|SELECT|INSERT|UPDATE|DELETE|CREATE|TRUNCATE|DROP';
+
+        if (!strpos($types, $this->_type)) {
 
             throw new DBException('Unknown query type', 702);
         }
@@ -298,7 +358,10 @@ class Database {
      */
     private function _implementPrepareStatements() {
 
-        $this->_response = $this->_provider->statements($this->_query, $this->_statements);
+        $this->_response = $this->_provider->statements(
+            $this->_query, 
+            $this->_statements
+        );
     }
 
     /**
@@ -308,7 +371,10 @@ class Database {
      */
     private function _implementQuery() {
 
-        $this->_response = $this->_provider->query($this->_query, $this->_type);
+        $this->_response = $this->_provider->query(
+            $this->_query, 
+            $this->_type
+        );
     }
 
     /**
@@ -326,6 +392,94 @@ class Database {
 
         $this->_data = $data;
         
+        return $this;
+    }
+
+    /**
+     * Set foreing key.
+     *
+     * @since 1.1.2
+     * 
+     * @param string $id → column id
+     * 
+     * @return object
+     */
+    public function foreing($id) {
+
+        $this->_foreing[] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Set references for foreing keys.
+     *
+     * @since 1.1.2
+     * 
+     * @param array $data → table and id
+     * 
+     * @return object
+     */
+    public function references($data) {
+
+        $this->_references[] = $data;
+
+        return $this;
+    }
+
+    /**
+     * Set database table name.
+     *
+     * @since 1.1.2
+     * 
+     * @return object
+     */
+    public function on($table) {
+
+        $this->_on[] = $table;
+
+        return $this;
+    }
+
+    /**
+     * Set actions when delete or update for foreing key.
+     *
+     * @since 1.1.2
+     * 
+     * @return object
+     */
+    public function actions($action) {
+
+        $this->_action[] = $action;
+
+        return $this;
+    }
+
+    /**
+     * Set engine.
+     *
+     * @since 1.1.2
+     * 
+     * @return object
+     */
+    public function engine($type) {
+
+        $this->_engine = $type;
+
+        return $this;
+    }
+
+    /**
+     * Set charset.
+     *
+     * @since 1.1.2
+     * 
+     * @return object
+     */
+    public function charset($type) {
+
+        $this->_charset = $type;
+
         return $this;
     }
 
@@ -353,7 +507,7 @@ class Database {
      * @since 1.0.0
      * 
      * @param array  $data       → column name and value
-     * @param array  $statements → null by default or array with prepared query
+     * @param array  $statements → null by default or array for statements
      * 
      * @return object
      */
@@ -374,7 +528,7 @@ class Database {
      * @since 1.0.0
      * 
      * @param array  $data       → column name and value
-     * @param array  $statements → null by default or array with prepared query
+     * @param array  $statements → null by default or array for statements
      * 
      * @return object
      */
@@ -390,12 +544,12 @@ class Database {
     }
 
     /**
-     * Replace a row in a table if it exists or insert a new row in a table if not exist.
+     * Replace a row in a table if it exists or insert a new row if not exist.
      *
      * @since 1.0.0
      * 
      * @param array  $data       → column name and value
-     * @param array  $statements → null by default or array with prepared query
+     * @param array  $statements → null by default or array for statements
      * 
      * @return object
      */
@@ -506,7 +660,7 @@ class Database {
      * @since 1.0.0
      * 
      * @param mixed $clauses     → column name and value
-     * @param array  $statements → null by default or array with prepared query
+     * @param array  $statements → null by default or array for statements
      * 
      * @return object
      */
@@ -565,12 +719,18 @@ class Database {
      */
     private function _reset() {
 
-        $this->_columns    = null;
-        $this->_table      = null;
-        $this->_where      = null;
-        $this->_order      = null;
-        $this->_limit      = null;
-        $this->_statements = null;
+        $this->_columns     = null;
+        $this->_table       = null;
+        $this->_where       = null;
+        $this->_order       = null;
+        $this->_limit       = null;
+        $this->_statements  = null;
+        $this->_foreing     = null;
+        $this->_references  = null;
+        $this->_on          = null;
+        $this->_actions     = null;
+        $this->_engine      = null;
+        $this->_charset     = null;
     }
 
     /**
@@ -581,7 +741,7 @@ class Database {
      * @param string $result → 'obj'         → result as object
      *                       → 'array_num'   → result as numeric array
      *                       → 'array_assoc' → result as associative array
-     *                       → 'rows'        → number of rows affected in the query
+     *                       → 'rows'        → affected rows number
      *                       → 'id'          → last insert id
      * 
      * @return int → number of lines updated or 0 if not updated
@@ -642,7 +802,13 @@ class Database {
             case 'CREATE':
                 $params = [
                     $this->_table,
-                    $this->_data
+                    $this->_data,
+                    $this->_foreing,
+                    $this->_references,
+                    $this->_on,
+                    $this->_actions,
+                    $this->_engine,
+                    $this->_charset,
                 ];
                 break;
 
@@ -659,7 +825,9 @@ class Database {
                 break;
         }
 
-        $this->_response = call_user_func_array([$this->_provider, $type], $params);
+        $provider = [$this->_provider, $type];
+
+        $this->_response = call_user_func_array($provider, $params);
 
         $this->_reset();
 
@@ -684,7 +852,9 @@ class Database {
 
             $message = 'Error executing the query';
 
-            throw new DBException($message . $this->_provider->getError(), 703);
+            throw new DBException(
+                $message . $this->_provider->getError(), 703
+            );
         }
 
         return $this->_fetchResponse();
@@ -701,7 +871,7 @@ class Database {
 
          if (strpos('|INSERT|UPDATE|DELETE|REPLACE|', $this->_type)) {
 
-            if ($this->_result === 'id') { # Display last insert Id
+            if ($this->_result === 'id') { // Display last insert Id
 
                 return $this->lastInsertId;
             }
@@ -710,12 +880,15 @@ class Database {
 
         } else if ($this->_type === 'SELECT') {
 
-            if ($this->_result !== 'rows') { // Return response as array or object
+            if ($this->_result !== 'rows') { // Response as array or object
 
-                return $this->_provider->fetchResponse($this->_response, $this->_result);
+                return $this->_provider->fetchResponse(
+                    $this->_response, 
+                    $this->_result
+                );
             }
                 
-            if (is_object($this->_response)) { // Return number of rows of matches
+            if (is_object($this->_response)) { // Number of rows of matches
 
                 return $this->_provider->rowCount($this->_response);
             }
