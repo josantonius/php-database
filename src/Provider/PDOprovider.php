@@ -179,17 +179,19 @@ class PDOprovider extends Provider {
         $index      = '';
         $references = '';
 
-        if (!is_null($foreing, $reference, $on) && $count = count($foreing) === count($on) && count($reference) === count($foreing)) {
+        if (isset($foreing, $reference, $on) && count($foreing) === count($on) && count($reference) === count($foreing)) {
+
+            $count = count($foreing);
 
             for ($i=0; $i < $count; $i++) {
 
-                $action = (isset($actions[$i])) ? $actions[$i] : $actions;
+                $action = (isset($actions[$i])) ? $actions[$i] : $actions[0];
                 
-                $index .= ' INDEX (' . $foreing[$i] . '), ';
+                $index .= ' INDEX (`'.$foreing[$i].'`), ';
 
-                $references .= ' FOREIGN KEY (' . $foreing[$i] . ') ' .
-                               'REFERENCES ' . $on[$i] . ' (' . 
-                               $reference[$i] . ') ' . $action . ',';
+                $references .= 'CONSTRAINT FOREIGN KEY (`'.$foreing[$i].'`) '.
+                               'REFERENCES ' . $on[$i] . 
+                               ' (`'.$reference[$i].'`) ' . $action . ',';
             }
         }
 

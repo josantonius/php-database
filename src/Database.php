@@ -116,7 +116,7 @@ class Database {
      *
      * @var array
      */
-    private $_references;
+    private $_reference;
 
     /**
      * Database reference table for foreing key.
@@ -412,7 +412,7 @@ class Database {
     }
 
     /**
-     * Set references for foreing keys.
+     * Set reference for foreing keys.
      *
      * @since 1.1.2
      * 
@@ -420,9 +420,9 @@ class Database {
      * 
      * @return object
      */
-    public function references($data) {
+    public function reference($data) {
 
-        $this->_references[] = $data;
+        $this->_reference[] = $data;
 
         return $this;
     }
@@ -450,7 +450,7 @@ class Database {
      */
     public function actions($action) {
 
-        $this->_action[] = $action;
+        $this->_actions[] = $action;
 
         return $this;
     }
@@ -726,7 +726,7 @@ class Database {
         $this->_limit       = null;
         $this->_statements  = null;
         $this->_foreing     = null;
-        $this->_references  = null;
+        $this->_reference   = null;
         $this->_on          = null;
         $this->_actions     = null;
         $this->_engine      = null;
@@ -804,7 +804,7 @@ class Database {
                     $this->_table,
                     $this->_data,
                     $this->_foreing,
-                    $this->_references,
+                    $this->_reference,
                     $this->_on,
                     $this->_actions,
                     $this->_engine,

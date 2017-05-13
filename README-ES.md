@@ -332,9 +332,9 @@ $table → (string) Nombre de la tabla.
 
 $foreing_key → (string) Foreing key.
 
-**references**($references) (Opcional)
+**reference**($reference) (Opcional)
 
-$references → (string) Columna a la que se hace referencia.
+$reference → (string) Columna a la que se hace referencia.
 
 **on**($table) (Opcional)
 

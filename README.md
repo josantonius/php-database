@@ -333,9 +333,9 @@ $table → (string) Database table name.
 
 $foreing_key → (string) Foreing key.
 
-**references**($references) (Optional)
+**reference**($reference) (Optional)
 
-$references → (string) Column reference.
+$reference → (string) Column reference.
 
 **on**($table) (Optional)
 
