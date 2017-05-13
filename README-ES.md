@@ -92,13 +92,15 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Josantonius\Database\Database;
 
-$db = Database::getConnection('identifier',	  #	Identificador único para la conexión
-		                      'PDOprovider',  # Nombre del proveedor
-		                      'localhost',	  # Nombre del servidor de la base de datos
-		                      'db-user',	  # Nombre de usuario de la base de datos
-		                      'db-name',	  # Nombre de la base de datos
-		                      'password',	  # Contraseña de la base de datos
-		                      array('charset' => 'utf8'));
+$db = Database::getConnection(
+    'identifier',  # Identificador único para la conexión
+    'PDOprovider', # Nombre del proveedor
+    'localhost',   # Nombre del servidor de la base de datos
+    'db-user',     # Nombre de usuario de la base de datos
+    'db-name',     # Nombre de la base de datos
+    'password',    # Contraseña de la base de datos
+    array('charset' => 'utf8')
+);
 ```
 ### Select
 
