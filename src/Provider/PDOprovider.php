@@ -163,10 +163,14 @@ class PDOprovider extends Provider {
      *
      * @since 1.0.0
      * 
-     * @param string $table   → table name
-     * @param array  $data    → column name and configuration for data types
-     * @param string $engine  → database engine
-     * @param array  $charset → database charset
+     * @param string $table     → table name
+     * @param array  $data      → column name and configuration for data types
+     * @param string $foreing   → foreing key column
+     * @param array  $reference → column reference
+     * @param string $on        → table reference
+     * @param array  $actions   → actions when delete/update for foreing key
+     * @param string $engine    → database engine
+     * @param array  $charset   → database charset
      * 
      * @return int → 0
      */

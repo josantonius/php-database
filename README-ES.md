@@ -328,6 +328,30 @@ $params → (array) → Parámetros de configuración para las columnas.
 
 $table → (string) Nombre de la tabla.
 
+**foreing**($foreing_key) (Opcional)
+
+$foreing_key → (string) Foreing key.
+
+**references**($references) (Opcional)
+
+$references → (string) Columna a la que se hace referencia.
+
+**on**($table) (Opcional)
+
+$table → (string) Nombre de la tabla a la que se hace referencia.
+
+**actions**($actions) (Opcional)
+
+$actions → (string) Acciones cuando se elimine o actualice una fila relacionada.
+
+**engine**($engine) (Opcional)
+
+$engine → (string) Motor para la base de datos.
+
+**charset**($charset) (Opcional)
+
+$charset → (string) Charset para la base de datos.
+
 **execute()**
 
 Este método no tiene atributos.

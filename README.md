@@ -329,6 +329,30 @@ $params → (array) → Parameters of configuration for the columns.
 
 $table → (string) Database table name.
 
+**foreing**($foreing_key) (Optional)
+
+$foreing_key → (string) Foreing key.
+
+**references**($references) (Optional)
+
+$references → (string) Column reference.
+
+**on**($table) (Optional)
+
+$table → (string) Table reference.
+
+**actions**($actions) (Optional)
+
+$actions → (string) Actions when delete or update for foreing key.
+
+**engine**($engine) (Optional)
+
+$engine → (string) Database engine.
+
+**charset**($charset) (Optional)
+
+$charset → (string) Database charset.
+
 **execute()**
 
 This method has no attributes.
