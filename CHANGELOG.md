@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.1.3 - 2017-05-14
+* Singleton pattern was added to create a single connection per database.
+
 ## 1.1.2 - 2017-05-13
 * Added option for foreign key in creating tables.
 

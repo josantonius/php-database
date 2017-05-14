@@ -22,11 +22,11 @@ class Database {
     /**
      * Identifying name for the database.
      *
-     * @since 1.0.0
+     * @since 1.1.3
      *
      * @var object
      */
-    private static $_databaseID = null;
+    public static $id = null;
 
     /**
      * Database provider.
@@ -234,8 +234,7 @@ class Database {
      * @throws DBException → if the provider class specified does not exist
      * @throws DBException → if could not connect to provider
      */
-    private function __construct($provider, $host, $dbUser, 
-                                 $dbName,   $pass, $settings) {
+    private function __construct($provider, $host, $dbUser, $dbName, $pass, $settings) {
 
         $providerClass = 'Josantonius\\Database\\Provider\\' . $provider;
         
@@ -278,23 +277,28 @@ class Database {
      * 
      * @return object → object with the connection
      */
-    static function getConnection($databaseID, $provider, $host, $dbUser, 
-                                               $dbName,   $pass, $settings) {
+    public static function getConnection($databaseID, $provider, $host, $dbUser, $dbName, $pass, $settings) {
 
-        if (static::$_databaseID !== $databaseID) {
+        if (self::$id !== $databaseID) {
 
-            static::$_conn = false;
+            self::$_conn[self::$id] = false;
         }
 
-        static::$_databaseID = $databaseID;
+        self::$id = $databaseID;
 
-        if (!static::$_conn) {
+        if (!self::$_conn[self::$id]) {
 
-            static::$_conn = new Database($provider, $host, $dbUser, 
-                                          $dbName,   $pass, $settings);
+            self::$_conn[self::$id] = new Database(
+                $provider, 
+                $host, 
+                $dbUser, 
+                $dbName,
+                $pass,
+                $settings
+            );
         } 
                     
-        return static::$_conn;
+        return self::$_conn[self::$id];
     }
 
     /**
