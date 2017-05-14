@@ -20,15 +20,6 @@ use Josantonius\Database\Exception\DBException;
 class Database {
 
     /**
-     * Identifying name for the database.
-     *
-     * @since 1.1.3
-     *
-     * @var object
-     */
-    public static $id = null;
-
-    /**
      * Database provider.
      *
      * @since 1.0.0
@@ -277,18 +268,16 @@ class Database {
      * 
      * @return object → object with the connection
      */
-    public static function getConnection($databaseID, $provider, $host, $dbUser, $dbName, $pass, $settings) {
+    public static function getConnection($databaseID, $provider = null, $host = null, $dbUser = null, $dbName = null, $pass = null, $settings = null) {
 
-        if (self::$id !== $databaseID) {
+        if (isset(self::$_conn[$databaseID])) {
 
-            self::$_conn[self::$id] = false;
+            return self::$_conn[$databaseID];
         }
 
-        self::$id = $databaseID;
+        if (!self::$_conn[$databaseID]) {
 
-        if (!self::$_conn[self::$id]) {
-
-            self::$_conn[self::$id] = new Database(
+            self::$_conn[$databaseID] = new Database(
                 $provider, 
                 $host, 
                 $dbUser, 
@@ -296,9 +285,9 @@ class Database {
                 $pass,
                 $settings
             );
-        } 
-                    
-        return self::$_conn[self::$id];
+        }
+
+        return self::$_conn[$databaseID];
     }
 
     /**

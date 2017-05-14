@@ -101,6 +101,10 @@ $db = Database::getConnection(
     'password',	   # Database password
     array('charset' => 'utf8')
 );
+
+// And once the connection is established:
+
+$db = Database::getConnection('identifier');
 ```
 
 ### Select
