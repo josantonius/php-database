@@ -275,17 +275,14 @@ class Database {
             return self::$_conn[$databaseID];
         }
 
-        if (!self::$_conn[$databaseID]) {
-
-            self::$_conn[$databaseID] = new Database(
-                $provider, 
-                $host, 
-                $dbUser, 
-                $dbName,
-                $pass,
-                $settings
-            );
-        }
+        self::$_conn[$databaseID] = new Database(
+            $provider, 
+            $host, 
+            $dbUser, 
+            $dbName,
+            $pass,
+            $settings
+        );
 
         return self::$_conn[$databaseID];
     }
