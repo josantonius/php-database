@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 1.1.4 - 2017-05-16
+
+* Added `Eliasis\Model\Model->_getDatabaseInstance` method.
+
+* Added compatibility with Eliasis Framework library inside getConnection method. If it exists, it will get the connection to the database.
+
+* Will get the connection parameters from Eliasis Framework configuration files. It should have the following structure:
+
+'db' => [
+
+    'identifier' => [
+        'id'         => 'identifier',
+        'prefix'     => 'identifier_',
+        'provider'   => 'PDOprovider',
+        'host'       => 'localhost',
+        'user'       => 'db_user',
+        'name'       => 'db_name',
+        'password'   => 'db_password',
+        'settings'   => ['charset' => 'utf8'],
+    ],
+]
+
+* Eliasis Framework url: https://github.com/Eliasis-Framework/Eliasis
+
 ## 1.1.3 - 2017-05-14
 * Singleton pattern was added to create a single connection per database.
 

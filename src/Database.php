@@ -215,9 +215,9 @@ class Database {
      *
      * @param string $provider            → name of provider class
      * @param string $host                → database host
-     * @param string $dbUser              → database user
-     * @param string $dbName              → database name
-     * @param string $pass                → database password
+     * @param string $user                → database user
+     * @param string $name                → database name
+     * @param string $password            → database password
      * @param array  $settings            → database options
      * @param array  $settings['port']    → database port
      * @param array  $settings['charset'] → database charset
@@ -225,7 +225,7 @@ class Database {
      * @throws DBException → if the provider class specified does not exist
      * @throws DBException → if could not connect to provider
      */
-    private function __construct($provider, $host, $dbUser, $dbName, $pass, $settings) {
+    private function __construct($provider, $host, $user, $name, $password, $settings) {
 
         $providerClass = 'Josantonius\\Database\\Provider\\' . $provider;
         
@@ -238,7 +238,7 @@ class Database {
         
         $this->_provider = new $providerClass;
 
-        $this->_provider->connect($host, $dbUser, $dbName, $pass, $settings);
+        $this->_provider->connect($host, $user, $name, $password, $settings);
 
         if (!$this->_provider->isConnected()) {
 
@@ -256,35 +256,45 @@ class Database {
      *
      * @since 1.0.0
      *
-     * @param string $databaseID          → identifying name for the database
+     * @param string $id                  → identifying name for the database
      * @param string $provider            → name of provider class
      * @param string $host                → database host
-     * @param string $dbUser              → database user
-     * @param string $dbName              → database name
-     * @param string $pass                → database password
+     * @param string $user                → database user
+     * @param string $name                → database name
+     * @param string $password            → database password
      * @param array  $settings            → database options
      * @param array  $settings['port']    → database port
      * @param array  $settings['charset'] → database charset
      * 
      * @return object → object with the connection
      */
-    public static function getConnection($databaseID, $provider = null, $host = null, $dbUser = null, $dbName = null, $pass = null, $settings = null) {
+    public static function getConnection($id, $provider = null, $host = null, $user = null, $name = null, $password = null, $settings = null) {
 
-        if (isset(self::$_conn[$databaseID])) {
+        if (isset(self::$_conn[$id])) {
 
-            return self::$_conn[$databaseID];
+            return self::$_conn[$id];
         }
 
-        self::$_conn[$databaseID] = new Database(
+        if (class_exists($App = 'Eliasis\\App\\App')) {
+
+            $provider = $provider ? $provider : $App::db($id, 'provider');
+            $host     = $host     ? $host     : $App::db($id, 'host'); 
+            $user     = $user     ? $user     : $App::db($id, 'user');
+            $name     = $name     ? $name     : $App::db($id, 'name');
+            $password = $password ? $password : $App::db($id, 'password');
+            $settings = $settings ? $settings : $App::db($id, 'settings');
+        }
+
+        self::$_conn[$id] = new Database(
             $provider, 
             $host, 
-            $dbUser, 
-            $dbName,
-            $pass,
+            $user, 
+            $name,
+            $password,
             $settings
         );
 
-        return self::$_conn[$databaseID];
+        return self::$_conn[$id];
     }
 
     /**
