@@ -378,11 +378,19 @@ class PDOprovider extends Provider {
 
         $columnIdName = $columns[0];
 
-        $id = array_shift($data);
+        if ($statements && isset($statements[0][1])) {
+
+            $id = $statements[0][1];
+
+        } else {
+            
+            $id = array_shift($data);
+        }
 
         $where = $columnIdName . ' = ' . $id;
 
         $result = $this->select(
+            
             $columns, $table, $where, null, 1, $statements
         );
 

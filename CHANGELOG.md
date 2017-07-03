@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.5 - 2017-07-03
+
+* Bug fix in replace method.
+
 ## 1.1.4 - 2017-05-16
 
 * Added `Eliasis\Model\Model->_getDatabaseInstance` method.
