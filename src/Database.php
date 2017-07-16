@@ -316,7 +316,7 @@ class Database {
      */
     public function query($query, $statements = null, $result = 'obj') {
 
-        $this->_type = explode(" ", $query)[0];
+        $this->_type = explode(' ', $query)[0];
 
         $this->_query      = $query;
         $this->_result     = $result;

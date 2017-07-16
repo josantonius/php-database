@@ -30,6 +30,16 @@ Biblioteca para la administración de bases de datos SQL para ser utilizada por 
 
 ---
 
+<p align="center"><strong>Echa un vistazo al código</strong></p>
+
+<p align="center">
+  <a href="" title="Echa un vistazo al código">
+    <img src="https://raw.githubusercontent.com/Josantonius/PHP-Algorithm/master/resources/youtube-thumbnail.jpg">
+  </a>
+</p>
+
+---
+
 ### Instalación 
 
 La mejor forma de instalar esta extensión es a través de [composer](http://getcomposer.org/download/).
@@ -48,7 +58,7 @@ También puedes clonar el repositorio completo con Git:
 
 ### Requisitos
 
-Esta ĺibrería es soportada por versiones de PHP 5.6 o superiores y es compatible con versiones de HHVM 3.0 o superiores.
+Esta biblioteca es soportada por versiones de PHP 5.6 o superiores y es compatible con versiones de HHVM 3.0 o superiores.
 
 ### Cómo empezar y ejemplos
 

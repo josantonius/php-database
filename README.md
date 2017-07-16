@@ -25,8 +25,18 @@ Library for SQL database management to be used by several providers at the same 
 - [Exception Handler](#exception-handler)
 - [Contribute](#contribute)
 - [Repository](#repository)
-- [Licensing](#licensing)
+- [License](#license)
 - [Copyright](#copyright)
+
+---
+
+<p align="center"><strong>Take a look at the code</strong></p>
+
+<p align="center">
+  <a href="" title="Take a look at the code">
+    <img src="https://raw.githubusercontent.com/Josantonius/PHP-Algorithm/master/resources/youtube-thumbnail.jpg">
+  </a>
+</p>
 
 ---
 
@@ -485,7 +495,7 @@ This is intended for large and long-lived objects.
 
 All files in this repository were created and uploaded automatically with [Reposgit Creator](https://github.com/Josantonius/BASH-Reposgit).
 
-### Licensing
+### License
 
 This project is licensed under **MIT license**. See the [LICENSE](LICENSE) file for more info.
 
