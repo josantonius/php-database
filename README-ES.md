@@ -33,7 +33,7 @@ Biblioteca para la administración de bases de datos SQL para ser utilizada por 
 <p align="center"><strong>Echa un vistazo al código</strong></p>
 
 <p align="center">
-  <a href="" title="Echa un vistazo al código">
+  <a href="https://youtu.be/bt6dt3qTSvY" title="Echa un vistazo al código">
     <img src="https://raw.githubusercontent.com/Josantonius/PHP-Algorithm/master/resources/youtube-thumbnail.jpg">
   </a>
 </p>
@@ -62,7 +62,7 @@ Esta biblioteca es soportada por versiones de PHP 5.6 o superiores y es compatib
 
 ### Cómo empezar y ejemplos
 
-Para utilizar esta librería, simplemente:
+Para utilizar esta biblioteca, simplemente:
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
@@ -71,7 +71,7 @@ use Josantonius\Database\Database;
 ```
 ### Métodos disponibles
 
-Métodos disponibles en esta librería:
+Métodos disponibles en esta biblioteca:
 
 ```php
 Database::getConnection();
@@ -94,7 +94,7 @@ Database->execute();
 ```
 ### Uso
 
-Ejemplo de uso para esta librería:
+Ejemplo de uso para esta biblioteca:
 
 ```php
 <?php
@@ -467,7 +467,7 @@ use Josantonius\Database\Tests\DatabaseDeleteTest;
 use Josantonius\Database\Tests\DatabaseReplaceTest;
 ```
 
-Algunos métodos de prueba de los disponibles en esta librería:
+Algunos métodos de prueba de los disponibles en esta biblioteca:
 
 ```php
 DatabaseCreateTest::testCreateTableMethod();
@@ -481,7 +481,7 @@ DatabaseReplaceTest::testReplaceMethod();
 
 ### Manejador de excepciones
 
-Esta librería utiliza [control de excepciones](src/Exception) que puedes personalizar a tu gusto.
+Esta biblioteca utiliza [control de excepciones](src/Exception) que puedes personalizar a tu gusto.
 ### Contribuir
 1. Comprobar si hay incidencias abiertas o abrir una nueva para iniciar una discusión en torno a un fallo o función.
 1. Bifurca la rama del repositorio en GitHub para iniciar la operación de ajuste.
