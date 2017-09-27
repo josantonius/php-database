@@ -14,8 +14,12 @@ namespace Josantonius\Database\Test;
 use Josantonius\Database\Database,
     PHPUnit\Framework\TestCase;
 
-
-final class DatabaseCreateTest extends TestCase {
+/**
+ * Test class for "CREATE" query
+ *
+ * @since 1.1.6
+ */
+final class CreateTest extends TestCase {
 
     /**
      * Get connection test.
@@ -67,7 +71,7 @@ final class DatabaseCreateTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage Syntax error or access violation
+     * @expectedExceptionMessage syntax
      *
      * @return void
      */
@@ -119,7 +123,7 @@ final class DatabaseCreateTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage Syntax error or access violation
+     * @expectedExceptionMessage syntax
      *
      * @return void
      */
@@ -145,7 +149,7 @@ final class DatabaseCreateTest extends TestCase {
      *
      * @return void
      */
-    public function testCreateTableMethod2($db) {
+    public function testCreateTableAdvancedMethod($db) {
 
         $params = [
 
@@ -176,11 +180,11 @@ final class DatabaseCreateTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage Syntax error or access violation
+     * @expectedExceptionMessage syntax
      *
      * @return void
      */
-    public function testCreateTableMethod2Error($db) {
+    public function testCreateTableAdvancedMethodError($db) {
 
         $params = [
 

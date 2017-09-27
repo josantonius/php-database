@@ -18,7 +18,43 @@
 
 * Renamed `Josantonius\Provider\PDOprovider` class to `Josantonius\Provider\PDOprovider\PDOprovider` class. 
 
-* Renamed `Josantonius\Provider\MSSQLprovider` class to `Josantonius\Provider\MSSQLprovider\MSSQLprovider` class. 
+* Renamed `Josantonius\Provider\MSSQLprovider` class to `Josantonius\Provider\MSSQLprovider\MSSQLprovider` class.
+
+* Added `Josantonius\Database\Test\ConnectionTest` class
+* Added `Josantonius\Database\Test\ConnectionTest->testGetConnection()` method.
+* Added `Josantonius\Database\Test\ConnectionTest->testGetConnectionFromEliasis()` method.
+* Added `Josantonius\Database\Test\ConnectionTest->testExceptionWhenProviderNotExists()` method.
+* Added `Josantonius\Database\Test\ConnectionTest->testExceptionNameOrServiceNotKnown()` method.
+* Added `Josantonius\Database\Test\ConnectionTest->testExceptionAccessDeniedForUser()` method.
+* Added `Josantonius\Database\Test\ConnectionTest->testExceptionAccessDeniedForUserPassword()` method.
+* Added `Josantonius\Database\Test\ConnectionTest->testExceptionAccessDeniedForUserName()` method.
+
+* Added `Josantonius\Database\Test\CreateTest` class
+* Added `Josantonius\Database\Test\CreateTest->testGetConnection()` method.
+* Added `Josantonius\Database\Test\CreateTest->testCreateTableQuery()` method.
+* Added `Josantonius\Database\Test\CreateTest->testCreateTableQueryError()` method.
+* Added `Josantonius\Database\Test\CreateTest->testCreateTableMethod()` method.
+* Added `Josantonius\Database\Test\CreateTest->testCreateTableMethodError()` method.
+* Added `Josantonius\Database\Test\CreateTest->testCreateTableAdvancedMethod()` method.
+* Added `Josantonius\Database\Test\CreateTest->testCreateTableAdvancedMethodError()` method.
+
+* Added `Josantonius\Database\Test\InsertTest` class
+* Added `Josantonius\Database\Test\InsertTest->testGetConnection()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Rows()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQuery_ID()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Statements_Rows()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Statements_DataType_Rows()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Statements_ID()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Statements_DataType_ID()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQueryTableNameError()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQueryColumnNameError()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertMethod_Rows()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertMethod_Statements_ID()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertMethod_Statements_DataType_ID()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertMethod_Marks_Statements_ID()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertMethod_Marks_DataType_Rows()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertMethodTableNameError()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertMethodColumnNameError()` method.
 
 ## 1.1.5 - 2017-07-03
 

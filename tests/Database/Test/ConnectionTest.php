@@ -20,7 +20,7 @@ use Josantonius\Database\Database,
  *
  * @since 1.1.6
  */
-final class DatabaseConnectionTest extends TestCase {
+final class ConnectionTest extends TestCase {
 
     /**
      * Get connection test.
@@ -49,6 +49,8 @@ final class DatabaseConnectionTest extends TestCase {
             'Josantonius\Database\Database', 
             get_class($db)
         );
+
+        return $db;
     }
 
     /**

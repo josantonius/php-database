@@ -28,7 +28,9 @@
     
     <testsuites>
         <testsuite name="Database Test Suite">
-            <directory>tests/Database</directory>
+            <file>tests/Database/Test/ConnectionTest.php</file>
+            <file>tests/Database/Test/CreateTest.php</file>
+            <file>tests/Database/Test/InsertTest.php</file>
         </testsuite>
     </testsuites>
 
