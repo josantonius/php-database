@@ -17,7 +17,7 @@ use Josantonius\Database\Database,
 
 final class DatabaseCreateTest extends TestCase {
 
-    public static $db;
+    private $db;
 
     /**
      * Get connection test.
@@ -28,9 +28,9 @@ final class DatabaseCreateTest extends TestCase {
      */
     public function testGetConnection() {
 
-        self::$db = Database::getConnection('identifier');
+        $this->db = Database::getConnection('identifier');
 
-        $this->assertContains('identifier', self::$db::$id);
+        $this->assertContains('identifier', $this->db::$id);
     }
 
 

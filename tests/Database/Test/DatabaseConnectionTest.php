@@ -18,7 +18,7 @@ use Josantonius\Database\Database,
 
 final class DatabaseConnectionTest extends TestCase {
 
-    public static $db;
+    private $db;
 
     /**
      * Get connection test.
@@ -29,7 +29,7 @@ final class DatabaseConnectionTest extends TestCase {
      */
     public function testGetConnection() {
 
-        self::$db = Database::getConnection(
+        $this->db = Database::getConnection(
 
             'identifier',
             'PDOprovider',
@@ -40,12 +40,12 @@ final class DatabaseConnectionTest extends TestCase {
             array('charset' => 'utf8')
         );
 
-        $this->assertContains('identifier', self::$db::$id);
+        $this->assertContains('identifier', $this->db::$id);
 
         $this->assertContains(
 
             'Josantonius\Database\Database', 
-            get_class(self::$db)
+            get_class($this->db)
         );
     }
 
@@ -75,14 +75,14 @@ final class DatabaseConnectionTest extends TestCase {
             ]
         ]);
 
-        self::$db = Database::getConnection('Eliasis');
+        $this->db = Database::getConnection('Eliasis');
 
-        $this->assertContains('Eliasis', self::$db::$id);
+        $this->assertContains('Eliasis', $this->db::$id);
 
         $this->assertContains(
 
             'Josantonius\Database\Provider\PDOprovider\PDOprovider', 
-            get_class(self::$db->_provider)
+            get_class($this->db->_provider)
         );
     }
 
@@ -99,7 +99,7 @@ final class DatabaseConnectionTest extends TestCase {
      */
     public function testExceptionWhenProviderNotExists() {
 
-        self::$db = Database::getConnection(
+        $this->db = Database::getConnection(
 
             'provider-exception',
             '?',
@@ -124,7 +124,7 @@ final class DatabaseConnectionTest extends TestCase {
      */
     public function testExceptionNameOrServiceNotKnown() {
         
-        self::$db = Database::getConnection(
+        $this->db = Database::getConnection(
 
             'connection-exception',
             'PDOprovider',
@@ -149,7 +149,7 @@ final class DatabaseConnectionTest extends TestCase {
      */
     public function testExceptionAccessDeniedForUser() {
         
-        self::$db = Database::getConnection(
+        $this->db = Database::getConnection(
 
             'user-exception',
             'PDOprovider',
@@ -174,7 +174,7 @@ final class DatabaseConnectionTest extends TestCase {
      */
     public function testExceptionAccessDeniedForUserPassword() {
         
-        self::$db = Database::getConnection(
+        $this->db = Database::getConnection(
 
             'password-exception',
             'PDOprovider',
@@ -199,7 +199,7 @@ final class DatabaseConnectionTest extends TestCase {
      */
     public function testExceptionAccessDeniedForUserName() {
         
-        self::$db = Database::getConnection(
+        $this->db = Database::getConnection(
 
             'name-exception',
             'PDOprovider',
