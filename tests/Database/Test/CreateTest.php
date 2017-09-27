@@ -71,7 +71,7 @@ final class CreateTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage Syntax error or access violation
+     * @expectedExceptionMessageRegExp (error|syntax|Syntax)
      *
      * @return void
      */
@@ -123,7 +123,7 @@ final class CreateTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage Syntax error or access violation
+     * @expectedExceptionMessageRegExp (error|syntax|Syntax)
      *
      * @return void
      */
@@ -180,7 +180,7 @@ final class CreateTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage Syntax error or access violation
+     * @expectedExceptionMessageRegExp (error|syntax|Syntax)
      *
      * @return void
      */

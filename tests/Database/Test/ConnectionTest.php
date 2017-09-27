@@ -122,7 +122,7 @@ final class ConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage Name or service not known
+     * @expectedExceptionMessageRegExp (Unknown|MySQL|service|not|known)
      *
      * @return void
      */
