@@ -31,7 +31,30 @@ final class DatabaseCreateTest extends TestCase {
         $this->db = Database::getConnection('identifier');
 
         $database = $this->db;
-        
+
         $this->assertContains('identifier', $database::$id);
-    }   
+    }
+
+    /**
+     * [QUERY] [CREATE TABLE] [RETURN TRUE]
+     *
+     * @since 1.1.6
+     */
+    public static function testCreateTableQuery() {
+
+
+        $result = $this->db->query(
+
+            'CREATE TABLE IF NOT EXISTS test (
+
+                id       INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+                name     VARCHAR(30) NOT NULL,
+                email    VARCHAR(50),
+                reg_date TIMESTAMP
+            )'
+        );
+
+        $this->assertContains('identifier', $result);
+    }
+
 }
