@@ -17,8 +17,6 @@ use Josantonius\Database\Database,
 
 final class DatabaseCreateTest extends TestCase {
 
-    private $db;
-
     /**
      * Get connection test.
      *
@@ -28,13 +26,36 @@ final class DatabaseCreateTest extends TestCase {
      */
     public function testGetConnection() {
 
-        $this->db = Database::getConnection('identifier');
+        $db = Database::getConnection('identifier');
 
-        $database = $this->db;
+        $this->assertContains('identifier', $db::$id);
 
-        $this->assertContains('identifier', $database::$id);
+        return $db;
     }
 
+    /**
+     * [QUERY] [CREATE TABLE] [RETURN TRUE]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @return void
+     */
+    public function testCreateTableQuery($db) {
 
+        $result = $db->query(
+
+            'CREATE TABLE IF NOT EXISTS test (
+
+                id       INT(6)      UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+                name     VARCHAR(30) NOT NULL,
+                email    VARCHAR(50),
+                reg_date TIMESTAMP
+            )'
+        );
+
+        $this->assertTrue($result);
+    }
 
 }
