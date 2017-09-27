@@ -20,20 +20,29 @@ use Josantonius\Database\Exception\DBException;
 class Database {
 
     /**
+     * Database identifier.
+     *
+     * @since 1.1.6
+     *
+     * @var mixed
+     */
+    public static $id;
+
+    /**
      * Database provider.
      *
      * @since 1.0.0
      *
      * @var object
      */
-    protected $_provider;
+    public $_provider;
 
     /**
      * Database connection.
      *
      * @since 1.0.0
      *
-     * @var object
+     * @var array
      */
     private static $_conn;     
 
@@ -102,7 +111,7 @@ class Database {
      * Database provider constructor.
      *
      * @since 1.0.0
-     *
+     * 
      * @param string $provider            → name of provider class
      * @param string $host                → database host
      * @param string $user                → database user
@@ -159,19 +168,19 @@ class Database {
      */
     public static function getConnection($id, $provider = null, $host = null, $user = null, $name = null, $password = null, $settings = null) {
 
-        if (isset(self::$_conn[$id])) { 
+        if (isset(self::$_conn[self::$id = $id])) { 
 
             return self::$_conn[$id];
         }
 
         if (class_exists($App = 'Eliasis\\App\\App')) {
 
-            $provider = $provider ?: $App::db($id, 'provider');
-            $host     = $host     ?: $App::db($id, 'host'); 
-            $user     = $user     ?: $App::db($id, 'user');
-            $name     = $name     ?: $App::db($id, 'name');
-            $password = $password ?: $App::db($id, 'password');
-            $settings = $settings ?: $App::db($id, 'settings');
+            $provider = $provider ?: $App::get('db', $id, 'provider');
+            $host     = $host     ?: $App::get('db', $id, 'host'); 
+            $user     = $user     ?: $App::get('db', $id, 'user');
+            $name     = $name     ?: $App::get('db', $id, 'name');
+            $password = $password ?: $App::get('db', $id, 'password');
+            $settings = $settings ?: $App::get('db', $id, 'settings');
         }
 
         return self::$_conn[$id] = new Database(

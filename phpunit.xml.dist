@@ -12,6 +12,14 @@
          bootstrap="tests/bootstrap.php">
 
     <php>
+        <server name='SERVER_PROTOCOL' value='HTTP/1.1' />
+        <server name='HTTPS'           value='on' />
+        <server name='SERVER_NAME'     value='josantonius.com' />
+        <server name='REQUEST_URI'     value='/developer/' />
+        <server name='DOCUMENT_ROOT'   value='/var/www/josantonius/public' />
+        <server name='SERVER_PORT'     value='80' />
+        <server name='HTTP_REFERER'    value='https://www.google.es/' />
+
         <var name="DB_HOST" value="127.0.0.1" />
         <var name="DB_USER" value="travis" />
         <var name="DB_PASSWORD" value="" />

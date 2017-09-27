@@ -15,30 +15,24 @@ use Josantonius\Database\Database,
     PHPUnit\Framework\TestCase;
 
 
-class DatabaseCreateTest extends TestCase {
+final class DatabaseCreateTest extends TestCase {
 
-    protected $db;
+    public static $db;
 
     /**
-     * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     * Get connection test.
+     *
+     * @since 1.1.6
+     *
+     * @return void
      */
     public function testGetConnection() {
 
-        $this->db = Database::getConnection(
+        self::$db = Database::getConnection('identifier');
 
-            'identifier',
-            'PDOprovider',
-            $GLOBALS['DB_HOST'],
-            $GLOBALS['DB_USER'],
-            $GLOBALS['DB_NAME'],
-            $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
-        );
-
-        $this->assertContains(
-
-            'Josantonius\Database\Database', 
-            get_class($this->db)
-        );
+        $this->assertContains('identifier', self::$db::$id);
     }
+
+
+   
 }

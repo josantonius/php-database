@@ -446,6 +446,8 @@ To run [tests](tests/Database/Test) simply:
     
     $ cd PHP-Database
 
+    $ mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS phpunit CHARACTER SET utf8 COLLATE utf8_general_ci; CREATE USER 'travis'@'127.0.0.1' IDENTIFIED BY ''; GRANT ALL ON phpunit.* TO 'travis'@'127.0.0.1'; FLUSH PRIVILEGES;"
+
     $ phpunit
 
 ### ☑ TODO
