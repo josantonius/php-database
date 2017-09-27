@@ -46,7 +46,7 @@ final class DatabaseCreateTest extends TestCase {
 
         $result = $db->query(
 
-            'CREATE TABLE IF NOT EXISTS test (
+            'CREATE TABLE IF NOT EXISTS test_table (
 
                 id       INT(6)      UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
                 name     VARCHAR(30) NOT NULL,
@@ -75,7 +75,7 @@ final class DatabaseCreateTest extends TestCase {
 
         $result = $db->query(
 
-            'CREATE TABLE IF NOT EXISTS test (
+            'CREATE TABLE IF NOT EXISTS test_table (
 
                 id       INT(6)      UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
                 name     VARCHAR(30) NOT NULL,
@@ -104,7 +104,10 @@ final class DatabaseCreateTest extends TestCase {
             'reg_date' => 'TIMESTAMP'
         ];
 
-        $this->assertTrue($db->create($params)->table('test')->execute());
+        $this->assertTrue(
+
+            $db->create($params)->table('test_table')->execute()
+        );
     }
 
     /**
@@ -130,7 +133,7 @@ final class DatabaseCreateTest extends TestCase {
             'reg_date' => 'TIMESTAMP'
         ];
 
-        $db->create($params)->table('test')->execute();
+        $db->create($params)->table('test_table')->execute();
     }
 
     /**
@@ -153,10 +156,10 @@ final class DatabaseCreateTest extends TestCase {
         ];
 
         $query = $db->create($params)
-                    ->table('test_2')
+                    ->table('test_table_two')
                     ->foreing('id')
                     ->reference('id')
-                    ->on('test')
+                    ->on('test_table')
                     ->actions('ON DELETE CASCADE ON UPDATE CASCADE')
                     ->engine('innodb')
                     ->charset('utf8');
@@ -188,10 +191,10 @@ final class DatabaseCreateTest extends TestCase {
         ];
 
         $query = $db->create($params)
-                    ->table('test_2')
+                    ->table('test_table_two')
                     ->foreing('id')
                     ->reference('id')
-                    ->on('test')
+                    ->on('test_table')
                     ->actions('ONDELETE CASCADE ON UPDATE CASCADE')
                     ->engine('innodb')
                     ->charset('utf8');
