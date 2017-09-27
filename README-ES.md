@@ -1,6 +1,6 @@
 # PHP Database library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/database/v/stable)](https://packagist.org/packages/josantonius/database) [![Total Downloads](https://poser.pugx.org/josantonius/database/downloads)](https://packagist.org/packages/josantonius/database) [![Latest Unstable Version](https://poser.pugx.org/josantonius/database/v/unstable)](https://packagist.org/packages/josantonius/database) [![License](https://poser.pugx.org/josantonius/database/license)](https://packagist.org/packages/josantonius/database)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/database/v/stable)](https://packagist.org/packages/josantonius/database) [![Total Downloads](https://poser.pugx.org/josantonius/database/downloads)](https://packagist.org/packages/josantonius/database) [![Latest Unstable Version](https://poser.pugx.org/josantonius/database/v/unstable)](https://packagist.org/packages/josantonius/database) [![License](https://poser.pugx.org/josantonius/database/license)](https://packagist.org/packages/josantonius/database) [![Travis](https://travis-ci.org/Josantonius/PHP-Database.svg)](https://travis-ci.org/Josantonius/PHP-Database)
 
 [English version](README.md)
 
@@ -22,21 +22,12 @@ Biblioteca para la administración de bases de datos SQL para ser utilizada por 
 - [Truncate](#truncate)
 - [Drop](#drop)
 - [Tests](#tests)
+- [Tareas pendientes](#-tareas-pendientes)
 - [Manejador de excepciones](#manejador-de-excepciones)
 - [Contribuir](#contribuir)
 - [Repositorio](#repositorio)
 - [Licencia](#licencia)
 - [Copyright](#copyright)
-
----
-
-<p align="center"><strong>Echa un vistazo al código</strong></p>
-
-<p align="center">
-  <a href="https://youtu.be/bt6dt3qTSvY" title="Echa un vistazo al código">
-    <img src="https://raw.githubusercontent.com/Josantonius/PHP-Algorithm/master/resources/youtube-thumbnail.jpg">
-  </a>
-</p>
 
 ---
 
@@ -127,7 +118,7 @@ $db->select()->from()->where()->order()->limit()->execute();
 
 **select**($columns)
 
-$columns → (array|string|empty) Nombres de las columnas a seleccionar. Vacío para seleccionar todo (*).
+$columns → (array|string|empty) Nombres de las columnas a seleccionar. Vacío para seleccionar todo.
 
 **from**($table)
 
@@ -449,40 +440,25 @@ $result = $query->execute();
 
 ### Tests 
 
-Para utilizar la clase de [pruebas](tests), simplemente:
+Para ejecutar las [pruebas](tests/Database/Test) simplemente:
 
-```php
-<?php
-$loader = require __DIR__ . '/vendor/autoload.php';
+    $ git clone https://github.com/Josantonius/PHP-Database.git
+    
+    $ cd PHP-Database
 
-$loader->addPsr4('Josantonius\\Database\\Tests\\', __DIR__ . '/vendor/josantonius/database/tests');
+    $ phpunit
 
-use Josantonius\Database\Tests\DatabaseCreateTest;
-use Josantonius\Database\Tests\DatabaseDropTest;
-use Josantonius\Database\Tests\DatabaseInsertTest;
-use Josantonius\Database\Tests\DatabaseSelectTest;
-use Josantonius\Database\Tests\DatabaseTruncateTest;
-use Josantonius\Database\Tests\DatabaseUpdateTest;
-use Josantonius\Database\Tests\DatabaseDeleteTest;
-use Josantonius\Database\Tests\DatabaseReplaceTest;
-```
+### ☑ Tareas pendientes
 
-Algunos métodos de prueba de los disponibles en esta biblioteca:
-
-```php
-DatabaseCreateTest::testCreateTableMethod();
-DatabaseDropTest::testDropTableMethod();
-DatabaseTruncateTest::testTruncateTableMethod();
-DatabaseSelectTest::testSelectMethod();
-DatabaseInsertTest::testInsertMethod();
-DatabaseDeleteTest::testDeleteMethod();
-DatabaseReplaceTest::testReplaceMethod();
-```
+- [x] Completar tests
+- [ ] Mejorar la documentación
 
 ### Manejador de excepciones
 
 Esta biblioteca utiliza [control de excepciones](src/Exception) que puedes personalizar a tu gusto.
+
 ### Contribuir
+
 1. Comprobar si hay incidencias abiertas o abrir una nueva para iniciar una discusión en torno a un fallo o función.
 1. Bifurca la rama del repositorio en GitHub para iniciar la operación de ajuste.
 1. Escribe una o más pruebas para la nueva característica o expón el error.

@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 1.1.6 - 2017-09-26
+
+* Unit tests supported by `PHPUnit` were added.
+
+* The repository was synchronized with `Travis CI` to implement continuous integration.
+
+* Type attributes were deleted from HTML tags. Since HTML5 doesn't longer necessary.
+ 
+* Added `Database/src/bootstrap.php` file
+
+* Added `Database/tests/bootstrap.php` file.
+
+* Added `Database/phpunit.xml.dist` file.
+* Added `Database/_config.yml` file.
+* Added `Database/.travis.yml` file.
+
+* Renamed `Josantonius\Provider\PDOprovider` class to `Josantonius\Provider\PDOprovider\PDOprovider` class. 
+
+* Renamed `Josantonius\Provider\MSSQLprovider` class to `Josantonius\Provider\MSSQLprovider\MSSQLprovider` class. 
+
 ## 1.1.5 - 2017-07-03
 
 * Bug fix in replace method.
@@ -29,9 +49,11 @@
 * Eliasis Framework url: https://github.com/Eliasis-Framework/Eliasis
 
 ## 1.1.3 - 2017-05-14
+
 * Singleton pattern was added to create a single connection per database.
 
 ## 1.1.2 - 2017-05-13
+
 * Added option for foreign key in creating tables.
 
 * Added `Josantonius\Database\Database->foreing()` method.
@@ -44,15 +66,19 @@
 * Some bugs were fixed.
 
 ## 1.1.1 - 2017-03-18
+
 * Some files were excluded from download and comments and readme files were updated.
 
 ## 1.1.0 - 2017-01-30
+
 * Compatible with PHP 5.6 or higher.
 
 ## 1.0.0 - 2017-01-30
+
 * Compatible only with PHP 7.0 or higher. In the next versions, the library will be modified to make it compatible with PHP 5.6 or higher.
 
 ## 1.0.0 - 2017-01-09
+
 * Added `Josantonius\Database\Database` class.
 * Added `Josantonius\Database\Database->__connstruct()` method.
 * Added `Josantonius\Database\Database::getConnection()` method.
@@ -81,11 +107,11 @@
 * Added `Josantonius\Database\Database->__destruct()` method.
 
 ## 1.0.0 - 2017-01-09
+
 * Added `Josantonius\Database\Exception\DatabaseException` class.
 * Added `Josantonius\Database\Exception\Exceptions` abstract class.
 * Added `Josantonius\Database\Exception\DatabaseException->__construct()` method.
 
-## 1.0.0 - 2017-01-09
 * Added `Josantonius\Provider\Provider` class.
 * Added `Josantonius\Provider\Provider->connect()` method.
 * Added `Josantonius\Provider\Provider->query()` method.
@@ -104,7 +130,6 @@
 * Added `Josantonius\Provider\Provider->isConnected()` method.
 * Added `Josantonius\Provider\Provider->kill()` method.
 
-## 1.0.0 - 2017-01-09
 * Added `Josantonius\Provider\PDOprovider` class.
 * Added `Josantonius\Provider\PDOprovider->connect()` method.
 * Added `Josantonius\Provider\PDOprovider->query()` method.
@@ -123,7 +148,6 @@
 * Added `Josantonius\Provider\PDOprovider->isConnected()` method.
 * Added `Josantonius\Provider\PDOprovider->kill()` method.
 
-## 1.0.0 - 2017-01-09
 * Added `Josantonius\Provider\MSSQLprovider` class.
 * Added `Josantonius\Provider\MSSQLprovider->connect()` method.
 * Added `Josantonius\Provider\MSSQLprovider->query()` method.

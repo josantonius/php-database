@@ -1,6 +1,6 @@
 # PHP Database library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/database/v/stable)](https://packagist.org/packages/josantonius/database) [![Total Downloads](https://poser.pugx.org/josantonius/database/downloads)](https://packagist.org/packages/josantonius/database) [![Latest Unstable Version](https://poser.pugx.org/josantonius/database/v/unstable)](https://packagist.org/packages/josantonius/database) [![License](https://poser.pugx.org/josantonius/database/license)](https://packagist.org/packages/josantonius/database)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/database/v/stable)](https://packagist.org/packages/josantonius/database) [![Total Downloads](https://poser.pugx.org/josantonius/database/downloads)](https://packagist.org/packages/josantonius/database) [![Latest Unstable Version](https://poser.pugx.org/josantonius/database/v/unstable)](https://packagist.org/packages/josantonius/database) [![License](https://poser.pugx.org/josantonius/database/license)](https://packagist.org/packages/josantonius/database) [![Travis](https://travis-ci.org/Josantonius/PHP-Database.svg)](https://travis-ci.org/Josantonius/PHP-Database)
 
 [Versión en español](README-ES.md)
 
@@ -22,21 +22,12 @@ Library for SQL database management to be used by several providers at the same 
 - [Truncate](#truncate)
 - [Drop](#drop)
 - [Tests](#tests)
+- [TODO](#-todo)
 - [Exception Handler](#exception-handler)
 - [Contribute](#contribute)
 - [Repository](#repository)
 - [License](#license)
 - [Copyright](#copyright)
-
----
-
-<p align="center"><strong>Take a look at the code</strong></p>
-
-<p align="center">
-  <a href="https://youtu.be/bt6dt3qTSvY" title="Take a look at the code">
-    <img src="https://raw.githubusercontent.com/Josantonius/PHP-Algorithm/master/resources/youtube-thumbnail.jpg">
-  </a>
-</p>
 
 ---
 
@@ -127,7 +118,7 @@ $db->select()->from()->where()->order()->limit()->execute();
 
 **select**($columns)
 
-$columns → (array|string|empty) Names of columns to select. If left blank select all fields (*).
+$columns → (array|string|empty) Names of columns to select. If left blank select all fields.
 
 **from**($table)
 
@@ -449,40 +440,25 @@ $result = $query->execute();
 
 ### Tests 
 
-To use the [test](tests) class, simply:
+To run [tests](tests/Database/Test) simply:
 
-```php
-<?php
-$loader = require __DIR__ . '/vendor/autoload.php';
+    $ git clone https://github.com/Josantonius/PHP-Database.git
+    
+    $ cd PHP-Database
 
-$loader->addPsr4('Josantonius\\Database\\Tests\\', __DIR__ . '/vendor/josantonius/database/tests');
+    $ phpunit
 
-use Josantonius\Database\Tests\DatabaseCreateTest;
-use Josantonius\Database\Tests\DatabaseDropTest;
-use Josantonius\Database\Tests\DatabaseInsertTest;
-use Josantonius\Database\Tests\DatabaseSelectTest;
-use Josantonius\Database\Tests\DatabaseTruncateTest;
-use Josantonius\Database\Tests\DatabaseUpdateTest;
-use Josantonius\Database\Tests\DatabaseDeleteTest;
-use Josantonius\Database\Tests\DatabaseReplaceTest;
-```
+### ☑ TODO
 
-Some methods available in this library.:
-
-```php
-DatabaseCreateTest::testCreateTableMethod();
-DatabaseDropTest::testDropTableMethod();
-DatabaseTruncateTest::testTruncateTableMethod();
-DatabaseSelectTest::testSelectMethod();
-DatabaseInsertTest::testInsertMethod();
-DatabaseDeleteTest::testDeleteMethod();
-DatabaseReplaceTest::testReplaceMethod();
-```
+- [x] Create tests
+- [ ] Improve documentation
 
 ### Exception Handler
 
 This library uses [exception handler](src/Exception) that you can customize.
+
 ### Contribute
+
 1. Check for open issues or open a new issue to start a discussion around a bug or feature.
 1. Fork the repository on GitHub to start making your changes.
 1. Write one or more tests for the new feature or that expose the bug.

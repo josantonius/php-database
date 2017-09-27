@@ -1,0 +1,45 @@
+{
+    "name":        "eliasis-framework/eliasis",
+    "version":     "1.1.1",
+    "description": "Eliasis PHP Framework",
+    "type":        "library",
+    "keywords": [
+        "Eliasis", 
+        "HMVC",
+        "Framework", 
+        "PHP"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name":     "Josantonius",
+            "email":    "hello@josantonius.com",
+            "homepage": "https://josantonius.com",
+            "role":     "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/eliasis-framework/eliasis/issues",
+        "forum": "http://stackoverflow.com/tags/eliasis",
+        "source": "https://github.com/eliasis-framework/eliasis"
+    },
+    "config": {
+        "vendor-dir": "lib/vendor",
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "Josantonius/Url" : "^1.1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Eliasis\\"   : "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
