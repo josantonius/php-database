@@ -212,5 +212,4 @@ final class DatabaseConnectionTest extends TestCase {
             array('charset' => 'utf8')
         );
     }
-
 }

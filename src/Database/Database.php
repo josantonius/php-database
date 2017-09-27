@@ -96,6 +96,7 @@ class Database {
         'data'       => null, // array  → columns and values
         'table'      => null, // string → database table name
         'order'      => null, // mixed  → order clause
+        'charset'    => null, // string → database charset
         'limit'      => null, // int    → limit clause
         'where'      => null, // mixed  → where clause
         'engine'     => null, // string → database engine

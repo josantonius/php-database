@@ -181,7 +181,7 @@ class PDOprovider extends Provider {
         $index      = '';
         $references = '';
 
-        if (!is_null($foreing, $reference, $on) && count($foreing) === count($on) && count($reference) === count($foreing)) {
+        if (!is_null($foreing) && !is_null($reference) && !is_null($on) && count($foreing) === count($on) && count($reference) === count($foreing)) {
 
             $count = count($foreing);
 
@@ -206,7 +206,7 @@ class PDOprovider extends Provider {
 
         $engine = (!is_null($engine)) ? ' ENGINE=' . $engine : '';
 
-        $charset = (!is_null($engine)) ? ' CHARSET=' . $charset : '';
+        $charset = (!is_null($charset)) ? ' CHARSET=' . $charset : '';
 
         $query = $query . $index . $references;
 
