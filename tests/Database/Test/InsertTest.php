@@ -217,7 +217,7 @@ final class InsertTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage table
+     * @expectedExceptionMessage Base table or view not found
      * 
      * @return void
      */
@@ -239,7 +239,7 @@ final class InsertTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage column
+     * @expectedExceptionMessage Column not found
      * 
      * @return void
      */
@@ -393,7 +393,7 @@ final class InsertTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage table
+     * @expectedExceptionMessage Base table or view not found
      * 
      * @return void
      */
@@ -419,7 +419,7 @@ final class InsertTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage column
+     * @expectedExceptionMessage Column not found
      * 
      * @return void
      */
