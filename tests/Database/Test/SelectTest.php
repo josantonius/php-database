@@ -38,7 +38,7 @@ final class SelectTest extends TestCase {
     }
 
     /**
-     * [QUERY] [SELECT MULTIPLE] [RETURN OBJECT]
+     * [QUERY] [MULTIPLE] [RETURN OBJECT]
      *
      * @since 1.1.6
      *
@@ -58,7 +58,7 @@ final class SelectTest extends TestCase {
     }
 
     /**
-     * [QUERY] [SELECT ALL] [LIMIT] [RETURN ARRAY NUMERIC] 
+     * [QUERY] [ALL] [LIMIT] [RETURN ARRAY NUMERIC] 
      *
      * @since 1.1.6
      *
@@ -77,11 +77,11 @@ final class SelectTest extends TestCase {
              'array_num'
         );
 
-        $this->assertContains('s', $result[0]);
+        $this->assertContains('Isis', $result[0][1]);
     }
 
     /**
-     * [QUERY] [SELECT MULTIPLE] [WHERE] [ORDER] [RETURN ARRAY ASSOC]
+     * [QUERY] [MULTIPLE] [WHERE] [ORDER] [RETURN ARRAY ASSOC]
      *
      * @since 1.1.6
      *
@@ -89,20 +89,23 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectQuery3($db) {
+    public function testSelectQuery_Multiple_Where_Order_Assoc($db) {
 
-        $result = $db->query('SELECT id, name, email, reg_date
-                                      FROM test_table
-                                      WHERE id = 1
-                                      ORDER BY id DESC',
-                                      false,
-                                      'array_assoc');
+        $result = $db->query(
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            'SELECT id, name, email, reg_date
+             FROM test_table
+             WHERE id = 100
+             ORDER BY id DESC',
+             false,
+             'array_assoc'
+        );
+
+        $this->assertContains('Isis', $result[0]['name']);
     }
 
     /**
-     * [QUERY] [SELECT MULTIPLE] [RETURN ROWS NUMBER] 
+     * [QUERY] [MULTIPLE] [RETURN ROWS NUMBER] 
      *
      * @since 1.1.6
      *
@@ -110,18 +113,21 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectQuery4($db) {
+    public function testSelectQuery_Multiple_Rows($db) {
 
-        $result = $db->query('SELECT id, name, email, reg_date
-                                      FROM test_table',
-                                      false,
-                                      'rows');
+        $result = $db->query(
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            'SELECT id, name, email, reg_date
+             FROM test_table',
+             false,
+             'rows'
+        );
+
+        $this->assertEquals(11, $result);
     }
 
     /**
-     * [QUERY] [SELECT MULTIPLE] [STATEMENTS] [WHERE] [RETURN OBJECT] 
+     * [QUERY] [MULTIPLE] [STATEMENTS] [WHERE] [RETURN OBJECT] 
      *
      * @since 1.1.6
      *
@@ -129,21 +135,67 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectQuery5($db) {
+    public function testSelectQuery_Multiple_Statements_Where_Object($db) {
 
-        $statements[] = [":id",  1];
+        $statements[] = [":id",  100];
 
-        $result = $db->query('SELECT id, name, email, reg_date
-                                      FROM test_table
-                                      WHERE  id = :id',
-                                      $statements);
+        $result = $db->query(
 
+            'SELECT id, name, email, reg_date
+             FROM test_table
+             WHERE  id = :id',
+             $statements
+        );
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]->name);
     }
 
     /**
-     * [QUERY] [SELECT MULTIPLE] [EXCEPTION]
+     * [QUERY] [MULTIPLE] [EXCEPTION]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
+     * 
+     * @return void
+     */
+    public function testSelectQueryTableNamError($db) {
+
+        $result = $db->query(
+
+            'SELECT id, name, email, reg_date
+             FROM xxxx'
+        );
+    }
+
+    /**
+     * [QUERY] [MULTIPLE] [EXCEPTION]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
+     * 
+     * @return void
+     */
+    public function testSelectQueryColumnNamError($db) {
+
+        $result = $db->query(
+
+            'SELECT xxxx, name, email, reg_date
+             FROM test_table'
+        );
+    }
+
+    /**
+     * [METHOD] [ALL] [RETURN OBJECT] 
      *
      * @since 1.1.6
      *
@@ -151,52 +203,18 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectQueryTableNamError($db) {
-
-        $result = $db->query('SELECT id, name, email, reg_date
-                                      FROM xxxx');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [QUERY] [SELECT MULTIPLE] [EXCEPTION]
-     *
-     * @since 1.1.6
-     *
-     * @depends testGetConnection
-     * 
-     * @return void
-     */
-    public function dtestSelectQueryColumnNamError($db) {
-
-        $result = $db->query('SELECT xxxx, name, email, reg_date
-                                      FROM test_table');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [METHOD] [SELECT ALL] [RETURN OBJECT] 
-     *
-     * @since 1.1.6
-     *
-     * @depends testGetConnection
-     * 
-     * @return void
-     */
-    public function dtestSelectMethod1($db) {
+    public function testSelectMethod_SelectAll_Object($db) {
 
         $query = $db->select()
-                            ->from('test_table');
+                    ->from('test_table');
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]->name);
     }
 
     /**
-     * [METHOD] [SELECT ALL] [RETURN ARRAY NUMERIC]
+     * [METHOD] [ALL] [RETURN ARRAY NUMERIC]
      *
      * @since 1.1.6
      *
@@ -204,19 +222,18 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod2($db) {
+    public function testSelectMethod_SelectAll_Numeric($db) {
 
         $query = $db->select()
-                            ->from('test_table');
+                    ->from('test_table');
 
         $result = $query->execute('array_num');
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0][1]);
     }
 
-
     /**
-     * [METHOD] [SELECT ALL] [RETURN ARRAY ASSOC]
+     * [METHOD] [ALL] [RETURN ARRAY ASSOC]
      *
      * @since 1.1.6
      *
@@ -224,18 +241,18 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod3($db) {
+    public function testSelectMethod_SelectAll_Assoc($db) {
 
         $query = $db->select()
-                            ->from('test_table');
+                    ->from('test_table');
 
         $result = $query->execute('array_assoc');
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]['name']);
     }
 
     /**
-     * [METHOD] [SELECT] [LIMIT] [RETURN OBJECT]
+     * [METHOD] [LIMIT] [RETURN OBJECT]
      *
      * @since 1.1.6
      *
@@ -243,19 +260,19 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod4($db) {
+    public function testSelectMethod_Limit_Object($db) {
 
         $query = $db->select('name')
-                            ->from('test_table')
-                            ->limit(1);
+                    ->from('test_table')
+                    ->limit(1);
 
         $result = $query->execute();
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]->name);
     }
 
     /**
-     * [METHOD] [SELECT MULTIPLE] [WHERE MULTIPLE] [RETURN ARRAY ASSOC]
+     * [METHOD] [MULTIPLE] [WHERE MULTIPLE] [RETURN ARRAY ASSOC]
      *
      * @since 1.1.6
      *
@@ -263,19 +280,19 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod5($db) {
+    public function testSelectMethod_Multiple_Where_Assoc($db) {
 
         $query = $db->select(['id', 'name'])
-                            ->from('test_table')
-                            ->where('id = 1');
+                    ->from('test_table')
+                    ->where('id = 100');
 
         $result = $query->execute('array_assoc');
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]['name']);
     }
 
     /**
-     * [METHOD] [SELECT MULTIPLE] [ORDER SIMPLE] [LIMIT] [WHERE MULTIPLE] [RETURN OBJECT]
+     * [METHOD] [SELECT-WHERE MULTIPLE] [ORDER SIMPLE] [LIMIT] [OBJECT]
      *
      * @since 1.1.6
      *
@@ -283,21 +300,21 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod6($db) {
+    public function testSelectMethod_Multiple_Where_Order_Limit_Object($db) {
 
         $query = $db->select(['id', 'name'])
-                            ->from('test_table')
-                            ->where(['id = 1', 'name = "Isis"'])
-                            ->order('id DESC')
-                            ->limit(1);
+                    ->from('test_table')
+                    ->where(['id = 100', 'name = "Isis"'])
+                    ->order('id DESC')
+                    ->limit(1);
 
         $result = $query->execute();
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]->name);
     }
 
     /**
-     * [METHOD] [SELECT MULTIPLE] [ORDER MULTIPLE] [LIMIT] [WHERE MULTIPLE] [RETURN OBJECT]
+     * [METHOD] [SELECT-ORDER-WHERE MULTIPLE] [LIMIT] [RETURN OBJECT]
      *
      * @since 1.1.6
      *
@@ -305,21 +322,21 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod7($db) {
+    public function testSelectMethod_Order_Where_Multiple_Limit_Object($db) {
 
         $query = $db->select(['id', 'name'])
-                            ->from('test_table')
-                            ->where(['id = 1', 'name = "isis"'])
-                            ->order(['id DESC', 'name ASC'])
-                            ->limit(1);
+                    ->from('test_table')
+                    ->where(['id = 100', 'name = "isis"'])
+                    ->order(['id DESC', 'name ASC'])
+                    ->limit(1);
 
         $result = $query->execute('obj');
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]->name);
     }
 
     /**
-     * [METHOD] [SELECT] [STATEMENTS] [WHERE MULTIPLE] [RETURN OBJECT]
+     * [METHOD] [STATEMENTS] [WHERE MULTIPLE] [RETURN OBJECT]
      *
      * @since 1.1.6
      *
@@ -327,22 +344,22 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod8($db) {
+    public function testSelectMethod_Statements_Where_Multiple_Object($db) {
 
-        $statements[] = [':id', 1];
+        $statements[] = [':id',    100];
         $statements[] = [':name', 'Isis'];
 
         $query = $db->select('name')
-                            ->from('test_table')
-                            ->where(['id = :id', 'name = :name'], $statements);
+                    ->from('test_table')
+                    ->where(['id = :id', 'name = :name'], $statements);
 
         $result = $query->execute();
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]->name);
     }
 
     /**
-     * [METHOD] [SELECT] [STATEMENTS] [WHERE ADVANCED] [RETURN ARRAY ASSOC]
+     * [METHOD] [STATEMENTS] [WHERE ADVANCED] [RETURN ARRAY ASSOC]
      *
      * @since 1.1.6
      *
@@ -350,22 +367,22 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod9($db) {
+    public function testSelectMethod_Statements_Where_Advanced_Assoc($db) {
 
-        $statements[] = [':id', 1];
+        $statements[] = [':id',    100];
         $statements[] = [':name', 'Isis'];
 
         $query = $db->select('name')
-                            ->from('test_table')
-                            ->where('id = :id OR name = :name', $statements);
+                    ->from('test_table')
+                    ->where('id = :id OR name = :name', $statements);
 
         $result = $query->execute('array_assoc');
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertContains('Isis', $result[0]['name']);
     }
 
     /**
-     * [METHOD] [SELECT] [STATEMENTS] [DATA-TYPE] [WHERE MULTIPLE] [RETURN EMPTY ARRAY]
+     * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE MULTIPLE] [RETURN EMPTY ARRAY]
      *
      * @since 1.1.6
      *
@@ -373,30 +390,32 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod10($db) {
+    public function testSelectMethodWhenThereAreNoResults($db) {
 
-        $statements[] = [':id',          1, 'int'];
-        $statements[] = [':name',  'Isis', 'str'];
-        $statements[] = [':email',    null, 'null'];
-        $statements[] = [':reg_date', true, 'bool'];
+        $statements[] = [':id',          100, 'int'];
+        $statements[] = [':name',     'Isis', 'str'];
+        $statements[] = [':email',      null, 'null'];
+        $statements[] = [':reg_date',   true, 'bool'];
 
         $clauses = [
+
             'id       = :id',
             'name     = :name',
             'email    = :email',
-            'reg_date = :reg_date'];
+            'reg_date = :reg_date'
+        ];
 
         $query = $db->select('name')
-                            ->from('test_table')
-                            ->where($clauses, $statements);
+                    ->from('test_table')
+                    ->where($clauses, $statements);
 
         $result = $query->execute('obj');
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertCount(0, $result);
     }
 
     /**
-     * [METHOD] [SELECT] [WHERE SIMPLE] [RETURN ROWS NUMBER] 
+     * [METHOD] [WHERE SIMPLE] [RETURN ROWS NUMBER] 
      *
      * @since 1.1.6
      *
@@ -404,19 +423,19 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod11($db) {
+    public function testSelectMethod_Where_Rows($db) {
 
         $query = $db->select('name')
-                            ->from('test_table')
-                            ->where('name = "Isis"');
+                    ->from('test_table')
+                    ->where('name = "Isis"');
 
         $result = $query->execute('rows');
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(11, $result);
     }
 
     /**
-     * [METHOD] [SELECT] [MARKS STATEMENTS] [WHERE ADVANCED] [RETURN ROWS NUMBER] 
+     * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [RETURN ROWS NUMBER] 
      *
      * @since 1.1.6
      *
@@ -424,22 +443,22 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod12($db) {
+    public function testSelectMethod_MarksStatements_Where_Advanced($db) {
 
-        $statements[] = [1, 1];
+        $statements[] = [1, 100];
         $statements[] = [2, 'Isis'];
 
         $query = $db->select('name')
-                            ->from('test_table')
-                            ->where('id = ? OR name = ?', $statements);
+                    ->from('test_table')
+                    ->where('id = ? OR name = ?', $statements);
 
         $result = $query->execute('rows');
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(11, $result);
     }
 
     /**
-     * [METHOD] [SELECT] [MARKS STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [RETURN ROWS NUMBER]  
+     * [METHOD] [MARKS STATEMENTS] [DATATYPE] [WHERE ADVANCED] [RETURN ROWS]  
      *
      * @since 1.1.6
      *
@@ -447,59 +466,63 @@ final class SelectTest extends TestCase {
      * 
      * @return void
      */
-    public function dtestSelectMethod13($db) {
+    public function testSelectMethod_Marks_DataType_Where_Advanced($db) {
 
-        $statements[] = [1,       1, 'int'];
-        $statements[] = [2,    null, 'null'];
-        $statements[] = [3, 'Isis', 'str'];
-        $statements[] = [4,    true, 'bool'];
+        $statements[] = [1,  100,    'int'];
+        $statements[] = [2,  null,   'null'];
+        $statements[] = [3,  'Isis', 'str'];
+        $statements[] = [4,  true,   'bool'];
 
         $clauses = 'id = ? OR email = ? AND name = ? OR id = ?';
 
         $query = $db->select('name')
-                            ->from('test_table')
-                            ->where($clauses, $statements);
+                    ->from('test_table')
+                    ->where($clauses, $statements);
 
         $result = $query->execute('rows');
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [SELECT ALL] [EXCEPTION] 
+     * [METHOD] [ALL] [EXCEPTION] 
      *
      * @since 1.1.6
      *
      * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
      * 
      * @return void
      */
-    public function dtestSelectMethodTableNameError($db) {
+    public function testSelectMethodTableNameError($db) {
 
         $query = $db->select()
-                            ->from('xxxx');
+                    ->from('xxxx');
 
         $result = $query->execute();
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
     }
 
     /**
-     * [METHOD] [SELECT] [EXCEPTION] 
+     * [METHOD] [EXCEPTION] 
      *
      * @since 1.1.6
      *
      * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
      * 
      * @return void
      */
-    public function dtestSelectMethodColumnNameError($db) {
+    public function testSelectMethodColumnNameError($db) {
 
         $query = $db->select('xxxx')
-                            ->from('test_table');
+                    ->from('test_table');
 
         $result = $query->execute();
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
     }
 }

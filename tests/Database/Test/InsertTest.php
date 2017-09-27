@@ -153,8 +153,6 @@ final class InsertTest extends TestCase {
              VALUES (:id, :name, :email)',
              $statements
         );
-
-        $this->assertEquals(1, $result);
     }
 
     /**
