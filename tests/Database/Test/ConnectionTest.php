@@ -197,7 +197,7 @@ final class ConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage Unknown database
+     * @expectedExceptionMessageRegExp (Unknown|database|Access|denied|user)
      *
      * @return void
      */
