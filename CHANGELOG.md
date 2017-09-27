@@ -38,12 +38,13 @@
 * Added `Josantonius\Database\Test\CreateTest->testCreateTableAdvancedMethod()` method.
 * Added `Josantonius\Database\Test\CreateTest->testCreateTableAdvancedMethodError()` method.
 
-* Added `Josantonius\Database\Test\InsertTest` class
+* Added `Josantonius\Database\Test\InsertTest` class.
 * Added `Josantonius\Database\Test\InsertTest->testGetConnection()` method.
 * Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Rows()` method.
 * Added `Josantonius\Database\Test\InsertTest->testInsertQuery_ID()` method.
 * Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Statements_Rows()` method.
 * Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Statements_DataType_Rows()` method.
+* Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Duplicate_Statements_DataType_Rows()` method.
 * Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Statements_ID()` method.
 * Added `Josantonius\Database\Test\InsertTest->testInsertQuery_Statements_DataType_ID()` method.
 * Added `Josantonius\Database\Test\InsertTest->testInsertQueryTableNameError()` method.

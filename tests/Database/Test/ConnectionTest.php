@@ -122,7 +122,7 @@ final class ConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage [200
+     * @expectedExceptionMessage Name or service not known
      *
      * @return void
      */
@@ -147,7 +147,7 @@ final class ConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage [104
+     * @expectedExceptionMessage Access denied for user
      *
      * @return void
      */
@@ -172,7 +172,7 @@ final class ConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage [104
+     * @expectedExceptionMessage Access denied for user
      *
      * @return void
      */
@@ -197,7 +197,7 @@ final class ConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage [104
+     * @expectedExceptionMessage Access denied for user
      *
      * @return void
      */

@@ -129,6 +129,35 @@ final class InsertTest extends TestCase {
     }
 
     /**
+     * [QUERY] [STATEMENTS] [DATA-TYPE] [RETURN ROWS AFFECTED] [EXCEPTION]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessage Duplicate entry
+     * 
+     * @return void
+     */
+    public function testInsertQuery_Duplicate_Statements_DataType_Rows($db) {
+
+        $statements[] = [":id",    100,              "int"];
+        $statements[] = [":name",  "Isis",           "str"];
+        $statements[] = [":email", "isis@email.com", "str"];
+
+        $result = $db->query(
+
+            'INSERT INTO test_table (id, name, email)
+             VALUES (:id, :name, :email)',
+             $statements
+        );
+
+        $this->assertEquals(1, $result);
+    }
+
+    /**
      * [QUERY] [MARKS STATEMENTS] [RETURN LAST INSERT ID]
      *
      * @since 1.1.6
