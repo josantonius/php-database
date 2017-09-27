@@ -30,9 +30,7 @@ final class DatabaseCreateTest extends TestCase {
 
         $this->db = Database::getConnection('identifier');
 
-        $this->assertContains('identifier', $this->db::$id);
-    }
-
-
-   
+        $database = $this->db;
+        $this->assertContains('identifier', $database::$id);
+    }   
 }
