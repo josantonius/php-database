@@ -164,7 +164,7 @@ class Database {
             return self::$_conn[$id];
         }
 
-        if (!class_exists($App = 'Eliasis\\App\\App')) {
+        if (class_exists($App = 'Eliasis\\App\\App')) {
 
             $provider = $provider ?: $App::db($id, 'provider');
             $host     = $host     ?: $App::db($id, 'host'); 
