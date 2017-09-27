@@ -143,7 +143,7 @@ final class DatabaseConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage [1045]
+     * @expectedExceptionMessage [104
      *
      * @return void
      */
@@ -168,7 +168,7 @@ final class DatabaseConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage [1045]
+     * @expectedExceptionMessage [104
      *
      * @return void
      */
@@ -193,7 +193,7 @@ final class DatabaseConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage [1044]
+     * @expectedExceptionMessage [104
      *
      * @return void
      */
