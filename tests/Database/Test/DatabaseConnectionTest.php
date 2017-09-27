@@ -120,7 +120,7 @@ final class DatabaseConnectionTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessage [2002]
+     * @expectedExceptionMessage [200
      *
      * @return void
      */
