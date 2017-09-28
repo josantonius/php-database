@@ -91,12 +91,14 @@ final class SelectTest extends TestCase {
      */
     public function testSelectQuery_Multiple_Where_Order_Assoc($db) {
 
+        $id = $GLOBALS['ID'];
+
         $result = $db->query(
 
-            'SELECT id, name, email, reg_date
+            "SELECT id, name, email, reg_date
              FROM test_table
-             WHERE id = 100
-             ORDER BY id DESC',
+             WHERE id = $id
+             ORDER BY id DESC",
              false,
              'array_assoc'
         );
@@ -123,7 +125,7 @@ final class SelectTest extends TestCase {
              'rows'
         );
 
-        $this->assertEquals(11, $result);
+        $this->assertInternalType('int', $result);
     }
 
     /**
@@ -137,7 +139,9 @@ final class SelectTest extends TestCase {
      */
     public function testSelectQuery_Multiple_Statements_Where_Object($db) {
 
-        $statements[] = [":id",  100];
+        $id = $GLOBALS['ID'];
+
+        $statements[] = [":id", $id];
 
         $result = $db->query(
 
@@ -282,9 +286,11 @@ final class SelectTest extends TestCase {
      */
     public function testSelectMethod_Multiple_Where_Assoc($db) {
 
+        $id = $GLOBALS['ID'];
+
         $query = $db->select(['id', 'name'])
                     ->from('test_table')
-                    ->where('id = 100');
+                    ->where("id = $id");
 
         $result = $query->execute('array_assoc');
         
@@ -302,9 +308,11 @@ final class SelectTest extends TestCase {
      */
     public function testSelectMethod_Multiple_Where_Order_Limit_Object($db) {
 
+        $id = $GLOBALS['ID'];
+
         $query = $db->select(['id', 'name'])
                     ->from('test_table')
-                    ->where(['id = 100', 'name = "Isis"'])
+                    ->where(["id = $id", 'name = "Isis"'])
                     ->order('id DESC')
                     ->limit(1);
 
@@ -324,9 +332,11 @@ final class SelectTest extends TestCase {
      */
     public function testSelectMethod_Order_Where_Multiple_Limit_Object($db) {
 
+        $id = $GLOBALS['ID'];
+
         $query = $db->select(['id', 'name'])
                     ->from('test_table')
-                    ->where(['id = 100', 'name = "isis"'])
+                    ->where(["id = $id", 'name = "isis"'])
                     ->order(['id DESC', 'name ASC'])
                     ->limit(1);
 
@@ -346,7 +356,9 @@ final class SelectTest extends TestCase {
      */
     public function testSelectMethod_Statements_Where_Multiple_Object($db) {
 
-        $statements[] = [':id',    100];
+        $id = $GLOBALS['ID'];
+
+        $statements[] = [':id',    $id];
         $statements[] = [':name', 'Isis'];
 
         $query = $db->select('name')
@@ -369,7 +381,9 @@ final class SelectTest extends TestCase {
      */
     public function testSelectMethod_Statements_Where_Advanced_Assoc($db) {
 
-        $statements[] = [':id',    100];
+        $id = $GLOBALS['ID'];
+
+        $statements[] = [':id',    $id];
         $statements[] = [':name', 'Isis'];
 
         $query = $db->select('name')
@@ -392,7 +406,9 @@ final class SelectTest extends TestCase {
      */
     public function testSelectMethodWhenThereAreNoResults($db) {
 
-        $statements[] = [':id',          100, 'int'];
+        $id = $GLOBALS['ID'];
+
+        $statements[] = [':id',          $id, 'int'];
         $statements[] = [':name',     'Isis', 'str'];
         $statements[] = [':email',      null, 'null'];
         $statements[] = [':reg_date',   true, 'bool'];
@@ -431,7 +447,7 @@ final class SelectTest extends TestCase {
 
         $result = $query->execute('rows');
         
-        $this->assertEquals(11, $result);
+        $this->assertInternalType('int', $result);
     }
 
     /**
@@ -445,7 +461,9 @@ final class SelectTest extends TestCase {
      */
     public function testSelectMethod_MarksStatements_Where_Advanced($db) {
 
-        $statements[] = [1, 100];
+        $id = $GLOBALS['ID'];
+
+        $statements[] = [1, $id];
         $statements[] = [2, 'Isis'];
 
         $query = $db->select('name')
@@ -454,7 +472,7 @@ final class SelectTest extends TestCase {
 
         $result = $query->execute('rows');
         
-        $this->assertEquals(11, $result);
+        $this->assertInternalType('int', $result);
     }
 
     /**
@@ -468,7 +486,9 @@ final class SelectTest extends TestCase {
      */
     public function testSelectMethod_Marks_DataType_Where_Advanced($db) {
 
-        $statements[] = [1,  100,    'int'];
+        $id = $GLOBALS['ID'];
+
+        $statements[] = [1,  $id,    'int'];
         $statements[] = [2,  null,   'null'];
         $statements[] = [3,  'Isis', 'str'];
         $statements[] = [4,  true,   'bool'];
@@ -481,7 +501,7 @@ final class SelectTest extends TestCase {
 
         $result = $query->execute('rows');
         
-        $this->assertEquals(1, $result);
+        $this->assertInternalType('int', $result);
     }
 
     /**

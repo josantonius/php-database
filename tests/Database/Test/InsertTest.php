@@ -74,7 +74,9 @@ final class InsertTest extends TestCase {
              VALUES ("Isis", "isis@email.com")', 
              false,
              'id'
-         );
+        );
+
+        $GLOBALS['ID'] = $result;
 
         $this->assertInternalType('int', $result);
     }
@@ -114,7 +116,11 @@ final class InsertTest extends TestCase {
      */
     public function testInsertQuery_Statements_DataType_Rows($db) {
 
-        $statements[] = [":id",    100,              "int"];
+        $id = rand(1, 999999);
+
+        $GLOBALS['ID'] = $id;
+
+        $statements[] = [":id",    $id,              "int"];
         $statements[] = [":name",  "Isis",           "str"];
         $statements[] = [":email", "isis@email.com", "str"];
 
@@ -143,7 +149,9 @@ final class InsertTest extends TestCase {
      */
     public function testInsertQuery_Duplicate_Statements_DataType_Rows($db) {
 
-        $statements[] = [":id",    100,              "int"];
+        $id = $GLOBALS['ID'];
+
+        $statements[] = [":id",    $id,              "int"];
         $statements[] = [":name",  "Isis",           "str"];
         $statements[] = [":email", "isis@email.com", "str"];
 
@@ -177,6 +185,8 @@ final class InsertTest extends TestCase {
              'id'
         );
 
+        $GLOBALS['ID'] = $result;
+
         $this->assertInternalType('int', $result);
     }
 
@@ -191,7 +201,11 @@ final class InsertTest extends TestCase {
      */
     public function testInsertQuery_Statements_DataType_ID($db) {
 
-        $statements[] = [1, 200,              "int"];
+        $id = rand(1, 999999);
+
+        $GLOBALS['ID'] = $id;
+
+        $statements[] = [1, $id,              "int"];
         $statements[] = [2, "Isis",           "str"];
         $statements[] = [3, "isis@email.com", "str"];
 
@@ -203,7 +217,7 @@ final class InsertTest extends TestCase {
              'id'
         );
 
-        $this->assertEquals(200, $result);
+        $this->assertEquals($id, $result);
     }
 
     /**

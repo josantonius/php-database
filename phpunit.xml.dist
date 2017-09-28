@@ -19,7 +19,8 @@
         <server name='DOCUMENT_ROOT'   value='/var/www/josantonius/public' />
         <server name='SERVER_PORT'     value='80' />
         <server name='HTTP_REFERER'    value='https://www.google.es/' />
-
+        
+        <var name="ID" value="" />
         <var name="DB_HOST" value="127.0.0.1" />
         <var name="DB_USER" value="travis" />
         <var name="DB_PASSWORD" value="" />
@@ -32,6 +33,7 @@
             <file>tests/Database/Test/CreateTest.php</file>
             <file>tests/Database/Test/InsertTest.php</file>
             <file>tests/Database/Test/SelectTest.php</file>
+            <file>tests/Database/Test/ReplaceTest.php</file>
         </testsuite>
     </testsuites>
 

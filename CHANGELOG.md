@@ -57,6 +57,31 @@
 * Added `Josantonius\Database\Test\InsertTest->testInsertMethodTableNameError()` method.
 * Added `Josantonius\Database\Test\InsertTest->testInsertMethodColumnNameError()` method.
 
+* Added `Josantonius\Database\Test\SelectTest` class.
+* Added `Josantonius\Database\Test\SelectTest->testGetConnection()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectQuery_Multiple_Object()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectQuery_SelectAll_Limit_Numeric()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectQuery_Multiple_Where_Order_Assoc()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectQuery_Multiple_Rows()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectQuery_Multiple_Statements_Where_Object()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectQueryTableNamError()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectQueryColumnNamError()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_SelectAll_Object()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_SelectAll_Numeric()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_SelectAll_Assoc()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_Limit_Object()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_Multiple_Where_Assoc()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_Multiple_Where_Order_Limit_Object()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_Order_Where_Multiple_Limit_Object()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_Statements_Where_Multiple_Object()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_Statements_Where_Advanced_Assoc()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethodWhenThereAreNoResults()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_Where_Rows()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_MarksStatements_Where_Advanced()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethod_Marks_DataType_Where_Advanced()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethodTableNameError()` method.
+* Added `Josantonius\Database\Test\SelectTest->testSelectMethodColumnNameError()` method.
+
 ## 1.1.5 - 2017-07-03
 
 * Bug fix in replace method.
