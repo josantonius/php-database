@@ -6,403 +6,423 @@
  * @copyright  Copyright (c) 2017
  * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link       https://github.com/Josantonius/PHP-Database
- * @since      1.0.0
+ * @since      1.1.6
  */
 
-namespace Josantonius\Database\Tests;
+namespace Josantonius\Database\Test;
 
-use Josantonius\Database\Database;
+use Josantonius\Database\Database,
+    PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "DELETE" query.
  *
- * @since 1.0.0
+ * @since 1.1.6
  */
-class DatabaseDeleteTest {
+final class DeleteTest extends TestCase {
 
     /**
-     * Object with connection.
+     * Get connection test.
      *
-     * @since 1.0.0
+     * @since 1.1.6
      *
-     * @var object
+     * @return object → database connection
      */
-    public static $db;
+    public function testGetConnection() {
+
+        $db = Database::getConnection('identifier');
+
+        $this->assertContains('identifier', $db::$id);
+
+        return $db;
+    }
 
     /**
-     * Connection to the PDO database provider.
+     * [QUERY] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
      * 
-     * @return object
-     *
-     * @since 1.0.0
+     * @return void
      */
-    public static function testGetConnectionPDOProvider() {
+    public function testQuery_ReturnRows($db) {
 
-        if (is_null(static::$db)) {
+        $result = $db->query(
 
-            static::$db = Database::getConnection(
-                                        'identifier-PDO',
-                                        'PDOprovider',
-                                        'localhost',
-                                        'db-user',
-                                        'db-name',
-                                        'password',
-                                        array('charset' => 'utf8'));
-        }
+            'DELETE 
+             FROM  test_table
+             WHERE id = 1'
+        );
 
-        return static::$db;
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * Connection to the MSSQL database provider.
+     * [QUERY] [STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
      * 
-     * @return object
-     *
-     * @since 1.0.0
+     * @return void
      */
-    public static function testGetConnectionMSSQLProvider() {
+    public function testQuery_Statements_Where_ReturnRows($db) {
 
-        if (is_null(static::$db)) {
+        $statements[] = [":id", 2];
 
-            static::$db = Database::getConnection(
-                                        'identifier-MSSQL',
-                                        'MSSQLprovider',
-                                        'localhost',
-                                        'db-user',
-                                        'db-name',
-                                        'password',
-                                        array('port' => '4437'));
-        }
+        $result = $db->query(
 
-        return static::$db;
+            'DELETE 
+             FROM  test_table
+             WHERE id = :id',
+             $statements
+        );
+
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [QUERY] [DELETE] [ALL ROWS] [ROWS AFFECTED NUMBER]
+     * [QUERY] [STATEMENTS] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
-     */
-    public static function testDeleteQuery1() {
-
-        static::testGetConnectionPDOProvider();
-
-        $result = static::$db->query('DELETE FROM test');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [QUERY] [DELETE] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     * @since 1.1.6
      *
-     * @since 1.0.0
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteQuery2() {
+    public function testQuery_Statements_WhereMultiple_ReturnRows($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $result = static::$db->query('DELETE 
-                                      FROM  test
-                                      WHERE id = 1');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [QUERY] [DELETE] [STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.0.0
-     */
-    public static function testDeleteQuery3() {
-
-        static::testGetConnectionPDOProvider();
-
-        $statements[] = [":id", 1];
-
-        $result = static::$db->query('DELETE 
-                                      FROM  test
-                                      WHERE id = :id',
-                                      $statements);
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [QUERY] [DELETE] [STATEMENTS] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.0.0
-     */
-    public static function testDeleteQuery4() {
-
-        static::testGetConnectionPDOProvider();
-
-        $statements[] = [":id",   1];
+        $statements[] = [":id",   3];
         $statements[] = [":name", 'isis'];
 
-        $result = static::$db->query('DELETE 
-                                      FROM  test
-                                      WHERE id = :id AND name = :name',
-                                      $statements);
+        $result = $db->query(
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            'DELETE 
+            FROM  test_table
+            WHERE id = :id AND name = :name',
+            $statements
+        );
+
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [QUERY] [DELETE] [MARKS STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     * [QUERY] [MARKS STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteQuery5() {
+    public function testQuery_MarksStatements_Where_ReturnRows($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $statements[] = [1, 1];
+        $statements[] = [1, 3008];
         $statements[] = [2, 'isis'];
 
-        $result = static::$db->query('DELETE 
-                                      FROM  test
-                                      WHERE id = ? AND name = ?',
-                                      $statements);
+        $result = $db->query(
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            'DELETE 
+             FROM  test_table
+             WHERE id = ? AND name = ?',
+             $statements
+        );
+
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [QUERY] [DELETE] [MARKS STATEMENTS] [WHERE SIMPLE] [DATA TYPE] [ROWS AFFECTED]
+     * [QUERY] [MARKS STATEMENTS] [WHERE SIMPLE] [DATA TYPE] [ROWS]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteQuery6() {
+    public function testQuery_MarksStatements_Where_DataType_ReturnRows($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $statements[] = [1, 1,      'int'];
+        $statements[] = [1, 3009,   'int'];
         $statements[] = [2, 'isis', 'str'];
 
-        $result = static::$db->query('DELETE 
-                                      FROM  test
-                                      WHERE id = ? AND name = ?',
-                                      $statements);
+        $result = $db->query(
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            'DELETE 
+             FROM  test_table
+             WHERE id = ? AND name = ?',
+             $statements
+        );
+
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [QUERY] [DELETE] [EXCEPTION]
+     * [QUERY] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
+     * 
+     * @return void
      */
-    public static function testDeleteQueryTableNameError() {
+    public function testQueryTableNameErrorException($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $result = static::$db->query('DELETE FROM xxxx');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $result = $db->query('DELETE FROM xxxx');
     }
 
     /**
-     * [QUERY] [DELETE] [EXCEPTION]
+     * [QUERY] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
+     * 
+     * @return void
      */
-    public static function testDeleteQueryColumnNameError() {
+    public function testQueryColumnNameErrorException($db) {
 
-        static::testGetConnectionPDOProvider();
+        $result = $db->query(
 
-        $result = static::$db->query('DELETE 
-                                      FROM  test
-                                      WHERE xxx = 1');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            'DELETE 
+             FROM  test_table
+             WHERE xxx = 1'
+        );
     }
 
     /**
-     * [METHOD] [DELETE] [ALL ROWS] [ROWS AFFECTED NUMBER]
+     * [METHOD] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteMethod1() {
+    public function testMethod_Where_ReturnRows($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $query = static::$db->delete()
-                            ->from('test');
+        $query = $db->delete()
+                    ->from('test_table')
+                    ->where('id = 4883');
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [DELETE] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     * [METHOD] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
-     */
-    public static function testDeleteMethod2() {
-
-        static::testGetConnectionPDOProvider();
-
-        $query = static::$db->delete()
-                            ->from('test')
-                            ->where('id = 1');
-
-        $result = $query->execute();
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [METHOD] [DELETE] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
+     * @since 1.1.6
      *
-     * @since 1.0.0
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteMethod3() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethod_Where_ReturnsRows($db) {
 
         $clauses = [
-            'id = 1',
+            'id = 4884',
             'name  = "isis"',
-            'email = "isis@email.com"'];
+            'email = "isis@email.com"'
+        ];
 
-
-        $query = static::$db->delete()
-                            ->from('test')
-                            ->where($clauses);
+        $query = $db->delete()
+                    ->from('test_table')
+                    ->where($clauses);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [DELETE] [STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
+     * [METHOD] [STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteMethod4() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethod_Statements_WhereAdvanced_ReturnRows($db) {
 
         $clauses = 'id = :id AND name = :name1 OR name = :name2';
 
-        $statements[] = [':id',    1];
+        $statements[] = [':id',    4885];
         $statements[] = [':name1', 'Isis'];
         $statements[] = [':name2', 'Manny'];
 
-        $query = static::$db->delete()
-                            ->from('test')
-                            ->where($clauses, $statements);
+        $query = $db->delete()
+                    ->from('test_table')
+                    ->where($clauses, $statements);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [DELETE] [STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
+     * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteMethod5() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethod_Statements_DataType_WhereAdvanced_Rows($db) {
 
         $clauses = 'id = :id AND name = :name1 OR name = :name2';
 
-        $statements[] = [':id',    1,       'int'];
+        $statements[] = [':id',    4886,    'int'];
         $statements[] = [':name1', 'Isis',  'src'];
         $statements[] = [':name2', 'Manny', 'src'];
 
-        $query = static::$db->delete()
-                            ->from('test')
-                            ->where($clauses, $statements);
+        $query = $db->delete()
+                    ->from('test_table')
+                    ->where($clauses, $statements);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [DELETE] [MARKS STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
+     * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteMethod6() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethod_MarksStatements_WhereAdvanced_ReturnRows($db) {
 
         $clauses = 'id = ? AND name = ? OR name = ?';
 
-        $statements[] = [1, 1];
+        $statements[] = [1, 4887];
         $statements[] = [2, 'Isis'];
         $statements[] = [3, 'Manny'];
 
-        $query = static::$db->delete()
-                            ->from('test')
-                            ->where($clauses, $statements);
+        $query = $db->delete()
+                    ->from('test_table')
+                    ->where($clauses, $statements);
 
-        $result = $query->execute('id');
+        $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [DELETE] [MARKS STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS AFFECTED]
+     * [METHOD] [MARKS STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDeleteMethod7() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethod_MarksStatements_DataType_WhereAdvanced($db) {
 
         $clauses = 'id = ? AND name = ? OR name = ?';
 
-        $statements[] = [1, 1,       'int'];
+        $statements[] = [1, 4888,    'int'];
         $statements[] = [2, 'Isis',  'str'];
         $statements[] = [3, 'Manny', 'str'];
 
-        $query = static::$db->delete()
-                            ->from('test')
-                            ->where($clauses, $statements);
+        $query = $db->delete()
+                    ->from('test_table')
+                    ->where($clauses, $statements);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [DELETE] [EXCEPTION]
+     * [METHOD] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
+     * 
+     * @return void
      */
-    public static function testDeleteMethodTableNameError() {
+    public function testMethodTableNameErrorException($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $query = static::$db->delete()
-                            ->from('xxxx');
+        $query = $db->delete()
+                    ->from('xxxx');
 
         $result = $query->execute();
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
     }
 
     /**
-     * [METHOD] [DELETE] [EXCEPTION]
+     * [METHOD] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
+     * 
+     * @return void
      */
-    public static function testDeleteMethodColumnNameError() {
+    public function testMethodColumnNameErrorException($db) {
 
-        static::testGetConnectionPDOProvider();
+        $query = $db->delete()
+                    ->from('test_table')
+                    ->where('xxx = 1');
 
-        $query = static::$db->delete()
-                            ->from('test')
-                            ->where('xxx = 1');
+        $result = $query->execute();
+    }
+
+    /**
+     * [METHOD] [ALL ROWS] [ROWS AFFECTED NUMBER]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
+     */
+    public function testDeleteAllMethod_ReturnRows($db) {
+
+        $query = $db->delete()
+                    ->from('test_table');
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(2, $result);
+    }
+
+    /**
+     * [QUERY] [ALL ROWS] [ROWS AFFECTED NUMBER]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
+     */
+    public function testDeleteAllQuery_ReturnRows($db) {
+
+        $result = $db->query('DELETE FROM test_table');
+
+        $this->assertEquals(0, $result);
     }
 }

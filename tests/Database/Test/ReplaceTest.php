@@ -19,7 +19,7 @@ use Josantonius\Database\Database,
  *
  * @since 1.1.6
  */
-final class DatabaseReplaceTest extends TestCase {
+final class ReplaceTest extends TestCase {
 
     /**
      * Get connection test.

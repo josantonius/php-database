@@ -6,136 +6,128 @@
  * @copyright  Copyright (c) 2017
  * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link       https://github.com/Josantonius/PHP-Database
- * @since      1.0.0
+ * @since      1.1.6
  */
 
-namespace Josantonius\Database\Tests;
+namespace Josantonius\Database\Test;
 
-use Josantonius\Database\Database;
+use Josantonius\Database\Database,
+    PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "TRUNCATE" query.
  *
- * @since 1.0.0
+ * @since 1.1.6
  */
-class DatabaseTruncateTest {
+class TruncateTest extends TestCase {
 
     /**
-     * Object with connection.
+     * Get connection test.
      *
-     * @since 1.0.0
+     * @since 1.1.6
      *
-     * @var object
+     * @return object → database connection
      */
-    public static $db;
+    public function testGetConnection() {
 
-    /**
-     * Connection to the PDO database provider.
-     * 
-     * @return object
-     *
-     * @since 1.0.0
-     */
-    public static function testGetConnectionPDOProvider() {
+        $db = Database::getConnection('identifier');
 
-        if (is_null(static::$db)) {
+        $this->assertContains('identifier', $db::$id);
 
-            static::$db = Database::getConnection(
-                                        'identifier-PDO',
-                                        'PDOprovider',
-                                        'localhost',
-                                        'db-user',
-                                        'db-name',
-                                        'password',
-                                        array('charset' => 'utf8'));
-        }
-
-        return static::$db;
-    }
-
-    /**
-     * Connection to the MSSQL database provider.
-     * 
-     * @return object
-     *
-     * @since 1.0.0
-     */
-    public static function testGetConnectionMSSQLProvider() {
-
-        if (is_null(static::$db)) {
-
-            static::$db = Database::getConnection(
-                                        'identifier-MSSQL',
-                                        'MSSQLprovider',
-                                        'localhost',
-                                        'db-user',
-                                        'db-name',
-                                        'password',
-                                        array('port' => '4437'));
-        }
-
-        return static::$db;
+        return $db;
     }
 
     /**
      * [QUERY] [TRUNCATE TABLE] 
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testTruncateTableQuery() {
+    public function testTruncateTableQuery($db) {
 
-        static::testGetConnectionPDOProvider();
+        $result = $db->query(
 
-        $result = static::$db->query('TRUNCATE TABLE `test`');
+            'INSERT INTO test_table_three (name, email)
+             VALUES ("Isis", "isis@email.com")'
+        );
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
+        
+        $result = $db->query('TRUNCATE TABLE `test_table_three`');
+
+        $this->assertTrue($result);
     }
 
     /**
      * [QUERY] [TRUNCATE TABLE] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (table|not|found)
+     * 
+     * @return void
      */
-    public static function testTruncateTableQueryTableNameError() {
+    public function testTruncateTableQueryTableNameError($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $result = static::$db->query('TRUNCATE TABLE `xxxx`');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $result = $db->query('TRUNCATE TABLE `xxxx`');
     }
 
     /**
      * [METHOD] [TRUNCATE TABLE]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testTruncateTableMethod() {
+    public function testTruncateTableMethod($db) {
 
-        static::testGetConnectionPDOProvider();
+        $data = [
+            "name"  => "Isis", 
+            "email" => "isis@email.com"
+        ];
 
-        $query = static::$db->truncate()
-                            ->table('test');
+        $query = $db->insert($data)
+                    ->in('test_table_three');
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
+
+        $query = $db->truncate()
+                    ->table('test_table_three');
+
+        $result = $query->execute();
+
+        $this->assertTrue($result);
     }
 
     /**
      * [METHOD] [TRUNCATE TABLE] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (table|not|found)
+     * 
+     * @return void
      */
-    public static function testTruncateTableMethodTableNameError() {
+    public function testTruncateTableMethodTableNameError($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $query = static::$db->truncate()
-                            ->table('xxxx');
+        $query = $db->truncate()
+                    ->table('xxxx');
 
         $result = $query->execute();
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
     }
 }

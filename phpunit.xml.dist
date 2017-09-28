@@ -35,6 +35,9 @@
             <file>tests/Database/Test/SelectTest.php</file>
             <file>tests/Database/Test/ReplaceTest.php</file>
             <file>tests/Database/Test/UpdateTest.php</file>
+            <file>tests/Database/Test/DeleteTest.php</file>
+            <file>tests/Database/Test/TruncateTest.php</file>
+            <file>tests/Database/Test/DropTest.php</file>
         </testsuite>
     </testsuites>
 

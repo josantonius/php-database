@@ -19,7 +19,7 @@ use Josantonius\Database\Database,
  *
  * @since 1.1.6
  */
-final class DatabaseUpdateTest extends TestCase {
+final class UpdateTest extends TestCase {
 
     /**
      * Get connection test.
@@ -374,7 +374,7 @@ final class DatabaseUpdateTest extends TestCase {
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertEquals(13, $result);
     }
 
     /**
@@ -388,8 +388,6 @@ final class DatabaseUpdateTest extends TestCase {
      */
     public function testMethod_MarksStatements_WhereAdvance_ReturnRows($db) {
 
-        $id = $GLOBALS['ID'];
-
         $data = [
             'name'  => '?', 
             'email' => '?'
@@ -400,7 +398,7 @@ final class DatabaseUpdateTest extends TestCase {
 
         $clauses = 'id = ? AND name = ? OR name = ?';
 
-        $statements['clauses'][] = [3, $id];
+        $statements['clauses'][] = [3, 4883];
         $statements['clauses'][] = [4, 'Isis'];
         $statements['clauses'][] = [5, 'Manny'];
 
@@ -411,11 +409,11 @@ final class DatabaseUpdateTest extends TestCase {
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertEquals(13, $result);
     }
 
     /**
-     * [METHOD] [MARKS STATEMENTS] [DATATYPE] [WHERE ADVANCED] [ROWS AFFECTED]
+     * [METHOD] [MARKS STATEMENTS] [DATATYPE] [WHERE ADVANCED] [RETURN ZERO]
      *
      * @since 1.1.6
      *
@@ -423,9 +421,7 @@ final class DatabaseUpdateTest extends TestCase {
      * 
      * @return void
      */
-    public function testMethod_MarksStatements_DataType_ReturnRows($db) {
-
-        $id = $GLOBALS['ID'];
+    public function testMethod_MarksStatements_DataType_ReturnZero($db) {
 
         $data = [
             'name'  => '?', 
@@ -437,7 +433,7 @@ final class DatabaseUpdateTest extends TestCase {
 
         $clauses = 'id = ? AND name = ? OR name = ?';
 
-        $statements['clauses'][] = [3, $id,     'int'];
+        $statements['clauses'][] = [3, 8888,    'int'];
         $statements['clauses'][] = [4, 'Isis',  'str'];
         $statements['clauses'][] = [5, 'Manny', 'str'];
 
@@ -448,7 +444,7 @@ final class DatabaseUpdateTest extends TestCase {
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertEquals(0, $result);
     }
 
     /**

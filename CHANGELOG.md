@@ -23,6 +23,7 @@
 * Added `Josantonius\Database\Test\ConnectionTest` class
 * Added `Josantonius\Database\Test\ConnectionTest->testGetConnection()` method.
 * Added `Josantonius\Database\Test\ConnectionTest->testGetConnectionFromEliasis()` method.
+* Added `Josantonius\Database\Test\ConnectionTest->testCreateTableMethodExtra()` method.
 * Added `Josantonius\Database\Test\ConnectionTest->testExceptionWhenProviderNotExists()` method.
 * Added `Josantonius\Database\Test\ConnectionTest->testExceptionNameOrServiceNotKnown()` method.
 * Added `Josantonius\Database\Test\ConnectionTest->testExceptionAccessDeniedForUser()` method.
@@ -92,6 +93,58 @@
 * Added `Josantonius\Database\Test\ReplaceTest->testMethodTableNameErrorException()` method.
 * Added `Josantonius\Database\Test\ReplaceTest->testMethodColumnNameErrorException()` method.
 
+* Added `Josantonius\Database\Test\UpdateTest` class.
+* Added `Josantonius\Database\Test\UpdateTest->testGetConnection()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testQuery_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testQuery_Where_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testQuery_Statements_Where_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testQuery_Statements_DataType_WhereMultiple()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testQuery_MarksStatements_Where_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testQuery_MarksStatements_DataType_Where_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testQueryTableNameErrorException()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testQueryColumnNameErrorException()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethod_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethod_Where_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethod_WhereMultiple_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethod_Statements_WhereAdvanced_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethod_Statements_DataType_Advanced_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethod_MarksStatements_WhereAdvance_ReturnRows()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethod_MarksStatements_DataType_ReturnZero()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethodTableNameErrorException()` method.
+* Added `Josantonius\Database\Test\UpdateTest->testMethodColumnNameErrorException()` method.
+
+* Added `Josantonius\Database\Test\DeleteTest` class.
+* Added `Josantonius\Database\Test\DeleteTest->testGetConnection()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testQuery_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testQuery_Statements_Where_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testQuery_Statements_WhereMultiple_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testQuery_MarksStatements_Where_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testQuery_MarksStatements_Where_DataType_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testQueryTableNameErrorException()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testQueryColumnNameErrorException()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testMethod_Where_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testMethod_Where_ReturnsRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testMethod_Statements_WhereAdvanced_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testMethod_Statements_DataType_WhereAdvanced_Rows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testMethod_MarksStatements_WhereAdvanced_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testMethod_MarksStatements_DataType_WhereAdvanced()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testMethodTableNameErrorException()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testMethodColumnNameErrorException()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testDeleteAllMethod_ReturnRows()` method.
+* Added `Josantonius\Database\Test\DeleteTest->testDeleteAllQuery_ReturnRows()` method.
+
+* Added `Josantonius\Database\Test\TruncateTest` class.
+* Added `Josantonius\Database\Test\TruncateTest->testGetConnection()` method.
+* Added `Josantonius\Database\Test\TruncateTest->testTruncateTableQuery()` method.
+* Added `Josantonius\Database\Test\TruncateTest->testTruncateTableQueryTableNameError()` method.
+* Added `Josantonius\Database\Test\TruncateTest->testTruncateTableMethod()` method.
+* Added `Josantonius\Database\Test\TruncateTest->testTruncateTableMethodTableNameError()` method.
+
+* Added `Josantonius\Database\Test\DropTest` class.
+* Added `Josantonius\Database\Test\DropTest->testGetConnection()` method.
+* Added `Josantonius\Database\Test\DropTest->testDropTableQuery()` method.
+* Added `Josantonius\Database\Test\DropTest->testDropTableMethod()` method.
+* Added `Josantonius\Database\Test\DropTest->testDropTableMethodExtra()` method.
 
 ## 1.1.5 - 2017-07-03
 

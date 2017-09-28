@@ -6,105 +6,86 @@
  * @copyright  Copyright (c) 2017
  * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link       https://github.com/Josantonius/PHP-Database
- * @since      1.0.0
+ * @since      1.1.6
  */
 
-namespace Josantonius\Database\Tests;
+namespace Josantonius\Database\Test;
 
-use Josantonius\Database\Database;
+use Josantonius\Database\Database,
+    PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "DROP TABLE" query.
  *
- * @since 1.0.0
+ * @since 1.1.6
  */
-class DatabaseDropTest {
-
+class DropTest extends TestCase {
+    
     /**
-     * Object with connection.
+     * Get connection test.
      *
-     * @since 1.0.0
+     * @since 1.1.6
      *
-     * @var object
+     * @return object → database connection
      */
-    public static $db;
+    public function testGetConnection() {
 
-    /**
-     * Connection to the PDO database provider.
-     * 
-     * @return object
-     *
-     * @since 1.0.0
-     */
-    public static function testGetConnectionPDOProvider() {
+        $db = Database::getConnection('identifier');
 
-        if (is_null(static::$db)) {
+        $this->assertContains('identifier', $db::$id);
 
-            static::$db = Database::getConnection(
-                                        'identifier-PDO',
-                                        'PDOprovider',
-                                        'localhost',
-                                        'db-user',
-                                        'db-name',
-                                        'password',
-                                        array('charset' => 'utf8'));
-        }
-
-        return static::$db;
-    }
-
-    /**
-     * Connection to the MSSQL database provider.
-     * 
-     * @return object
-     *
-     * @since 1.0.0
-     */
-    public static function testGetConnectionMSSQLProvider() {
-
-        if (is_null(static::$db)) {
-
-            static::$db = Database::getConnection(
-                                        'identifier-MSSQL',
-                                        'MSSQLprovider',
-                                        'localhost',
-                                        'db-user',
-                                        'db-name',
-                                        'password',
-                                        array('port' => '4437'));
-        }
-
-        return static::$db;
+        return $db;
     }
 
     /**
      * [QUERY] [DROP TABLE] [RETURN TRUE]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDropTableQuery() {
+    public function testDropTableQuery($db) {
 
-        static::testGetConnectionPDOProvider();
+        $result = $db->query('DROP TABLE `test_table_two`');
 
-        $result = static::$db->query('DROP TABLE `test`');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertTrue($result);
     }
 
     /**
      * [METHOD] [PDO-METHOD] [RETURN TRUE]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testDropTableMethod() {
+    public function testDropTableMethod($db) {
 
-        static::testGetConnectionPDOProvider();
-
-        $query = static::$db->drop()
-                            ->table('test');
+        $query = $db->drop()->table('test_table');
 
         $result = $query->execute();
         
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertTrue($result);
+    }
+
+    /**
+     * [METHOD] [PDO-METHOD] [RETURN TRUE]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
+     */
+    public function testDropTableMethodExtra($db) {
+
+        $query = $db->drop()->table('test_table_three');
+
+        $result = $query->execute();
+        
+        $this->assertTrue($result);
     }
 }

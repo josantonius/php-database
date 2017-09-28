@@ -115,6 +115,31 @@ final class CreateTest extends TestCase {
     }
 
     /**
+     * [METHOD] [CREATE TABLE] [RETURN TRUE]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @return void
+     */
+    public function testCreateTableMethodExtra($db) {
+
+        $params = [
+
+            'id'       => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY', 
+            'name'     => 'VARCHAR(30) NOT NULL',
+            'email'    => 'VARCHAR(50)',
+            'reg_date' => 'TIMESTAMP'
+        ];
+
+        $this->assertTrue(
+
+            $db->create($params)->table('test_table_three')->execute()
+        );
+    }
+
+    /**
      * [METHOD] [CREATE TABLE] [EXCEPTION] [SINTAX ERROR]
      *
      * @since 1.1.6
