@@ -46,7 +46,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQuery_Rows($db) {
+    public function testInsert_ReturnRows($db) {
 
         $result = $db->query(
 
@@ -66,7 +66,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQuery_ID($db) {
+    public function testInsert_ReturnID($db) {
 
         $result = $db->query(
 
@@ -76,9 +76,7 @@ final class InsertTest extends TestCase {
              'id'
         );
 
-        $GLOBALS['ID'] = $result;
-
-        $this->assertInternalType('int', $result);
+        $this->assertEquals(2, $result);
     }
 
     /**
@@ -90,7 +88,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQuery_Statements_Rows($db) {
+    public function testInsert_Statements_ReturnRows($db) {
 
         $statements[] = [":name",  "Isis"];
         $statements[] = [":email", "isis@email.com"];
@@ -114,13 +112,9 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQuery_Statements_DataType_Rows($db) {
+    public function testInsert_Statements_DataType_ReturnRows($db) {
 
-        $id = rand(1, 999999);
-
-        $GLOBALS['ID'] = $id;
-
-        $statements[] = [":id",    $id,              "int"];
+        $statements[] = [":id",    3008,             "int"];
         $statements[] = [":name",  "Isis",           "str"];
         $statements[] = [":email", "isis@email.com", "str"];
 
@@ -147,11 +141,9 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQuery_Duplicate_Statements_DataType_Rows($db) {
+    public function testInsertDuplicateEntryException($db) {
 
-        $id = $GLOBALS['ID'];
-
-        $statements[] = [":id",    $id,              "int"];
+        $statements[] = [":id",    3008,             "int"];
         $statements[] = [":name",  "Isis",           "str"];
         $statements[] = [":email", "isis@email.com", "str"];
 
@@ -172,7 +164,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQuery_Statements_ID($db) {
+    public function testInsert_Statements_ReturnID($db) {
 
         $statements[] = [1, "Isis"];
         $statements[] = [2, "isis@email.com"];
@@ -185,9 +177,7 @@ final class InsertTest extends TestCase {
              'id'
         );
 
-        $GLOBALS['ID'] = $result;
-
-        $this->assertInternalType('int', $result);
+        $this->assertEquals(3009, $result);
     }
 
     /**
@@ -199,13 +189,9 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQuery_Statements_DataType_ID($db) {
+    public function testInsert_Statements_DataType_ReturnID($db) {
 
-        $id = rand(1, 999999);
-
-        $GLOBALS['ID'] = $id;
-
-        $statements[] = [1, $id,              "int"];
+        $statements[] = [1, 4883,             "int"];
         $statements[] = [2, "Isis",           "str"];
         $statements[] = [3, "isis@email.com", "str"];
 
@@ -217,7 +203,7 @@ final class InsertTest extends TestCase {
              'id'
         );
 
-        $this->assertEquals($id, $result);
+        $this->assertEquals(4883, $result);
     }
 
     /**
@@ -233,7 +219,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQueryTableNameError($db) {
+    public function testInsertTableNameErrorException($db) {
 
         $result = $db->query(
 
@@ -255,7 +241,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertQueryColumnNameError($db) {
+    public function testInsertColumnNameErrorException($db) {
 
         $result = $db->query(
 
@@ -273,7 +259,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertMethod_Rows($db) {
+    public function testInsertMethod_ReturnRows($db) {
 
         $data = [
             "name"  => "Isis", 
@@ -297,7 +283,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertMethod_Statements_ID($db) {
+    public function testInsertMethod_Statements_ReturnID($db) {
 
         $statements[] = [":name",  "Isis",           "str"];
         $statements[] = [":email", "isis@email.com", "str"];
@@ -312,7 +298,7 @@ final class InsertTest extends TestCase {
 
         $result = $query->execute('id');
 
-        $this->assertInternalType('int', $result);
+        $this->assertEquals(4885, $result);
     }
 
     /**
@@ -324,7 +310,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertMethod_Statements_DataType_ID($db) {
+    public function testInsertMethod_Statements_DataType_ReturnID($db) {
 
         $statements[] = [":name",  "Isis"];
         $statements[] = [":email", "isis@email.com"];
@@ -339,7 +325,7 @@ final class InsertTest extends TestCase {
 
         $result = $query->execute('id');
 
-        $this->assertInternalType('int', $result);
+        $this->assertEquals(4886, $result);
     }
 
     /**
@@ -351,7 +337,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertMethod_Marks_Statements_ID($db) {
+    public function testInsertMethod_Marks_Statements_ReturnID($db) {
 
         $statements[] = [1, "Isis"];
         $statements[] = [2, "isis@email.com"];
@@ -366,7 +352,7 @@ final class InsertTest extends TestCase {
 
         $result = $query->execute('id');
 
-        $this->assertInternalType('int', $result);
+        $this->assertEquals(4887, $result);
     }
 
     /**
@@ -378,7 +364,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertMethod_Marks_DataType_Rows($db) {
+    public function testInsertMethod_Marks_DataType_ReturnRows($db) {
 
         $statements[] = [1, "Isis",           "str"];
         $statements[] = [2, "isis@email.com", "str"];
@@ -409,7 +395,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertMethodTableNameError($db) {
+    public function testInsertMethodTableNameErrorException($db) {
 
         $data = [
             "name"  => "Isis", 
@@ -435,7 +421,7 @@ final class InsertTest extends TestCase {
      * 
      * @return void
      */
-    public function testInsertMethodColumnNameError($db) {
+    public function testInsertMethodColumnNameErrorException($db) {
 
         $data = [
             "xxxx"  => "Isis", 

@@ -19,7 +19,7 @@ use Josantonius\Database\Database,
  *
  * @since 1.1.6
  */
-class DatabaseReplaceTest extends TestCase {
+final class DatabaseReplaceTest extends TestCase {
 
     /**
      * Get connection test.
@@ -38,7 +38,7 @@ class DatabaseReplaceTest extends TestCase {
     }
 
     /**
-     * [METHOD] [ALL ROWS] [ROWS AFFECTED NUMBER]
+     * [METHOD] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
      *
@@ -46,10 +46,10 @@ class DatabaseReplaceTest extends TestCase {
      * 
      * @return void
      */
-    public function testReplaceMethod_AllRows_RowsAffected($db) {
+    public function testMethod_ReturnRows($db) {
 
         $data = [
-            'id'    => $GLOBALS['ID'],
+            'id'    => 3008,
             'name'  => 'Manny', 
             'email' => 'manny@email.com'
         ];
@@ -63,7 +63,7 @@ class DatabaseReplaceTest extends TestCase {
     }
 
     /**
-     * [METHOD] [STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
+     * [METHOD] [STATEMENTS] [WHERE ADVANCED] [LAST INSERT ID]
      *
      * @since 1.1.6
      *
@@ -71,23 +71,23 @@ class DatabaseReplaceTest extends TestCase {
      * 
      * @return void
      */
-    public function testReplaceMethod_Statements_Where_Advanced_Rows($db) {
+    public function testMethod_Statements_Advanced_ReturnID($db) {
 
         $data = [
-            'id'    => $GLOBALS['ID'],
+            'id'    => 4889,
             'name'  => ':name', 
             'email' => ':email'
         ];
 
-        $statements[] = [':name',  'Isis'];
-        $statements[] = [':email', 'isis@email.com'];
+        $statements[] = [':name',  'Manny'];
+        $statements[] = [':email', 'manny@email.com'];
 
         $query = $db->replace($data, $statements)
                     ->from('test_table');
 
-        $result = $query->execute();
+        $result = $query->execute('id');
 
-        $this->assertEquals(1, $result);
+        $this->assertEquals(4889, $result);
     }
 
     /**
@@ -99,12 +99,10 @@ class DatabaseReplaceTest extends TestCase {
      * 
      * @return void
      */
-    public function testReplaceMethod_Statements_DataType_WhereAvanced($db) {
-
-        $GLOBALS['ID'] = rand(1, 999999);
+    public function testMethod_Statements_DataType_Avanced_ReturnRows($db) {
 
         $data = [
-            'id'    => $GLOBALS['ID'],
+            'id'    => 1,
             'name'  => ':name', 
             'email' => ':email'
         ];
@@ -129,16 +127,16 @@ class DatabaseReplaceTest extends TestCase {
      * 
      * @return void
      */
-    public function testReplaceMethod_MarksStatements_WhereAdvance_Rows($db) {
+    public function testMethod_MarksStatements_WhereAdvance_ReturnRows($db) {
 
         $data = [
-            'id'    => $GLOBALS['ID'],
+            'id'    => 2,
             'name'  => '?', 
             'email' => '?'
         ];
 
-        $statements[] = [1, 'Isis'];
-        $statements[] = [2, 'isis@email.com'];
+        $statements[] = [1, 'Manny'];
+        $statements[] = [2, 'manny@email.com'];
 
         $query = $db->replace($data, $statements)
                     ->from('test_table');
@@ -157,23 +155,23 @@ class DatabaseReplaceTest extends TestCase {
      * 
      * @return void
      */
-    public function testReplaceMethod_MarksStatements_DataType_Where($db) {
+    public function testMethod_MarksStatements_DataType_Where_ReturnID($db) {
 
         $data = [
-            'id'    => $GLOBALS['ID'],
+            'id'    => 4890,
             'name'  => '?', 
             'email' => '?'
         ];
 
-        $statements[] = [1, 'Isis',           'str'];
-        $statements[] = [2, 'isis@email.com', 'str'];
+        $statements[] = [1, 'Manny',           'str'];
+        $statements[] = [2, 'manny@email.com', 'str'];
 
         $query = $db->replace($data, $statements)
                     ->from('test_table');
 
         $result = $query->execute('id');
 
-        $this->assertInternalType('int', $result);
+        $this->assertEquals(4890, $result);
     }
 
     /**
@@ -189,7 +187,7 @@ class DatabaseReplaceTest extends TestCase {
      * 
      * @return void
      */
-    public function testReplaceMethodTableNameError($db) {
+    public function testMethodTableNameErrorException($db) {
 
         $data = [
             'id'    => 1,
@@ -216,7 +214,7 @@ class DatabaseReplaceTest extends TestCase {
      * 
      * @return void
      */
-    public function testReplaceMethodColumnNameError($db) {
+    public function testMethodColumnNameErrorException($db) {
 
         $data = [
             'id'    => 1,
@@ -225,7 +223,7 @@ class DatabaseReplaceTest extends TestCase {
         ];
 
         $query = $db->replace($data)
-                            ->from('test_table');
+                    ->from('test_table');
 
         $result = $query->execute();
     }

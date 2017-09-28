@@ -20,11 +20,11 @@
         <server name='SERVER_PORT'     value='80' />
         <server name='HTTP_REFERER'    value='https://www.google.es/' />
         
-        <var name="ID" value="" />
-        <var name="DB_HOST" value="127.0.0.1" />
-        <var name="DB_USER" value="travis" />
+        <var name="ID"          value="" />
+        <var name="DB_HOST"     value="127.0.0.1" />
+        <var name="DB_USER"     value="travis" />
         <var name="DB_PASSWORD" value="" />
-        <var name="DB_NAME" value="phpunit" />
+        <var name="DB_NAME"     value="phpunit" />
     </php>
     
     <testsuites>
@@ -34,6 +34,7 @@
             <file>tests/Database/Test/InsertTest.php</file>
             <file>tests/Database/Test/SelectTest.php</file>
             <file>tests/Database/Test/ReplaceTest.php</file>
+            <file>tests/Database/Test/UpdateTest.php</file>
         </testsuite>
     </testsuites>
 

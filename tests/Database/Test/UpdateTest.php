@@ -6,279 +6,288 @@
  * @copyright  Copyright (c) 2017
  * @license    https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link       https://github.com/Josantonius/PHP-Database
- * @since      1.0.0
+ * @since      1.1.6
  */
 
-namespace Josantonius\Database\Tests;
+namespace Josantonius\Database\Test;
 
-use Josantonius\Database\Database;
+use Josantonius\Database\Database,
+    PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "TRUNCATE" query.
  *
- * @since 1.0.0
+ * @since 1.1.6
  */
-class DatabaseUpdateTest {
+final class DatabaseUpdateTest extends TestCase {
 
     /**
-     * Object with connection.
+     * Get connection test.
      *
-     * @since 1.0.0
+     * @since 1.1.6
      *
-     * @var object
+     * @return object → database connection
      */
-    public static $db;
+    public function testGetConnection() {
+
+        $db = Database::getConnection('identifier');
+
+        $this->assertContains('identifier', $db::$id);
+
+        return $db;
+    }
 
     /**
-     * Connection to the PDO database provider.
+     * [QUERY] [ROWS AFFECTED NUMBER]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
      * 
-     * @return object
-     *
-     * @since 1.0.0
+     * @return void
      */
-    public static function testGetConnectionPDOProvider() {
+    public function testQuery_ReturnRows($db) {
 
-        if (is_null(static::$db)) {
+        $result = $db->query(
 
-            static::$db = Database::getConnection(
-                                        'identifier-PDO',
-                                        'PDOprovider',
-                                        'localhost',
-                                        'db-user',
-                                        'db-name',
-                                        'password',
-                                        array('charset' => 'utf8'));
-        }
+            'UPDATE test_table
+             SET    name  = "Manny",
+                    email = "manny@email.com"'
+        );
 
-        return static::$db;
+        $this->assertEquals(8, $result);
     }
 
     /**
-     * Connection to the MSSQL database provider.
+     * [QUERY] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
      * 
-     * @return object
-     *
-     * @since 1.0.0
+     * @return void
      */
-    public static function testGetConnectionMSSQLProvider() {
+    public function testQuery_Where_ReturnRows($db) {
 
-        if (is_null(static::$db)) {
+        $result = $db->query(
 
-            static::$db = Database::getConnection(
-                                        'identifier-MSSQL',
-                                        'MSSQLprovider',
-                                        'localhost',
-                                        'db-user',
-                                        'db-name',
-                                        'password',
-                                        array('port' => '4437'));
-        }
+            "UPDATE test_table
+             SET    name  = 'Isis',
+                    email = 'isis@email.com'
+             WHERE  name  = 'Manny'"
+        );
 
-        return static::$db;
+        $this->assertEquals(13, $result);
     }
 
     /**
-     * [QUERY] [UPDATE] [ROWS AFFECTED NUMBER]
+     * [QUERY] [STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
-     */
-    public static function testUpdateQuery1() {
-
-        static::testGetConnectionPDOProvider();
-
-        $result = static::$db->query('UPDATE test
-                                      SET    name  = "Manny",
-                                             email = "manny@email.com"');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [QUERY] [UPDATE] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     * @since 1.1.6
      *
-     * @since 1.0.0
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateQuery2() {
-
-        static::testGetConnectionPDOProvider();
-
-        $result = static::$db->query('UPDATE test
-                                      SET    name  = "Manny",
-                                             email = "manny@email.com"
-                                      WHERE  id = 1');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [QUERY] [UPDATE] [STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.0.0
-     */
-    public static function testUpdateQuery3() {
-
-        static::testGetConnectionPDOProvider();
+    public function testQuery_Statements_Where_ReturnRows($db) {
 
         $statements[] = [":name",  "Manny"];
         $statements[] = [":email", "manny@email.com"];
 
-        $result = static::$db->query('UPDATE test
-                                      SET    name  = :name,
-                                             email = :email
-                                      WHERE  id = 1',
-                                      $statements);
+        $result = $db->query(
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            "UPDATE test_table
+             SET    name  = :name,
+                    email = :email
+             WHERE  id    = 3008",
+            $statements
+        );
+
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [QUERY] [UPDATE] [STATEMENTS] [DATA TYPE] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
+     * [QUERY] [STATEMENTS] [DATA TYPE] [WHERE MULTIPLE] [ROWS AFFECTED]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateQuery4() {
-
-        static::testGetConnectionPDOProvider();
+    public function testQuery_Statements_DataType_WhereMultiple($db) {
 
         $statements[] = [":name",  "Manny",           "str"];
         $statements[] = [":email", "manny@email.com", "str"];
 
-        $result = static::$db->query('UPDATE test
-                                      SET    name  = :name,
-                                             email = :email
-                                      WHERE  id = 1 OR name = "Manny"',
-                                      $statements);
+        $result = $db->query(
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            "UPDATE test_table
+             SET    name  = :name,
+                    email = :email
+             WHERE  id    = 4883 OR name = 'Isis'",
+             $statements
+        );
+
+        $this->assertEquals(12, $result);
     }
 
     /**
-     * [QUERY] [UPDATE] [MARKS STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     * [QUERY] [MARKS STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateQuery5() {
+    public function testQuery_MarksStatements_Where_ReturnRows($db) {
 
-        static::testGetConnectionPDOProvider();
+        $statements[] = [1, "Isis"];
+        $statements[] = [2, "isis@email.com"];
 
-        $statements[] = [1, "Manny"];
-        $statements[] = [2, "manny@email.com"];
+        $result = $db->query(
 
-        $result = static::$db->query('UPDATE test
-                                      SET    name  = ?,
-                                             email = ?
-                                      WHERE  id = 1',
-                                      $statements);
+            'UPDATE test_table
+             SET    name  = ?,
+                    email = ?',
+             $statements
+        );
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(13, $result);
     }
 
     /**
-     * [QUERY] [UPDATE] [MARKS STATEMENTS] [DATA TYPE] [WHERE SIMPLE] [ROWS AFFECTED]
+     * [QUERY] [MARKS STATEMENTS] [DATA TYPE] [WHERE SIMPLE] [ROWS AFFECTED]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateQuery6() {
-
-        static::testGetConnectionPDOProvider();
+    public function testQuery_MarksStatements_DataType_Where_ReturnRows($db) {
 
         $statements[] = [1, "Manny",           "str"];
         $statements[] = [2, "manny@email.com", "str"];
 
-        $result = static::$db->query('UPDATE test
-                                      SET    name  = ?,
-                                             email = ?
-                                      WHERE  id = 1',
-                                      $statements);
+        $result = $db->query(
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            "UPDATE test_table
+             SET    name  = ?,
+                    email = ?
+             WHERE  id    = 1",
+             $statements
+        );
+
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [QUERY] [UPDATE] [EXCEPTION]
+     * [QUERY] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
+     * 
+     * @return void
      */
-    public static function testUpdateQueryTableNameError() {
+    public function testQueryTableNameErrorException($db) {
 
-        static::testGetConnectionPDOProvider();
+        $result = $db->query(
 
-        $result = static::$db->query('UPDATE xxxx
-                                      SET    name  = "Manny",
-                                             email = "manny@email.com"');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            'UPDATE xxxx
+             SET    name  = "Manny",
+                    email = "manny@email.com"'
+        );
     }
 
     /**
-     * [QUERY] [UPDATE] [EXCEPTION]
+     * [QUERY] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
+     * 
+     * @return void
      */
-    public static function testUpdateQueryColumnNameError() {
+    public function testQueryColumnNameErrorException($db) {
 
-        static::testGetConnectionPDOProvider();
+        $result = $db->query(
 
-        $result = static::$db->query('UPDATE test
-                                      SET    xxxx  = "Manny",
-                                             email = "manny@email.com"');
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
+            'UPDATE test_table
+             SET    xxxx  = "Manny",
+                    email = "manny@email.com"'
+        );
     }
 
     /**
-     * [METHOD] [UPDATE] [ROWS AFFECTED NUMBER]
+     * [METHOD] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateMethod1() {
+    public function testMethod_ReturnRows($db) {
 
-        static::testGetConnectionPDOProvider();
+        $data = [
+            'name'  => 'Isis', 
+            'email' => 'isis@email.com'
+        ];
+
+        $query = $db->update($data)
+                    ->in('test_table');
+
+        $result = $query->execute();
+
+        $this->assertEquals(1, $result);
+    }
+
+    /**
+     * [METHOD] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     *
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
+     */
+    public function testMethod_Where_ReturnRows($db) {
 
         $data = [
             'name'  => 'Manny', 
             'email' => 'manny@email.com'
         ];
 
-        $query = static::$db->update($data)
-                            ->in('test');
+        $query = $db->update($data)
+                    ->in('test_table')
+                    ->where('id = 3008');
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [UPDATE] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
+     * [METHOD] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
-     */
-    public static function testUpdateMethod2() {
-
-        static::testGetConnectionPDOProvider();
-
-        $data = [
-            'name'  => 'Manny', 
-            'email' => 'manny@email.com'
-        ];
-
-        $query = static::$db->update($data)
-                            ->in('test')
-                            ->where('id = 1');
-
-        $result = $query->execute();
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
-    }
-
-    /**
-     * [METHOD] [UPDATE] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
+     * @since 1.1.6
      *
-     * @since 1.0.0
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateMethod3() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethod_WhereMultiple_ReturnRows($db) {
 
         $data = [
             'name'  => 'Manny', 
@@ -286,61 +295,64 @@ class DatabaseUpdateTest {
         ];
 
         $clauses = [
-            'id = 1',
             'name  = "isis"',
             'email = "isis@email.com"'];
 
 
-        $query = static::$db->update($data)
-                            ->in('test')
-                            ->where($clauses);
+        $query = $db->update($data)
+                    ->in('test_table')
+                    ->where($clauses);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(12, $result);
     }
 
     /**
-     * [METHOD] [UPDATE] [STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
+     * [METHOD] [STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateMethod4() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethod_Statements_WhereAdvanced_ReturnRows($db) {
 
         $data = [
             'name'  => ':new_name', 
             'email' => ':new_email'
         ];
 
-        $statements['data'][] = [':new_name',  'Manny'];
-        $statements['data'][] = [':new_email', 'manny@email.com'];
+        $statements['data'][] = [':new_name',  'Isis'];
+        $statements['data'][] = [':new_email', 'isis@email.com'];
 
         $clauses = 'id = :id AND name = :name1 OR name = :name2';
 
-        $statements['clauses'][] = [':id',         1];
-        $statements['clauses'][] = [':name1',     'Isis'];
-        $statements['clauses'][] = [':name2',     'Manny'];
+        $statements['clauses'][] = [':id',    3008];
+        $statements['clauses'][] = [':name1', 'Isis'];
+        $statements['clauses'][] = [':name2', 'Manny'];
 
 
-        $query = static::$db->update($data, $statements['data'])
-                            ->in('test')
-                            ->where($clauses, $statements['clauses']);
+        $query = $db->update($data, $statements['data'])
+                    ->in('test_table')
+                    ->where($clauses, $statements['clauses']);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(13, $result);
     }
 
     /**
-     * [METHOD] [UPDATE] [STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
+     * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS AFFECTED]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateMethod5() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethod_Statements_DataType_Advanced_ReturnRows($db) {
 
         $data = [
             'name'  => ':new_name', 
@@ -350,63 +362,70 @@ class DatabaseUpdateTest {
         $statements['data'][] = [':new_name',  'Manny',           'str'];
         $statements['data'][] = [':new_email', 'manny@email.com', 'str'];
 
-        $clauses = 'id = :id AND name = :name1 OR name = :name2';
+        $clauses = 'name = :name1 OR name = :name2';
 
-        $statements['clauses'][] = [':id',         1,      'int'];
-        $statements['clauses'][] = [':name1',     'Isis',  'str'];
-        $statements['clauses'][] = [':name2',     'Manny', 'str'];
+        $statements['clauses'][] = [':name1', 'Isis',  'str'];
+        $statements['clauses'][] = [':name2', 'Manny', 'str'];
 
 
-        $query = static::$db->update($data, $statements['data'])
-                            ->in('test')
-                            ->where($clauses, $statements['clauses']);
+        $query = $db->update($data, $statements['data'])
+                    ->in('test_table')
+                    ->where($clauses, $statements['clauses']);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [UPDATE] [MARKS STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
+     * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateMethod6() {
+    public function testMethod_MarksStatements_WhereAdvance_ReturnRows($db) {
 
-        static::testGetConnectionPDOProvider();
+        $id = $GLOBALS['ID'];
 
         $data = [
             'name'  => '?', 
             'email' => '?'
         ];
 
-        $statements['data'][] = [1,  'Manny'];
-        $statements['data'][] = [2, 'manny@email.com'];
+        $statements['data'][] = [1, 'Isis'];
+        $statements['data'][] = [2, 'isis@email.com'];
 
         $clauses = 'id = ? AND name = ? OR name = ?';
 
-        $statements['clauses'][] = [3, 1];
+        $statements['clauses'][] = [3, $id];
         $statements['clauses'][] = [4, 'Isis'];
         $statements['clauses'][] = [5, 'Manny'];
 
 
-        $query = static::$db->update($data, $statements['data'])
-                            ->in('test')
-                            ->where($clauses, $statements['clauses']);
+        $query = $db->update($data, $statements['data'])
+                    ->in('test_table')
+                    ->where($clauses, $statements['clauses']);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [UPDATE] [MARKS STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS AFFECTED]
+     * [METHOD] [MARKS STATEMENTS] [DATATYPE] [WHERE ADVANCED] [ROWS AFFECTED]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     * 
+     * @return void
      */
-    public static function testUpdateMethod7() {
+    public function testMethod_MarksStatements_DataType_ReturnRows($db) {
 
-        static::testGetConnectionPDOProvider();
+        $id = $GLOBALS['ID'];
 
         $data = [
             'name'  => '?', 
@@ -418,61 +437,69 @@ class DatabaseUpdateTest {
 
         $clauses = 'id = ? AND name = ? OR name = ?';
 
-        $statements['clauses'][] = [3, 1,       'int'];
+        $statements['clauses'][] = [3, $id,     'int'];
         $statements['clauses'][] = [4, 'Isis',  'str'];
         $statements['clauses'][] = [5, 'Manny', 'str'];
 
 
-        $query = static::$db->update($data, $statements['data'])
-                            ->in('test')
-                            ->where($clauses, $statements['clauses']);
+        $query = $db->update($data, $statements['data'])
+                    ->in('test_table')
+                    ->where($clauses, $statements['clauses']);
 
         $result = $query->execute();
 
-        echo '<pre>'; var_dump($result); echo '</pre>';
+        $this->assertEquals(1, $result);
     }
 
     /**
-     * [METHOD] [UPDATE] [EXCEPTION]
+     * [METHOD] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
+     * 
+     * @return void
      */
-    public static function testUpdateMethodTableNameError() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethodTableNameErrorException($db) {
 
         $data = [
             'name'  => 'Manny', 
             'email' => 'manny@email.com'
         ];
 
-        $query = static::$db->update($data)
-                            ->in('xxxx');
+        $query = $db->update($data)
+                    ->in('xxxx');
 
         $result = $query->execute();
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
     }
 
     /**
-     * [METHOD] [UPDATE] [EXCEPTION]
+     * [METHOD] [EXCEPTION]
      *
-     * @since 1.0.0
+     * @since 1.1.6
+     *
+     * @depends testGetConnection
+     *
+     * @expectedException Josantonius\Database\Exception\DBException
+     *
+     * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
+     * 
+     * @return void
      */
-    public static function testUpdateMethodColumnNameError() {
-
-        static::testGetConnectionPDOProvider();
+    public function testMethodColumnNameErrorException($db) {
 
         $data = [
             'xxxx'  => 'Manny', 
             'email' => 'manny@email.com'
         ];
 
-        $query = static::$db->update($data)
-                            ->in('test');
+        $query = $db->update($data)
+                    ->in('test_table');
 
         $result = $query->execute();
-
-        echo '<pre>'; var_dump($result); echo '</pre>';
     }
 }
