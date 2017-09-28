@@ -380,7 +380,7 @@ class PDOprovider extends Provider {
 
         $columnIdName = $columns[0];
 
-        if (count($data) == count($statements) && isset($statements[0][1])) {
+        if (isset($statements[0][1]) && count($data) == count($statements)) {
 
             $id = $statements[0][1];
 

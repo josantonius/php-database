@@ -70,7 +70,7 @@ class TruncateTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessageRegExp (table|not|found)
+     * @expectedExceptionMessageRegExp (table|not|found|Table|exists)
      * 
      * @return void
      */
@@ -119,7 +119,7 @@ class TruncateTest extends TestCase {
      *
      * @expectedException Josantonius\Database\Exception\DBException
      *
-     * @expectedExceptionMessageRegExp (table|not|found)
+     * @expectedExceptionMessageRegExp (table|not|found|Table|exists)
      * 
      * @return void
      */
