@@ -135,7 +135,7 @@ class Database
         $password,
         $settings
     ) {
-        $provider = "Josantonius\\Database\\Provider\\$provider\\$provider";
+        $provider = "Josantonius\\Database\\Provider\\$provider";
 
         if (!class_exists($provider)) {
             throw new DBException("The provider doesn't exist: $provider");

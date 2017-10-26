@@ -53,12 +53,12 @@ También puedes **clonar el repositorio** completo con Git:
 
 O **instalarlo manualmente**:
 
-Descargar [Database.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php), [Provider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider/Provider.php), [PDOprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider/PDOprovider.php), [MSSQLprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider/MSSQLprovider.php) and [DBException.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php):
+Descargar [Database.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php), [Provider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider.php), [PDOprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider.php), [MSSQLprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php) and [DBException.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php):
 
     $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider/Provider.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider/PDOprovider.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider/MSSQLprovider.php
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider.php
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider.php
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php
     $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php
 
 ### Get connection
@@ -642,6 +642,7 @@ Ejecutar todas las pruebas anteriores:
 - [x] Completar tests
 - [ ] Refactorizar código
 - [ ] Agregar métodos para consultas con SQL joins
+- [ ] Completar proveedor para MSSQL
 - [x] Mejorar la documentación
 
 ### Manejador de excepciones

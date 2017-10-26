@@ -78,7 +78,7 @@ final class ConnectionTest extends TestCase
         $this->assertContains('Eliasis', $db::$id);
 
         $this->assertContains(
-            'Josantonius\Database\Provider\PDOprovider\PDOprovider',
+            'Josantonius\Database\Provider\PDOprovider',
             get_class($db->provider)
         );
     }

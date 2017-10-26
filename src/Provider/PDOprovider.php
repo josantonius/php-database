@@ -9,40 +9,61 @@
  * @since     1.0.0
  */
 
-namespace Josantonius\Database\Provider\MSSQLprovider;
+namespace Josantonius\Database\Provider;
 
 use Josantonius\Database\Exception\DBException;
-use Josantonius\Database\Provider\Provider;
 
 /**
- * MSSQL database provider.
+ * PDO database provider.
  *
  * @since 1.0.0
  */
-class MSSQLprovider extends Provider
+class PDOprovider extends Provider
 {
+
     /**
      * Database connection.
      *
      * @since 1.0.0
      *
-     * @param string $host             → database host
-     * @param string $dbUser           → database user
-     * @param string $dbName           → database name
-     * @param string $pass             → database password
-     * @param array  $settings         → database options
-     * @param array  $settings['port'] → database port
+     * @param string $host                → database host
+     * @param string $dbUser              → database user
+     * @param string $dbName              → database name
+     * @param string $pass                → database password
+     * @param array  $settings            → database options
+     * @param array  $settings['charset'] → database charset
      *
      * @return object|null → returns the object with the connection or null
      */
     public function connect($host, $dbUser, $dbName, $pass, $settings = [])
     {
         try {
-            $port = (isset($settings['port'])) ? $settings['port'] : '1433';
-            $this->conn = mssql_connect($host . ':' . $port, $user, $pass);
-            mssql_select_db($dbname, $this->conn);
+            $ifExists = (!isset($settings['charset']));
+
+            $charset = $ifExists ? $settings['charset'] : 'utf8';
+
+            $this->conn = new \PDO(
+                'mysql:host=' . $host .
+                ';dbname='    . $dbName .
+                ';charset='   . $charset,
+                $dbUser,
+                $pass
+            );
+
+            $this->conn->exec("SET NAMES" . $charset);
+
+            $this->conn->setAttribute(
+                \PDO::ATTR_ERRMODE,
+                \PDO::ERRMODE_EXCEPTION
+            );
+
+            $this->conn->setAttribute(
+                \PDO::ATTR_DEFAULT_FETCH_MODE,
+                \PDO::FETCH_ASSOC
+            );
+
             return $this->conn;
-        } catch (\Exception $e) {
+        } catch (\PDOException $e) {
             $this->error = $e->getMessage();
             return null;
         }
@@ -54,16 +75,20 @@ class MSSQLprovider extends Provider
      * @since 1.0.0
      *
      * @param string $query → query
-     * @param string $type  → query type: SELECT INSERT UPDATE DELETE CREATE TRUNCATE
+     * @param string $type  → SELECT INSERT UPDATE DELETE CREATE TRUNCATE
      *
      * @return object|null → returns the object with the connection or null
      */
     public function query($query, $type = '')
     {
         try {
-            return mssql_query($query, $this->conn);
-        } catch (\Exception $e) {
+            if ($type === 'SELECT') {
+                return $this->conn->query($query);
+            }
+            return $this->conn->exec($query);
+        } catch (\PDOException $e) {
             $this->error = $e->getMessage();
+
             return null;
         }
     }
@@ -80,6 +105,44 @@ class MSSQLprovider extends Provider
      */
     public function statements($query, $statements)
     {
+
+        try {
+            $query = $this->conn->prepare($query);
+
+            foreach ($statements as $key => $value) {
+                $param    = $statements[$key][0];
+                $value    = $statements[$key][1];
+                $ifExists = (isset($statements[$key][2]));
+                $dataType = $ifExists ? $statements[$key][2] : false;
+
+                switch ($dataType) {
+                    case 'bool':
+                        $query->bindValue($param, $value, \PDO::PARAM_BOOL);
+                        continue;
+
+                    case 'null':
+                        $query->bindValue($param, $value, \PDO::PARAM_NULL);
+                        continue;
+
+                    case 'int':
+                        $query->bindValue($param, $value, \PDO::PARAM_INT);
+                        continue;
+
+                    case 'str':
+                        $query->bindValue($param, $value, \PDO::PARAM_STR);
+                        continue;
+                }
+
+                $query->bindValue($param, $value);
+            }
+
+            $query->execute();
+
+            return $query;
+        } catch (\PDOException $e) {
+            $this->error = $e->getMessage();
+            return null;
+        }
     }
 
     /**
@@ -87,20 +150,61 @@ class MSSQLprovider extends Provider
      *
      * @since 1.0.0
      *
-     * @param string $table → table name
-     * @param array  $data  → column name and configuration for data types
+     * @param string $table     → table name
+     * @param array  $data      → column name and configuration for data types
+     * @param string $foreing   → foreing key column
+     * @param array  $reference → column reference
+     * @param string $on        → table reference
+     * @param array  $actions   → actions when delete/update for foreing key
+     * @param string $engine    → database engine
+     * @param array  $charset   → database charset
      *
      * @return int → 0
      */
-    public function create($table, $data)
-    {
+    public function create(
+        $table,
+        $data,
+        $foreing,
+        $reference,
+        $on,
+        $actions,
+        $engine,
+        $charset
+    ) {
+        $index      = '';
+        $references = '';
+
+        if (!is_null($foreing) &&
+            !is_null($reference) &&
+            !is_null($on) &&
+            count($foreing) === count($on) &&
+            count($reference) === count($foreing)
+        ) {
+            $count = count($foreing);
+
+            for ($i = 0; $i < $count; $i++) {
+                $action = (isset($actions[$i])) ? $actions[$i] : $actions[0];
+
+                $index .= ' INDEX (`' . $foreing[$i] . '`), ';
+
+                $references .= 'CONSTRAINT FOREIGN KEY (`' . $foreing[$i] . '`) ' .
+                    'REFERENCES ' . $on[$i] .
+                    ' (`' . $reference[$i] . '`) ' . $action . ',';
+            }
+        }
+
         $query = 'CREATE TABLE IF NOT EXISTS `' . $table . '` (';
 
         foreach ($data as $column => $value) {
             $query .= $column . ' ' . $value . ', ';
         }
 
-        $query = rtrim(trim($query), ',') . ')'; # Remove final comma
+        $engine  = (!is_null($engine))  ? ' ENGINE='  . $engine  : '';
+        $charset = (!is_null($charset)) ? ' CHARSET=' . $charset : '';
+
+        $query = $query . $index . $references;
+
+        $query = rtrim(trim($query), ',') . ')' . $engine . ' ' . $charset;
 
         return $this->query($query);
     }
@@ -124,14 +228,13 @@ class MSSQLprovider extends Provider
         $query  = 'SELECT ';
         $query .= (is_array($columns)) ? implode(', ', $columns) : $columns;
         $query .= ' FROM `' . $from . '` ';
-        $query .= (!is_null($where))  ? ' WHERE '    : '';
+        $query .= (!is_null($where)) ? ' WHERE ' : '';
         $query .= (is_string($where)) ? $where . ' ' : '';
 
         if (is_array($where)) {
             foreach ($where as $clause) {
                 $query .= $clause . ' AND ';
             }
-
             $query = rtrim(trim($query), 'AND');
         }
 
@@ -187,6 +290,10 @@ class MSSQLprovider extends Provider
 
         $query .= 'VALUES (' . rtrim(trim($input['values']), ',') . ')';
 
+        if (!is_null($statements) && is_array($statements)) {
+            return $this->statements($query, $statements);
+        }
+
         return $this->query($query, 'INSERT');
     }
 
@@ -208,7 +315,6 @@ class MSSQLprovider extends Provider
 
         foreach ($data as $column => $value) {
             $value = (is_null($statements) && is_string($value)) ? "'$value'" : $value;
-
             $query .= $column . '=' . $value . ', ';
         }
 
@@ -222,15 +328,18 @@ class MSSQLprovider extends Provider
             foreach ($where as $clause) {
                 $query .= $clause . ' AND ';
             }
-
             $query = rtrim(trim($query), 'AND');
+        }
+
+        if (!is_null($statements) && is_array($statements)) {
+            return $this->statements($query, $statements);
         }
 
         return $this->query($query, 'INSERT');
     }
 
     /**
-     * Replace a row in a table if it exists or insert a new row in a table if not exist.
+     * Replace a row in a table if it exists or insert a new row if not exist.
      *
      * @since 1.0.0
      *
@@ -242,15 +351,25 @@ class MSSQLprovider extends Provider
      */
     public function replace($table, $data, $statements)
     {
-        $columns = array_keys($data);
-
+        $columns      = array_keys($data);
         $columnIdName = $columns[0];
 
-        $id = array_shift($data);
+        if (isset($statements[0][1]) && count($data) == count($statements)) {
+            $id = $statements[0][1];
+        } else {
+            $id = array_shift($data);
+        }
 
         $where = $columnIdName . ' = ' . $id;
 
-        $result = $this->select($columns, $table, $where, null, 1, $statements);
+        $result = $this->select(
+            $columns,
+            $table,
+            $where,
+            null,
+            1,
+            $statements
+        );
 
         if ($this->rowCount($result)) {
             return $this->update($table, $data, $statements, $where);
@@ -272,15 +391,22 @@ class MSSQLprovider extends Provider
      */
     public function delete($table, $statements, $where)
     {
-        $query  = 'DELETE FROM `' . $table . '` ';
-        $query .= (!is_null($where)) ? ' WHERE '     : '';
+        $query = 'DELETE FROM `' . $table . '` ';
+
+        $query .= (!is_null($where)) ? ' WHERE ' : '';
+
         $query .= (is_string($where)) ? $where . ' ' : '';
 
         if (is_array($where)) {
             foreach ($where as $clause) {
                 $query .= $clause . ' AND ';
             }
+
             $query = rtrim(trim($query), 'AND');
+        }
+
+        if (!is_null($statements) && is_array($statements)) {
+            return $this->statements($query, $statements);
         }
 
         return $this->query($query, 'INSERT');
@@ -330,15 +456,13 @@ class MSSQLprovider extends Provider
      */
     public function fetchResponse($response, $result)
     {
-
-        if ($response) {
-            $data = array();
-            while ($row = mssql_fetch_array($response)) {
-                $data[] = $row;
-            }
-            return $data;
+        if ($result == 'obj') {
+            return $response->fetchAll(\PDO::FETCH_OBJ);
+        } elseif ($result == 'array_num') {
+            return $response->fetchAll(\PDO::FETCH_NUM);
+        } elseif ($result == 'array_assoc') {
+            return $response->fetchAll(\PDO::FETCH_ASSOC);
         }
-        return false;
     }
 
     /**
@@ -350,6 +474,7 @@ class MSSQLprovider extends Provider
      */
     public function lastInsertId()
     {
+        return (int) $this->conn->lastInsertId();
     }
 
     /**
@@ -363,6 +488,10 @@ class MSSQLprovider extends Provider
      */
     public function rowCount($response)
     {
+        if (is_object($response)) {
+            return (int) $response->rowCount();
+        }
+        return (int) $response;
     }
 
     /**
@@ -393,6 +522,8 @@ class MSSQLprovider extends Provider
      * Close/delete database connection.
      *
      * @since 1.0.0
+     *
+     * @return void
      */
     public function kill()
     {
