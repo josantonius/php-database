@@ -1,26 +1,25 @@
 # PHP Database library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/database/v/stable)](https://packagist.org/packages/josantonius/database) [![Total Downloads](https://poser.pugx.org/josantonius/database/downloads)](https://packagist.org/packages/josantonius/database) [![Latest Unstable Version](https://poser.pugx.org/josantonius/database/v/unstable)](https://packagist.org/packages/josantonius/database) [![License](https://poser.pugx.org/josantonius/database/license)](https://packagist.org/packages/josantonius/database) [![Travis](https://travis-ci.org/Josantonius/PHP-Database.svg)](https://travis-ci.org/Josantonius/PHP-Database)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/Database/v/stable)](https://packagist.org/packages/josantonius/Database) [![Latest Unstable Version](https://poser.pugx.org/josantonius/Database/v/unstable)](https://packagist.org/packages/josantonius/Database) [![License](https://poser.pugx.org/josantonius/Database/license)](LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc05a7b06c554a3e844ece8f360a05ed)](https://www.codacy.com/app/Josantonius/PHP-Database?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Josantonius/PHP-Database&amp;utm_campaign=Badge_Grade) [![Total Downloads](https://poser.pugx.org/josantonius/Database/downloads)](https://packagist.org/packages/josantonius/Database) [![Travis](https://travis-ci.org/Josantonius/PHP-Database.svg)](https://travis-ci.org/Josantonius/PHP-Database) [![PSR2](https://img.shields.io/badge/PSR-2-1abc9c.svg)](http://www.php-fig.org/psr/psr-2/) [![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](http://www.php-fig.org/psr/psr-4/) [![CodeCov](https://codecov.io/gh/Josantonius/PHP-Database/branch/master/graph/badge.svg)](https://codecov.io/gh/Josantonius/PHP-Database)
 
 [Versión en español](README-ES.md)
 
-Library for SQL database management to be used by several providers at the same time.
+SQL database management to be used by several providers at the same time.
 
 ---
 
-- [Installation](#installation)
 - [Requirements](#requirements)
-- [Quick Start and Examples](#quick-start-and-examples)
-- [Available Methods](#available-methods)
-- [Usage](#usage)
-- [Select](#select)
-- [Insert](#insert)
-- [Update](#update)
-- [Replace](#replace)
-- [Delete](#delete)
-- [Create](#create)
-- [Truncate](#truncate)
-- [Drop](#drop)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Get connection](#get-connection)
+- [CREATE TABLE](#create-table)
+- [SELECT](#select)
+- [INSERT INTO](#insert)
+- [UPDATE](#update)
+- [REPLACE](#replace)
+- [DELETE](#delete)
+- [TRUNCATE TABLE](#truncate)
+- [DROP TABLE](#drop)
 - [Tests](#tests)
 - [TODO](#-todo)
 - [Exception Handler](#exception-handler)
@@ -31,429 +30,632 @@ Library for SQL database management to be used by several providers at the same 
 
 ---
 
+### Requirements
+
+This library is supported by `PHP versions 5.6` or higher and is compatible with `HHVM versions 3.0` or higher.
+
 ### Installation
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+The preferred way to install this extension is through [Composer](http://getcomposer.org/download/).
 
-To install PHP Database library, simply:
+To install `PHP Database library`, simply:
 
     $ composer require Josantonius/Database
 
-The previous command will only install the necessary files, if you prefer to download the entire source code (including tests, vendor folder, exceptions not used, docs...) you can use:
+The previous command will only install the necessary files, if you prefer to **download the entire source code** you can use:
 
     $ composer require Josantonius/Database --prefer-source
 
-Or you can also clone the complete repository with Git:
+You can also **clone the complete repository** with Git:
 
     $ git clone https://github.com/Josantonius/PHP-Database.git
 
-### Requirements
+Or **install it manually**:
 
-This library is supported by PHP versions 5.6 or higher and is compatible with HHVM versions 3.0 or higher.
+Download [Database.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php), [Provider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider/Provider.php), [PDOprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider/PDOprovider.php), [MSSQLprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider/MSSQLprovider.php) and [DBException.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php):
 
-### Quick Start and Examples
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider/Provider.php
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider/PDOprovider.php
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider/MSSQLprovider.php
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php
 
-To use this class, simply:
+### Get connection
+
+`Get connection:`
 
 ```php
-require __DIR__ . '/vendor/autoload.php';
-
-use Josantonius\Database\Database;
+Database::getConnection($id, $provider, $host, $user, $name, $password, $settings);
 ```
-### Available Methods
 
-Available methods in this library:
+| Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- |
+| $id | Database unique ID. | string | Yes | |
+| $provider | Name of provider class. | string | No | null |
+| $host | Database host. | string | No | null |
+| $user | Database user. | string | No | null |
+| $name | Database name. | string | No | null |
+| $password | Database password . | string | No | null |
 
-```php
-Database::getConnection();
-Database->query();
-Database->create();
-Database->select();
-Database->insert();
-Database->update();
-Database->replace();
-Database->delete();
-Database->truncate();
-Database->drop();
-Database->in();
-Database->table();
-Database->from();
-Database->where();
-Database->order();
-Database->limit();
-Database->execute();
-```
-### Usage
+| Attribute | Key | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| $settings | | Database options. | array | No | null |
+| $settings | 'port' | Database port. | string | No |  |
+| $settings | 'charset' | Database charset. | string | No | |
 
-Example of use for this library:
+**# Return** (object) → object with the connection
 
 ```php
-<?php
-require __DIR__ . '/vendor/autoload.php';
-
-use Josantonius\Database\Database;
-
 $db = Database::getConnection(
-    'identifier',  # Unique identifier for the connection
+    'identifier',  # Unique identifier
     'PDOprovider', # Database provider name
     'localhost',   # Database server
-    'db-user',	   # Database user
-    'db-name',	   # Database name
-    'password',	   # Database password
+    'db-user',     # Database user
+    'db-name',     # Database name
+    'password',    # Database password
+    array('charset' => 'utf8')
+);
+
+$externalDB = Database::getConnection(
+    'external',          # Unique identifier
+    'PDOprovider',       # Database provider name
+    'http://site.com',   # Database server
+    'db-user',           # Database user
+    'db-name',           # Database name
+    'password',          # Database password
     array('charset' => 'utf8')
 );
 
 // And once the connection is established:
 
 $db = Database::getConnection('identifier');
+
+$externalDB = Database::getConnection('external');
 ```
 
-### Select
+### Query
 
-Select data from database.
+`Process query and prepare it for the provider:`
 
 ```php
-$db->select()->from()->where()->order()->limit()->execute();
+$db->query($query, $statements, $result);
 ```
 
-**select**($columns)
+| Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- |
+| $query | Query. | string | Yes | |
+| $statements | Statements. | array | No | null |
+| $result | Query result; 'obj', 'array_num', 'array_assoc', 'rows', 'id'. | string | No | 'obj' |
 
-$columns → (array|string|empty) Names of columns to select. If left blank select all fields.
+**# Return** (mixed) → result as object, array, int...
 
-**from**($table)
-
-$table → (string) Database table name.
-
-**where**($clauses, $statements) (Optional)
-
-$clauses    → (array|string)     → Where clauses.
-
-$statements → (array) (Optional) → Prepared statements.
-
-**order**($params) (Optional)
-
-$params → (array|string) → Parameters to sort query.
-
-**limit**($number) (Optional)
-
-$number → (int) → Rows number limit.
-
-**execute**($dataType)
-
-$dataType → (string|empty) → Accepted parameters: 'obj', 'array_num', 'array_assoc' & 'rows'.
-
-**SELECT** query example. For more examples see the [DatabaseSelectTest](tests/DatabaseSelectTest.php) class.
+**# throws** [DBException] → invalid query type
 
 ```php
-$statements[] = [':id',   1,       'int'];
-$statements[] = [':name', 'Manny', 'str'];
+$db->query(
+    'CREATE TABLE test (
+        id    INT(6)      PRIMARY KEY,
+        name  VARCHAR(30) NOT NULL,
+        email VARCHAR(50)
+    )'
+);
 
-$clauses = ['id = :id', 'name = :name'];
+$db->query(
+    'SELECT id, name, email
+     FROM test',
+    false,
+    'array_assoc' // array_assoc, obj, array_num
+);
 
-$query = $db->select('name')
-            ->from('test')
-            ->where($clauses, $statements);
-            ->order('id DESC')
-            ->limit(1);
-
-$result = $query->execute('obj');
+$statements[] = [1, "Many"];
+$statements[] = [2, "many@email.com"];
+        
+$db->query(
+    'INSERT INTO test (name, email)
+     VALUES (?, ?)',
+    $statements,
+    'id' // id, rows
+);
 ```
 
-### Insert
+### CREATE TABLE
 
-Insert data into database.
+`CREATE TABLE statement:`
 
 ```php
-$db->insert()->in()->execute();
+$db->create($data)
+   ->table($table)
+   ->foreing($id)
+   ->reference($table)
+   ->on($table)
+   ->actions($action)
+   ->engine($type)
+   ->charset($type)
+   ->execute();
 ```
 
-**insert**($data, $statements)
-
-$data       → (array)            → Name of columns and values to be inserted.
-
-$statements → (array) (Optional) → Prepared statements.
-
-**in**($table)
-
-$table → (string) Database table name.
-
-**execute**($dataType)
-
-$dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
-
-**INSERT** query example. For more examples see the [DatabaseInsertTest](tests/DatabaseInsertTest.php) class.
-
-```php
-$statements[] = [1, "Isis"];
-$statements[] = [2, "isis@email.com"];
-
-$data = [
-    "name"  => "?", 
-    "email" => "?"
-];
-
-$query = $db->insert($data, $statements)
-		    ->in('test');
-
-$result = $query->execute('id');
-```
-
-### Update
-
-Update fields in the database.
-
-```php
-$db->update()->in()->where()->execute();
-```
-
-**update**($data, $statements)
-
-$data       → (array)            → Name of columns and values to be inserted.
-
-$statements → (array) (Optional) → Prepared statements.
-
-**where**($clauses, $statements) (Optional)
-
-$clauses    → (array|string)     → Where clauses.
-
-$statements → (array) (Optional) → Prepared statements.
-
-**execute**($dataType)
-
-$dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
-
-**UPDATE** query example. For more examples see the [DatabaseUpdateTest](tests/DatabaseUpdateTest.php) class.
-
-```php
-$data = [
-    'name'  => ':new_name', 
-    'email' => ':new_email'
-];
-
-$statements['data'][] = [':new_name',  'Manny',           'str'];
-$statements['data'][] = [':new_email', 'manny@email.com', 'str'];
-
-$clauses = 'id = :id AND name = :name1 OR name = :name2';
-
-$statements['clauses'][] = [':id',         1,      'int'];
-$statements['clauses'][] = [':name1',     'Isis',  'str'];
-$statements['clauses'][] = [':name2',     'Manny', 'str'];
-
-
-$query = $db->update($data, $statements['data'])
-            ->in('test')
-            ->where($clauses, $statements['clauses']);
-
-$result = $query->execute();
-```
-
-### Replace
-
-Replace a row in a table if it exists or insert a new row in a table if not exist.
-
-```php
-$db->replace()->from()->execute();
-```
-
-**replace**($data, $statements)
-
-$data       → (array)            → Name of columns and values to be replaced.
-
-$statements → (array) (Optional) → Prepared statements.
-
-**from**($table)
-
-$table → (string) Database table name.
-
-**execute**($dataType)
-
-$dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
-
-**REPLACE** example. For more examples see the [DatabaseReplaceTest](tests/DatabaseReplaceTest.php) class.
-
-```php
-$data = [
-    'id'    => 1,
-    'name'  => 'Manny', 
-    'email' => 'manny@email.com'
-];
-
-$query = $db->replace($data)
-            ->from('test');
-
-$result = $query->execute();
-```
-
-### Delete
-
-Delete fields in the database.
-
-```php
-$db->delete()->from()->where()->execute();
-```
-
-**delete()**
-
-This method has no attributes.
-
-**from**($table)
-
-$table → (string) Database table name.
-
-**where**($clauses, $statements) (Optional)
-
-$clauses    → (array|string)     → Where clauses.
-
-$statements → (array) (Optional) → Prepared statements.
-
-**execute**($dataType)
-
-$dataType → (string|empty) → Accepted parameters: 'rows' & 'id'.
-
-**DELETE** query example. For more examples see the [DatabaseDeleteTest](tests/DatabaseDeleteTest.php) class.
-
-```php
-$query = $db->delete()
-            ->from('test')
-            ->where('id = 1');
-
-$result = $query->execute();
-```
-
-### Create
-
-Create table in database.
-
-```php
-$db->create()->table()->execute();
-```
-
-**create**($params)
-
-$params → (array) → Parameters of configuration for the columns.
-
-**table**($table)
-
-$table → (string) Database table name.
-
-**foreing**($foreing_key) (Optional)
-
-$foreing_key → (string) Foreing key.
-
-**reference**($reference) (Optional)
-
-$reference → (string) Column reference.
-
-**on**($table) (Optional)
-
-$table → (string) Table reference.
-
-**actions**($actions) (Optional)
-
-$actions → (string) Actions when delete or update for foreing key.
-
-**engine**($engine) (Optional)
-
-$engine → (string) Database engine.
-
-**charset**($charset) (Optional)
-
-$charset → (string) Database charset.
-
-**execute()**
-
-This method has no attributes.
-
-**CREATE** query example. For more examples see the [DatabaseCreateTest](tests/DatabaseCreateTest.php) class.
+| Method | Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| | $data | Column name and configuration for data types. | array | Yes | |
+| table() | | Set database table name. | method | Yes | |
+| | $table | Table name. | string | Yes | |
+| foreing() | | Set foreing key. | method | No | |
+| | $id | Column id. | string | Yes | |
+| reference() | | Set reference for foreing keys. | method | No | |
+| | $table | Table name. | array | Yes | |
+| on() | | Set database table name. | method | No | |
+| | $table | Table name. | array | Yes | |
+| actions() | | Set actions when delete or update for foreing key. | method | No | |
+| | $action | Action when delete or update. | array | Yes | |
+| engine() | | Set table engine. | method | No | |
+| | $type | Engine type. | string | Yes | |
+| charset() | | Set table charset. | method | No | |
+| | $type | Charset type. | string | Yes | |
+| execute() | | Execute query. | method | Yes | |
+
+**# Return** (boolean)
 
 ```php
 $params = [
-    'id'       => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY', 
-    'name'     => 'VARCHAR(30) NOT NULL',
-    'email'    => 'VARCHAR(50)',
-    'reg_date' => 'TIMESTAMP'
+    'id'    => 'INT(6) PRIMARY KEY',
+    'name'  => 'VARCHAR(30) NOT NULL',
+    'email' => 'VARCHAR(50)'
 ];
 
-$query = static::$db->create($params)
-                    ->table('test');
+$query = $db->create($params)
+            ->table('test')
+            ->execute();
 
-$result = $query->execute();
+$db->create($params)
+   ->table('test_two')
+   ->foreing('id')
+   ->reference('id')
+   ->on('test')
+   ->actions('ON DELETE CASCADE ON UPDATE CASCADE')
+   ->engine('innodb')
+   ->charset('utf8')
+   ->execute();
 ```
 
-### Truncate
+### SELECT
 
-Truncate table in database.
+`SELECT statement:`
 
 ```php
-$db->truncate()->table()->execute();
+$db->select($columns)
+   ->from($table)
+   ->where($clauses, $statements)
+   ->order($type)
+   ->limit($number)
+   ->execute($result);
 ```
 
-**truncate()**
+| Method | Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| | $columns | Column/s name. | mixed | No | '*' |
+| from() | | Set database table name. | method | Yes | |
+| | $table | Table name. | string | Yes | |
+| where() | | Where clauses. | method | No | |
+| | $clauses | Column name and value. | mixed | Yes | |
+| | $statements | Statements. | array | No | null |
+| order() | | Order. | method | No | |
+| | $type | Query sort parameters. | string | Yes | |
+| limit() | | Limit. | method | No | |
+| | $number | Number. | int | Yes | |
+| execute() | | Execute query. | method | Yes | |
+| | $result | Query result; 'obj', 'array_num', 'array_assoc', 'rows'. | string | No | 'obj' |
 
-This method has no attributes.
-
-**table**($table)
-
-$table → (string) Database table name.
-
-**execute()**
-
-This method has no attributes.
-
-**TRUNCATE** query example. For more examples see the [DatabaseTruncateTest](tests/DatabaseTruncateTest.php) class.
+**# Return** (mixed) → query result  (object, array, int...) or rows affected
 
 ```php
-$query = $db->truncate()
-            ->table('test');
+#SELECT all
+$db->select()
+    ->from('test')
+    ->execute('array_num');
 
-$result = $query->execute();
+#SELECT with all params
+$db->select(['id', 'name'])
+   ->from('test')
+   ->where(['id = 4885', 'name = "Joe"'])
+   ->order(['id DESC', 'name ASC'])
+   ->limit(1)
+   ->execute('obj');
+
+#SELECT with statements
+$statements[] = [1, 3008];
+$statements[] = [2, 'Manny'];
+        
+$db->select('name')
+   ->from('test')
+   ->where('id = ? OR name = ?', $statements)
+   ->execute('rows');
+
+#Other version of SELECT with statements
+$statements[] = [':id', 8, 'int'];
+$statements[] = [':email', null, 'null'];
+
+$clauses = [
+    'id    = :id',
+    'email = :email'
+];
+
+$db->select('name')
+   ->from('test')
+   ->where($clauses, $statements)
+   ->execute('rows');
 ```
 
-### Drop
+### INSERT INTO
 
-Drop table in database.
+`INSERT INTO statement:`
 
 ```php
-$db->drop()->table()->execute();
+$db->insert($data, $statements)
+   ->in($table)
+   ->execute($result);
 ```
 
-**drop()**
+| Method | Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| | $data | Column name and value. | array | Yes | |
+| | $statements | Statements. | array | No | null |
+| in() | | Set database table name. | method | Yes | |
+| | $table | Table name. | string | Yes | |
+| execute() | | Execute query. | method | Yes | |
+| | $result | Query result; 'rows', 'id'. | string | No | 'rows' |
 
-This method has no attributes.
-
-**table**($table)
-
-$table → (string) Database table name.
-
-**execute()**
-
-This method has no attributes.
-
-**DROP** query example. For more examples see the [DatabaseDropTest](tests/DatabaseDropTest.php) class.
+**# Return** (int) → rows affected or last row affected ID
 
 ```php
-$query = $db->drop()
-            ->table('test');
+#INSERT INTO basic example
+$data = [
+    "name"  => "Isis",
+    "email" => "isis@email.com",
+];
+        
+$db->insert($data)
+   ->in('test')
+   ->execute();
 
-$result = $query->execute();
+#INSERT INTO with statements
+$data = [
+    "name"  => "?",
+    "email" => "?",
+];
+
+$statements[] = [1, "Isis"];
+$statements[] = [2, "isis@email.com"];
+
+$db->insert($data, $statements)
+   ->in('test')
+   ->execute('rows');
+
+#Other version of INSERT INTO with statements
+$data = [
+    "name"  => ":name",
+    "email" => ":email",
+];
+
+$statements[] = [":name", "Isis", "str"];
+$statements[] = [":email", "isis@email.com", "str"];
+
+$db->insert($data, $statements)
+   ->in('test')
+   ->execute('id');
+```
+
+### UPDATE
+
+`UPDATE statement:`
+
+```php
+$db->update($data, $statements)
+   ->in($table)
+   ->where($clauses, $statements)
+   ->execute();
+```
+
+| Method | Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| | $data | Column name and value. | array | Yes | |
+| | $statements | Statements. | array | No | null |
+| in() | | Set database table name. | method | Yes | |
+| | $table | Table name. | string | Yes | |
+| where() | | Where clauses. | method | No | |
+| | $clauses | Column name and value. | mixed | Yes | |
+| | $statements | Statements. | array | No | null |
+| execute() | | Execute query. | method | Yes | |
+
+**# Return** (int) → rows affected 
+
+```php
+#UPDATE basic example
+$data = [
+    'name'  => 'Isis',
+    'email' => 'isis@email.com',
+];
+
+$db->update($data)
+   ->in('test')
+   ->execute();
+
+#UPDATE with WHERE
+$data = [
+    'name'  => 'Manny',
+    'email' => 'manny@email.com',
+];
+
+$clauses = [
+    'name  = "isis"',
+    'email = "isis@email.com"'
+];
+
+$db->update($data)
+   ->in('test')
+   ->where($clauses)
+   ->execute();
+
+#UPDATE with statements
+$data = [
+    'name'  => '?',
+    'email' => '?',
+];
+
+$statements['data'][] = [1, 'Isis'];
+$statements['data'][] = [2, 'isis@email.com'];
+
+$clauses = 'id = ? AND name = ? OR name = ?';
+
+$statements['clauses'][] = [3, 4883];
+$statements['clauses'][] = [4, 'Isis'];
+$statements['clauses'][] = [5, 'Manny'];
+
+$db->update($data, $statements['data'])
+   ->in('test')
+   ->where($clauses, $statements['clauses'])
+   ->execute();
+
+#Other version of UPDATE with statements
+$data = [
+    'name'  => ':new_name',
+    'email' => ':new_email',
+];
+
+$statements['data'][] = [':new_name', 'Manny', 'str'];
+$statements['data'][] = [':new_email', 'manny@email.com', 'str'];
+
+$clauses = 'name = :name1 OR name = :name2';
+
+$statements['clauses'][] = [':name1', 'Isis', 'str'];
+$statements['clauses'][] = [':name2', 'Manny', 'str'];
+
+$db->update($data, $statements['data'])
+   ->in('test')
+   ->where($clauses, $statements['clauses'])
+   ->execute();
+```
+
+### REPLACE
+
+`Replace a row in a table if it exists or insert a new row if not exist:`
+
+```php
+$db->replace($data, $statements)
+   ->from($table)
+   ->execute($result);
+```
+
+| Method | Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| | $data | Column name and value. | array | Yes | |
+| | $statements | Statements. | array | No | null |
+| from() | | Set database table name. | method | Yes | |
+| | $table | Table name. | string | Yes | |
+| execute() | | Execute query. | method | Yes | |
+| | $result | Query result; 'rows', 'id'. | string | No | 'rows' |
+
+**# Return** (int) → rows affected or last row affected ID
+
+```php
+#REPLACE basic example
+$data = [
+    'id'    => 3008,
+    'name'  => 'Manny',
+    'email' => 'manny@email.com',
+];
+
+$db->replace($data)
+   ->from('test')
+   ->execute();
+
+#UPDATE with statements
+$data = [
+    'id'    => 4889,
+    'name'  => ':name',
+    'email' => ':email',
+];
+
+$statements[] = [':name', 'Manny'];
+$statements[] = [':email', 'manny@email.com'];
+
+$db->replace($data, $statements)
+   ->from('test')
+   ->execute('rows');
+
+#Other version of UPDATE with statements
+$data = [
+    'id'    => 2,
+    'name'  => '?',
+    'email' => '?',
+];
+
+$statements[] = [1, 'Manny'];
+$statements[] = [2, 'manny@email.com'];
+
+$db->replace($data, $statements)
+   ->from('test')
+   ->execute('id');
+```
+
+### DELETE
+
+`DELETE statement:`
+
+```php
+$db->replace($data, $statements)
+   ->from($table)
+   ->where($clauses, $statements)
+   ->execute();
+```
+
+| Method | Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| | $data | Column name and value. | array | Yes | |
+| | $statements | Statements. | array | No | null |
+| from() | | Set database table name. | method | Yes | |
+| | $table | Table name. | string | Yes | |
+| where() | | Where clauses. | method | No | |
+| | $clauses | Column name and value. | mixed | Yes | |
+| | $statements | Statements. | array | No | null |
+| execute() | | Execute query. | method | Yes | |
+
+**# Return** (int) → rows affected 
+
+```php
+#DELETE all
+$db->delete()
+   ->from('test')
+   ->execute();
+
+#DELETE with WHERE
+$clauses = [
+    'id = 4884',
+    'name  = "isis"',
+    'email = "isis@email.com"',
+];
+
+$db->delete()
+   ->from('test')
+   ->where($clauses)
+   ->execute();
+
+#DELETE with statements
+$clauses = 'id = :id AND name = :name1 OR name = :name2';
+
+$statements[] = [':id', 4885];
+$statements[] = [':name1', 'Isis'];
+$statements[] = [':name2', 'Manny'];
+
+$db->delete()
+   ->from('test')
+   ->where($clauses, $statements)
+   ->execute();
+
+#Other version of DELETE with statements
+$clauses = 'id = :id AND name = :name1 OR name = :name2';
+
+$statements[] = [':id', 4886, 'int'];
+$statements[] = [':name1', 'Isis', 'src'];
+$statements[] = [':name2', 'Manny', 'src'];
+
+$db->delete()
+   ->from('test_table')
+   ->where($clauses, $statements)
+   ->execute();
+```
+
+### TRUNCATE TABLE
+
+`TRUNCATE TABLE statement:`
+
+```php
+$db->truncate()
+   ->table($table)
+   ->execute();
+```
+
+| Method | Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| table() | | Set database table name. | method | Yes | |
+| | $table | Table name. | string | Yes | |
+| execute() | | Execute query. | method | Yes | |
+
+**# Return** (boolean)
+
+```php
+$db->truncate()
+   ->table('test')
+   ->execute();
+```
+
+### DROP TABLE
+
+`DROP TABLE statement:`
+
+```php
+$db->drop()
+   ->table($table)
+   ->execute();
+```
+
+| Method | Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- | --- |
+| table() | | Set database table name. | method | Yes | |
+| | $table | Table name. | string | Yes | |
+| execute() | | Execute query. | method | Yes | |
+
+**# Return** (boolean)
+
+```php
+$db->drop()
+   ->table('test')
+   ->execute();
+```
+
+### Quick Start
+
+To use this class with `Composer`:
+
+```php
+require __DIR__ . '/vendor/autoload.php';
+
+use Josantonius\Database\Database;
+```
+
+Or If you installed it `manually`, use it:
+
+```php
+require_once __DIR__ . '/Database.php';
+
+use Josantonius\Database\Database;
 ```
 
 ### Tests 
 
-To run [tests](tests/Database/Test) simply:
+To run [tests](tests) you just need [Composer](http://getcomposer.org/download/) and to execute the following:
 
     $ git clone https://github.com/Josantonius/PHP-Database.git
     
     $ cd PHP-Database
 
     $ mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS phpunit CHARACTER SET utf8 COLLATE utf8_general_ci; CREATE USER 'travis'@'127.0.0.1' IDENTIFIED BY ''; GRANT ALL ON phpunit.* TO 'travis'@'127.0.0.1'; FLUSH PRIVILEGES;"
+    
+    $ composer install
 
-    $ phpunit
+Run [PSR2](http://www.php-fig.org/psr/psr-2/) code standard tests with [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
+
+    $ composer phpcs
+
+Run all previous tests:
+
+    $ composer tests
 
 ### ☑ TODO
 
 - [x] Create tests
-- [ ] Improve documentation
+- [ ] Refactorizate code
+- [ ] Add methods for SQL joins
+- [x] Improve documentation
 
 ### Exception Handler
 

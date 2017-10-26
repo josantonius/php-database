@@ -1,6 +1,6 @@
 {
     "name":        "josantonius/database",
-    "version":     "1.1.6",
+    "version":     "1.1.7",
     "type":        "library",
     "description": "Library for SQL database management to be used by several providers at the same time.",
     "keywords": [
@@ -23,6 +23,8 @@
         }
     ],
     "support": {
+        "issues": "https://github.com/josantonius/php-database/issues",
+        "forum":  "http://stackoverflow.com/tags/josantonius/php-database",
         "source": "https://github.com/josantonius/php-database"
     },
     "config": {
@@ -34,11 +36,17 @@
     },
     "require-dev": {
         "Eliasis-Framework/Eliasis": "^1.1.1",
+        "squizlabs/php_codesniffer": "3.*",
         "phpunit/phpunit": "5.7.*"
     },
     "autoload": {
         "psr-4": {
-            "Josantonius\\Database\\": "src/Database/"
+            "Josantonius\\Database\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Josantonius\\Database\\": "tests/"
         }
     },
     "extra": {
@@ -47,6 +55,8 @@
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "phpunit": "vendor/bin/phpunit --colors=always;",
+        "phpcs": "vendor/bin/phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php');",
+        "tests": "clear && vendor/bin/phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php') && vendor/bin/phpunit --colors=always;"
     }
 }

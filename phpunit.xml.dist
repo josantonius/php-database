@@ -9,7 +9,7 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="tests/bootstrap.php">
+         bootstrap="vendor/autoload.php">
 
     <php>
         <server name='SERVER_PROTOCOL' value='HTTP/1.1' />
@@ -28,22 +28,22 @@
     </php>
     
     <testsuites>
-        <testsuite name="Database Test Suite">
-            <file>tests/Database/Test/ConnectionTest.php</file>
-            <file>tests/Database/Test/CreateTest.php</file>
-            <file>tests/Database/Test/InsertTest.php</file>
-            <file>tests/Database/Test/SelectTest.php</file>
-            <file>tests/Database/Test/ReplaceTest.php</file>
-            <file>tests/Database/Test/UpdateTest.php</file>
-            <file>tests/Database/Test/DeleteTest.php</file>
-            <file>tests/Database/Test/TruncateTest.php</file>
-            <file>tests/Database/Test/DropTest.php</file>
+        <testsuite name="Test Suite">
+            <file>tests/ConnectionTest.php</file>
+            <file>tests/CreateTest.php</file>
+            <file>tests/InsertTest.php</file>
+            <file>tests/SelectTest.php</file>
+            <file>tests/ReplaceTest.php</file>
+            <file>tests/UpdateTest.php</file>
+            <file>tests/DeleteTest.php</file>
+            <file>tests/TruncateTest.php</file>
+            <file>tests/DropTest.php</file>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>src/Database</directory>
+            <directory>src</directory>
         </whitelist>
     </filter>
 </phpunit>
