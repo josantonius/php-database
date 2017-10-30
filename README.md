@@ -30,15 +30,15 @@ SQL database management to be used by several providers at the same time.
 
 ---
 
-### Requirements
+## Requirements
 
-This library is supported by `PHP versions 5.6` or higher and is compatible with `HHVM versions 3.0` or higher.
+This library is supported by **PHP versions 5.6** or higher and is compatible with **HHVM versions 3.0** or higher.
 
-### Installation
+## Installation
 
 The preferred way to install this extension is through [Composer](http://getcomposer.org/download/).
 
-To install `PHP Database library`, simply:
+To install **PHP Database library**, simply:
 
     $ composer require Josantonius/Database
 
@@ -60,9 +60,9 @@ Download [Database.php](https://raw.githubusercontent.com/Josantonius/PHP-Databa
     $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php
     $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php
 
-### Get connection
+## Get connection
 
-`Get connection:`
+### - Get connection:
 
 ```php
 Database::getConnection($id, $provider, $host, $user, $name, $password, $settings);
@@ -113,9 +113,9 @@ $db = Database::getConnection('identifier');
 $externalDB = Database::getConnection('external');
 ```
 
-### Query
+## Query
 
-`Process query and prepare it for the provider:`
+### - Process query and prepare it for the provider:
 
 ```php
 $db->query($query, $statements, $result);
@@ -158,9 +158,9 @@ $db->query(
 );
 ```
 
-### CREATE TABLE
+## CREATE TABLE
 
-`CREATE TABLE statement:`
+### - CREATE TABLE statement:
 
 ```php
 $db->create($data)
@@ -217,9 +217,9 @@ $db->create($params)
    ->execute();
 ```
 
-### SELECT
+## SELECT
 
-`SELECT statement:`
+### - SELECT statement:
 
 ```php
 $db->select($columns)
@@ -285,9 +285,9 @@ $db->select('name')
    ->execute('rows');
 ```
 
-### INSERT INTO
+## INSERT INTO
 
-`INSERT INTO statement:`
+### - INSERT INTO statement:
 
 ```php
 $db->insert($data, $statements)
@@ -344,9 +344,9 @@ $db->insert($data, $statements)
    ->execute('id');
 ```
 
-### UPDATE
+## UPDATE
 
-`UPDATE statement:`
+### - UPDATE statement:
 
 ```php
 $db->update($data, $statements)
@@ -435,9 +435,9 @@ $db->update($data, $statements['data'])
    ->execute();
 ```
 
-### REPLACE
+## REPLACE
 
-`Replace a row in a table if it exists or insert a new row if not exist:`
+### - Replace a row in a table if it exists or insert a new row if not exist:
 
 ```php
 $db->replace($data, $statements)
@@ -497,9 +497,9 @@ $db->replace($data, $statements)
    ->execute('id');
 ```
 
-### DELETE
+## DELETE
 
-`DELETE statement:`
+### - DELETE statement:
 
 ```php
 $db->replace($data, $statements)
@@ -564,9 +564,9 @@ $db->delete()
    ->execute();
 ```
 
-### TRUNCATE TABLE
+## TRUNCATE TABLE
 
-`TRUNCATE TABLE statement:`
+### - TRUNCATE TABLE statement:
 
 ```php
 $db->truncate()
@@ -588,9 +588,9 @@ $db->truncate()
    ->execute();
 ```
 
-### DROP TABLE
+## DROP TABLE
 
-`DROP TABLE statement:`
+### - DROP TABLE statement:
 
 ```php
 $db->drop()
@@ -612,9 +612,9 @@ $db->drop()
    ->execute();
 ```
 
-### Quick Start
+## Quick Start
 
-To use this class with `Composer`:
+To use this class with **Composer**:
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
@@ -622,7 +622,7 @@ require __DIR__ . '/vendor/autoload.php';
 use Josantonius\Database\Database;
 ```
 
-Or If you installed it `manually`, use it:
+Or If you installed it **manually**, use it:
 
 ```php
 require_once __DIR__ . '/Database.php';
@@ -630,7 +630,7 @@ require_once __DIR__ . '/Database.php';
 use Josantonius\Database\Database;
 ```
 
-### Tests 
+## Tests 
 
 To run [tests](tests) you just need [Composer](http://getcomposer.org/download/) and to execute the following:
 
@@ -650,7 +650,7 @@ Run all previous tests:
 
     $ composer tests
 
-### ☑ TODO
+## ☑ TODO
 
 - [x] Create tests
 - [ ] Refactorizate code
@@ -658,11 +658,11 @@ Run all previous tests:
 - [ ] Complete provider for MSSQL
 - [x] Improve documentation
 
-### Exception Handler
+## Exception Handler
 
 This library uses [exception handler](src/Exception) that you can customize.
 
-### Contribute
+## Contribute
 
 1. Check for open issues or open a new issue to start a discussion around a bug or feature.
 1. Fork the repository on GitHub to start making your changes.
@@ -672,15 +672,15 @@ This library uses [exception handler](src/Exception) that you can customize.
 
 This is intended for large and long-lived objects.
 
-### Repository
+## Repository
 
 All files in this repository were created and uploaded automatically with [Reposgit Creator](https://github.com/Josantonius/BASH-Reposgit).
 
-### License
+## License
 
 This project is licensed under **MIT license**. See the [LICENSE](LICENSE) file for more info.
 
-### Copyright
+## Copyright
 
 2017 Josantonius, [josantonius.com](https://josantonius.com/)
 

@@ -31,15 +31,15 @@ Biblioteca para la administración de bases de datos SQL para ser utilizada por 
 
 ---
 
-### Requisitos
+## Requisitos
 
-Esta clase es soportada por versiones de `PHP 5.6` o superiores y es compatible con versiones de `HHVM 3.0` o superiores.
+Esta clase es soportada por versiones de **PHP 5.6** o superiores y es compatible con versiones de **HHVM 3.0** o superiores.
 
-### Instalación 
+## Instalación 
 
 La mejor forma de instalar esta extensión es a través de [Composer](http://getcomposer.org/download/).
 
-Para instalar `PHP Database library`, simplemente escribe:
+Para instalar **PHP Database library**, simplemente escribe:
 
     $ composer require Josantonius/Database
 
@@ -61,9 +61,9 @@ Descargar [Database.php](https://raw.githubusercontent.com/Josantonius/PHP-Datab
     $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php
     $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php
 
-### Get connection
+## Get connection
 
-`Get connection:`
+### - Get connection:
 
 ```php
 Database::getConnection($id, $provider, $host, $user, $name, $password, $settings);
@@ -114,9 +114,9 @@ $db = Database::getConnection('identifier');
 $externalDB = Database::getConnection('external');
 ```
 
-### Query
+## Query
 
-`Procesar la consulta y prepararla para el proveedor:`
+### - Procesar la consulta y prepararla para el proveedor:
 
 ```php
 $db->query($query, $statements, $result);
@@ -159,9 +159,9 @@ $db->query(
 );
 ```
 
-### CREATE TABLE
+## CREATE TABLE
 
-`CREATE TABLE:`
+### - CREATE TABLE:
 
 ```php
 $db->create($data)
@@ -218,9 +218,9 @@ $db->create($params)
    ->execute();
 ```
 
-### SELECT
+## SELECT
 
-`Declaración SELECT:`
+### - Declaración SELECT:
 
 ```php
 $db->select($columns)
@@ -286,9 +286,9 @@ $db->select('name')
    ->execute('rows');
 ```
 
-### INSERT INTO
+## INSERT INTO
 
-`Declaración INSERT INTO:`
+### - Declaración INSERT INTO:
 
 ```php
 $db->insert($data, $statements)
@@ -345,9 +345,9 @@ $db->insert($data, $statements)
    ->execute('id');
 ```
 
-### UPDATE
+## UPDATE
 
-`Declaración UPDATE:`
+### - Declaración UPDATE:
 
 ```php
 $db->update($data, $statements)
@@ -436,9 +436,9 @@ $db->update($data, $statements['data'])
    ->execute();
 ```
 
-### REPLACE
+## REPLACE
 
-`Reemplazar una línea en una tabla si existe o insertar una nueva línea si no existe:`
+### - Reemplazar una línea en una tabla si existe o insertar una nueva línea si no existe:
 
 ```php
 $db->replace($data, $statements)
@@ -498,9 +498,9 @@ $db->replace($data, $statements)
    ->execute('id');
 ```
 
-### DELETE
+## DELETE
 
-`Declaración DELETE:`
+### - Declaración DELETE:
 
 ```php
 $db->replace($data, $statements)
@@ -565,9 +565,9 @@ $db->delete()
    ->execute();
 ```
 
-### TRUNCATE TABLE
+## TRUNCATE TABLE
 
-`Declaración TRUNCATE TABLE:`
+### - Declaración TRUNCATE TABLE:
 
 ```php
 $db->truncate()
@@ -589,9 +589,9 @@ $db->truncate()
    ->execute();
 ```
 
-### DROP TABLE
+## DROP TABLE
 
-`Declaración DROP TABLE:`
+### - Declaración DROP TABLE:
 
 ```php
 $db->drop()
@@ -613,7 +613,7 @@ $db->drop()
    ->execute();
 ```
 
-### Tests 
+## Tests 
 
 Para ejecutar las [pruebas](tests) necesitarás [Composer](http://getcomposer.org/download/) y seguir los siguientes pasos:
 
@@ -637,7 +637,7 @@ Ejecutar todas las pruebas anteriores:
 
     $ composer tests
 
-### ☑ Tareas pendientes
+## ☑ Tareas pendientes
 
 - [x] Completar tests
 - [ ] Refactorizar código
@@ -645,11 +645,11 @@ Ejecutar todas las pruebas anteriores:
 - [ ] Completar proveedor para MSSQL
 - [x] Mejorar la documentación
 
-### Manejador de excepciones
+## Manejador de excepciones
 
 Esta biblioteca utiliza [control de excepciones](src/Exception) que puedes personalizar a tu gusto.
 
-### Contribuir
+## Contribuir
 
 1. Comprobar si hay incidencias abiertas o abrir una nueva para iniciar una discusión en torno a un fallo o función.
 1. Bifurca la rama del repositorio en GitHub para iniciar la operación de ajuste.
@@ -659,15 +659,15 @@ Esta biblioteca utiliza [control de excepciones](src/Exception) que puedes perso
 
 Esto está pensado para proyectos grandes y de larga duración.
 
-### Repositorio
+## Repositorio
 
 Los archivos de este repositorio se crearon y subieron automáticamente con [Reposgit Creator](https://github.com/Josantonius/BASH-Reposgit).
 
-### Licencia
+## Licencia
 
 Este proyecto está licenciado bajo **licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más información.
 
-### Copyright
+## Copyright
 
 2017 Josantonius, [josantonius.com](https://josantonius.com/)
 
