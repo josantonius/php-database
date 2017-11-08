@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use PHPUnit\Framework\TestCase;
@@ -33,13 +32,11 @@ final class UpdateTest extends TestCase
      * Setup.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->db = Database::getConnection(
             'identifier',
             'PDOprovider',
@@ -47,7 +44,7 @@ final class UpdateTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -55,8 +52,6 @@ final class UpdateTest extends TestCase
      * [QUERY] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryReturnRows()
     {
@@ -66,15 +61,13 @@ final class UpdateTest extends TestCase
                     email = "manny@email.com"'
         );
 
-        $this->assertEquals(8, $result);
+        $this->assertSame(8, $result);
     }
 
     /**
      * [QUERY] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryWhereReturnRows()
     {
@@ -85,43 +78,39 @@ final class UpdateTest extends TestCase
              WHERE  name  = 'Manny'"
         );
 
-        $this->assertEquals(13, $result);
+        $this->assertSame(13, $result);
     }
 
     /**
      * [QUERY] [STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryStatementsWhereReturnRows()
     {
-        $statements[] = [":name", "Manny"];
-        $statements[] = [":email", "manny@email.com"];
+        $statements[] = [':name', 'Manny'];
+        $statements[] = [':email', 'manny@email.com'];
 
         $result = $this->db->query(
-            "UPDATE test_table
+            'UPDATE test_table
              SET    name  = :name,
                     email = :email
-             WHERE  id    = 3008",
+             WHERE  id    = 3008',
             $statements
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [QUERY] [STATEMENTS] [DATA TYPE] [WHERE MULTIPLE] [ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryStatementsDataTypeWhereMultiple()
     {
-        $statements[] = [":name", "Manny", "str"];
-        $statements[] = [":email", "manny@email.com", "str"];
+        $statements[] = [':name', 'Manny', 'str'];
+        $statements[] = [':email', 'manny@email.com', 'str'];
 
         $result = $this->db->query(
             "UPDATE test_table
@@ -131,20 +120,18 @@ final class UpdateTest extends TestCase
             $statements
         );
 
-        $this->assertEquals(12, $result);
+        $this->assertSame(12, $result);
     }
 
     /**
      * [QUERY] [MARKS STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryMarksStatementsWhereReturnRows()
     {
-        $statements[] = [1, "Isis"];
-        $statements[] = [2, "isis@email.com"];
+        $statements[] = [1, 'Isis'];
+        $statements[] = [2, 'isis@email.com'];
 
         $result = $this->db->query(
             'UPDATE test_table
@@ -153,30 +140,28 @@ final class UpdateTest extends TestCase
             $statements
         );
 
-        $this->assertEquals(13, $result);
+        $this->assertSame(13, $result);
     }
 
     /**
      * [QUERY] [MARKS STATEMENTS] [DATA TYPE] [WHERE SIMPLE] [ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryMarksStatementsDataTypeWhereReturnRows()
     {
-        $statements[] = [1, "Manny", "str"];
-        $statements[] = [2, "manny@email.com", "str"];
+        $statements[] = [1, 'Manny', 'str'];
+        $statements[] = [2, 'manny@email.com', 'str'];
 
         $result = $this->db->query(
-            "UPDATE test_table
+            'UPDATE test_table
              SET    name  = ?,
                     email = ?
-             WHERE  id    = 1",
+             WHERE  id    = 1',
             $statements
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
@@ -184,11 +169,9 @@ final class UpdateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testQueryTableNameErrorException()
     {
@@ -204,11 +187,9 @@ final class UpdateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testQueryColumnNameErrorException()
     {
@@ -223,13 +204,11 @@ final class UpdateTest extends TestCase
      * [METHOD] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodReturnRows()
     {
         $data = [
-            'name'  => 'Isis',
+            'name' => 'Isis',
             'email' => 'isis@email.com',
         ];
 
@@ -238,20 +217,18 @@ final class UpdateTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodWhereReturnRows()
     {
         $data = [
-            'name'  => 'Manny',
+            'name' => 'Manny',
             'email' => 'manny@email.com',
         ];
 
@@ -261,20 +238,18 @@ final class UpdateTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodWhereMultipleReturnRows()
     {
         $data = [
-            'name'  => 'Manny',
+            'name' => 'Manny',
             'email' => 'manny@email.com',
         ];
 
@@ -289,20 +264,18 @@ final class UpdateTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(12, $result);
+        $this->assertSame(12, $result);
     }
 
     /**
      * [METHOD] [STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodStatementsWhereAdvancedReturnRows()
     {
         $data = [
-            'name'  => ':new_name',
+            'name' => ':new_name',
             'email' => ':new_email',
         ];
 
@@ -321,20 +294,18 @@ final class UpdateTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(13, $result);
+        $this->assertSame(13, $result);
     }
 
     /**
      * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodStatementsDataTypeAdvancedReturnRows()
     {
         $data = [
-            'name'  => ':new_name',
+            'name' => ':new_name',
             'email' => ':new_email',
         ];
 
@@ -352,20 +323,18 @@ final class UpdateTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(13, $result);
+        $this->assertSame(13, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMarksStatementsWhereAdvanceReturnRows()
     {
         $data = [
-            'name'  => '?',
+            'name' => '?',
             'email' => '?',
         ];
 
@@ -384,20 +353,18 @@ final class UpdateTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(13, $result);
+        $this->assertSame(13, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [DATATYPE] [WHERE ADVANCED] [RETURN ZERO]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMarksStatementsDataTypeReturnZero()
     {
         $data = [
-            'name'  => '?',
+            'name' => '?',
             'email' => '?',
         ];
 
@@ -416,7 +383,7 @@ final class UpdateTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(0, $result);
+        $this->assertSame(0, $result);
     }
 
     /**
@@ -424,16 +391,14 @@ final class UpdateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testMethodTableNameErrorException()
     {
         $data = [
-            'name'  => 'Manny',
+            'name' => 'Manny',
             'email' => 'manny@email.com',
         ];
 
@@ -448,16 +413,14 @@ final class UpdateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testMethodColumnNameErrorException()
     {
         $data = [
-            'xxxx'  => 'Manny',
+            'xxxx' => 'Manny',
             'email' => 'manny@email.com',
         ];
 

@@ -26,7 +26,7 @@
         <var name="DB_PASSWORD" value="" />
         <var name="DB_NAME"     value="phpunit" />
     </php>
-    
+
     <testsuites>
         <testsuite name="Test Suite">
             <file>tests/ConnectionTest.php</file>
@@ -46,4 +46,5 @@
             <directory>src</directory>
         </whitelist>
     </filter>
+
 </phpunit>

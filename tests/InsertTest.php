@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use PHPUnit\Framework\TestCase;
@@ -33,8 +32,6 @@ final class InsertTest extends TestCase
      * Setup.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function setUp()
     {
@@ -47,7 +44,7 @@ final class InsertTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -55,8 +52,6 @@ final class InsertTest extends TestCase
      * [QUERY] [RETURN ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertReturnRows()
     {
@@ -65,15 +60,13 @@ final class InsertTest extends TestCase
              VALUES ("Isis", "isis@email.com")'
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [QUERY] [RETURN LAST INSERT ID]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertReturnID()
     {
@@ -84,20 +77,18 @@ final class InsertTest extends TestCase
             'id'
         );
 
-        $this->assertEquals(2, $result);
+        $this->assertSame(2, $result);
     }
 
     /**
      * [QUERY] [STATEMENTS] [RETURN ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertStatementsReturnRows()
     {
-        $statements[] = [":name", "Isis"];
-        $statements[] = [":email", "isis@email.com"];
+        $statements[] = [':name', 'Isis'];
+        $statements[] = [':email', 'isis@email.com'];
 
         $result = $this->db->query(
             'INSERT INTO test_table (name, email)
@@ -105,21 +96,19 @@ final class InsertTest extends TestCase
             $statements
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [QUERY] [STATEMENTS] [DATA-TYPE] [RETURN ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertStatementsDataTypeReturnRows()
     {
-        $statements[] = [":id", 3008, "int"];
-        $statements[] = [":name", "Isis", "str"];
-        $statements[] = [":email", "isis@email.com", "str"];
+        $statements[] = [':id', 3008, 'int'];
+        $statements[] = [':name', 'Isis', 'str'];
+        $statements[] = [':email', 'isis@email.com', 'str'];
 
         $result = $this->db->query(
             'INSERT INTO test_table (id, name, email)
@@ -127,7 +116,7 @@ final class InsertTest extends TestCase
             $statements
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
@@ -135,17 +124,15 @@ final class InsertTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessage Duplicate entry
-     *
-     * @return void
      */
     public function testInsertDuplicateEntryException()
     {
-        $statements[] = [":id", 3008, "int"];
-        $statements[] = [":name", "Isis", "str"];
-        $statements[] = [":email", "isis@email.com", "str"];
+        $statements[] = [':id', 3008, 'int'];
+        $statements[] = [':name', 'Isis', 'str'];
+        $statements[] = [':email', 'isis@email.com', 'str'];
 
         $result = $this->db->query(
             'INSERT INTO test_table (id, name, email)
@@ -158,13 +145,11 @@ final class InsertTest extends TestCase
      * [QUERY] [MARKS STATEMENTS] [RETURN LAST INSERT ID]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertStatementsReturnID()
     {
-        $statements[] = [1, "Isis"];
-        $statements[] = [2, "isis@email.com"];
+        $statements[] = [1, 'Isis'];
+        $statements[] = [2, 'isis@email.com'];
 
         $result = $this->db->query(
             'INSERT INTO test_table (name, email)
@@ -173,21 +158,19 @@ final class InsertTest extends TestCase
             'id'
         );
 
-        $this->assertEquals(3009, $result);
+        $this->assertSame(3009, $result);
     }
 
     /**
      * [QUERY] [MARKS STATEMENTS] [DATA-TYPE] [RETURN LAST INSERT ID]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertStatementsDataTypeReturnID()
     {
-        $statements[] = [1, 4883, "int"];
-        $statements[] = [2, "Isis", "str"];
-        $statements[] = [3, "isis@email.com", "str"];
+        $statements[] = [1, 4883, 'int'];
+        $statements[] = [2, 'Isis', 'str'];
+        $statements[] = [3, 'isis@email.com', 'str'];
 
         $result = $this->db->query(
             'INSERT INTO test_table (id, name, email)
@@ -196,7 +179,7 @@ final class InsertTest extends TestCase
             'id'
         );
 
-        $this->assertEquals(4883, $result);
+        $this->assertSame(4883, $result);
     }
 
     /**
@@ -204,11 +187,9 @@ final class InsertTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testInsertTableNameErrorException()
     {
@@ -223,11 +204,9 @@ final class InsertTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testInsertColumnNameErrorException()
     {
@@ -241,14 +220,12 @@ final class InsertTest extends TestCase
      * [METHOD] [RETURN ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertMethodReturnRows()
     {
         $data = [
-            "name"  => "Isis",
-            "email" => "isis@email.com",
+            'name' => 'Isis',
+            'email' => 'isis@email.com',
         ];
 
         $query = $this->db->insert($data)
@@ -256,24 +233,22 @@ final class InsertTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [STATEMENTS] [RETURN LAST INSERT ID]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertMethodStatementsReturnID()
     {
-        $statements[] = [":name", "Isis", "str"];
-        $statements[] = [":email", "isis@email.com", "str"];
+        $statements[] = [':name', 'Isis', 'str'];
+        $statements[] = [':email', 'isis@email.com', 'str'];
 
         $data = [
-            "name"  => ":name",
-            "email" => ":email",
+            'name' => ':name',
+            'email' => ':email',
         ];
 
         $query = $this->db->insert($data, $statements)
@@ -281,24 +256,22 @@ final class InsertTest extends TestCase
 
         $result = $query->execute('id');
 
-        $this->assertEquals(4885, $result);
+        $this->assertSame(4885, $result);
     }
 
     /**
      * [METHOD] [STATEMENTS] [DATA-TYPE] [RETURN LAST INSERT ID]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertMethodStatementsDataTypeReturnID()
     {
-        $statements[] = [":name", "Isis"];
-        $statements[] = [":email", "isis@email.com"];
+        $statements[] = [':name', 'Isis'];
+        $statements[] = [':email', 'isis@email.com'];
 
         $data = [
-            "name"  => ":name",
-            "email" => ":email",
+            'name' => ':name',
+            'email' => ':email',
         ];
 
         $query = $this->db->insert($data, $statements)
@@ -306,24 +279,22 @@ final class InsertTest extends TestCase
 
         $result = $query->execute('id');
 
-        $this->assertEquals(4886, $result);
+        $this->assertSame(4886, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [RETURN LAST INSERT ID]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertMethodMarksStatementsReturnID()
     {
-        $statements[] = [1, "Isis"];
-        $statements[] = [2, "isis@email.com"];
+        $statements[] = [1, 'Isis'];
+        $statements[] = [2, 'isis@email.com'];
 
         $data = [
-            "name"  => "?",
-            "email" => "?",
+            'name' => '?',
+            'email' => '?',
         ];
 
         $query = $this->db->insert($data, $statements)
@@ -331,24 +302,22 @@ final class InsertTest extends TestCase
 
         $result = $query->execute('id');
 
-        $this->assertEquals(4887, $result);
+        $this->assertSame(4887, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [DATA-TYPE] [RETURN ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testInsertMethodMarksDataTypeReturnRows()
     {
-        $statements[] = [1, "Isis", "str"];
-        $statements[] = [2, "isis@email.com", "str"];
+        $statements[] = [1, 'Isis', 'str'];
+        $statements[] = [2, 'isis@email.com', 'str'];
 
         $data = [
-            "name"  => "?",
-            "email" => "?",
+            'name' => '?',
+            'email' => '?',
         ];
 
         $query = $this->db->insert($data, $statements)
@@ -356,7 +325,7 @@ final class InsertTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
@@ -364,17 +333,15 @@ final class InsertTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testInsertMethodTableNameErrorException()
     {
         $data = [
-            "name"  => "Isis",
-            "email" => "isis@email.com",
+            'name' => 'Isis',
+            'email' => 'isis@email.com',
         ];
 
         $query = $this->db->insert($data)
@@ -388,17 +355,15 @@ final class InsertTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testInsertMethodColumnNameErrorException()
     {
         $data = [
-            "xxxx"  => "Isis",
-            "email" => "isis@email.com",
+            'xxxx' => 'Isis',
+            'email' => 'isis@email.com',
         ];
 
         $query = $this->db->insert($data)

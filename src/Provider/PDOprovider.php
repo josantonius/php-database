@@ -8,10 +8,7 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.0.0
  */
-
 namespace Josantonius\Database\Provider;
-
-use Josantonius\Database\Exception\DBException;
 
 /**
  * PDO database provider.
@@ -20,7 +17,6 @@ use Josantonius\Database\Exception\DBException;
  */
 class PDOprovider extends Provider
 {
-
     /**
      * Database connection.
      *
@@ -38,19 +34,19 @@ class PDOprovider extends Provider
     public function connect($host, $dbUser, $dbName, $pass, $settings = [])
     {
         try {
-            $ifExists = (!isset($settings['charset']));
+            $ifExists = (! isset($settings['charset']));
 
             $charset = $ifExists ? $settings['charset'] : 'utf8';
 
             $this->conn = new \PDO(
                 'mysql:host=' . $host .
-                ';dbname='    . $dbName .
-                ';charset='   . $charset,
+                ';dbname=' . $dbName .
+                ';charset=' . $charset,
                 $dbUser,
                 $pass
             );
 
-            $this->conn->exec("SET NAMES" . $charset);
+            $this->conn->exec('SET NAMES' . $charset);
 
             $this->conn->setAttribute(
                 \PDO::ATTR_ERRMODE,
@@ -65,6 +61,7 @@ class PDOprovider extends Provider
             return $this->conn;
         } catch (\PDOException $e) {
             $this->error = $e->getMessage();
+
             return null;
         }
     }
@@ -85,6 +82,7 @@ class PDOprovider extends Provider
             if ($type === 'SELECT') {
                 return $this->conn->query($query);
             }
+
             return $this->conn->exec($query);
         } catch (\PDOException $e) {
             $this->error = $e->getMessage();
@@ -105,13 +103,12 @@ class PDOprovider extends Provider
      */
     public function statements($query, $statements)
     {
-
         try {
             $query = $this->conn->prepare($query);
 
             foreach ($statements as $key => $value) {
-                $param    = $statements[$key][0];
-                $value    = $statements[$key][1];
+                $param = $statements[$key][0];
+                $value = $statements[$key][1];
                 $ifExists = (isset($statements[$key][2]));
                 $dataType = $ifExists ? $statements[$key][2] : false;
 
@@ -119,15 +116,12 @@ class PDOprovider extends Provider
                     case 'bool':
                         $query->bindValue($param, $value, \PDO::PARAM_BOOL);
                         continue;
-
                     case 'null':
                         $query->bindValue($param, $value, \PDO::PARAM_NULL);
                         continue;
-
                     case 'int':
                         $query->bindValue($param, $value, \PDO::PARAM_INT);
                         continue;
-
                     case 'str':
                         $query->bindValue($param, $value, \PDO::PARAM_STR);
                         continue;
@@ -141,6 +135,7 @@ class PDOprovider extends Provider
             return $query;
         } catch (\PDOException $e) {
             $this->error = $e->getMessage();
+
             return null;
         }
     }
@@ -171,12 +166,12 @@ class PDOprovider extends Provider
         $engine,
         $charset
     ) {
-        $index      = '';
+        $index = '';
         $references = '';
 
-        if (!is_null($foreing) &&
-            !is_null($reference) &&
-            !is_null($on) &&
+        if (! is_null($foreing) &&
+            ! is_null($reference) &&
+            ! is_null($on) &&
             count($foreing) === count($on) &&
             count($reference) === count($foreing)
         ) {
@@ -199,8 +194,8 @@ class PDOprovider extends Provider
             $query .= $column . ' ' . $value . ', ';
         }
 
-        $engine  = (!is_null($engine))  ? ' ENGINE='  . $engine  : '';
-        $charset = (!is_null($charset)) ? ' CHARSET=' . $charset : '';
+        $engine = (! is_null($engine)) ? ' ENGINE=' . $engine : '';
+        $charset = (! is_null($charset)) ? ' CHARSET=' . $charset : '';
 
         $query = $query . $index . $references;
 
@@ -214,7 +209,7 @@ class PDOprovider extends Provider
      *
      * @since 1.0.0
      *
-     * @param mixed $columns     → column/s name
+     * @param mixed  $columns    → column/s name
      * @param string $from       → table name
      * @param mixed  $where      → where clauses
      * @param mixed  $order      → query sort parameters
@@ -225,10 +220,10 @@ class PDOprovider extends Provider
      */
     public function select($columns, $from, $where, $order, $limit, $statements)
     {
-        $query  = 'SELECT ';
+        $query = 'SELECT ';
         $query .= (is_array($columns)) ? implode(', ', $columns) : $columns;
         $query .= ' FROM `' . $from . '` ';
-        $query .= (!is_null($where)) ? ' WHERE ' : '';
+        $query .= (! is_null($where)) ? ' WHERE ' : '';
         $query .= (is_string($where)) ? $where . ' ' : '';
 
         if (is_array($where)) {
@@ -238,7 +233,7 @@ class PDOprovider extends Provider
             $query = rtrim(trim($query), 'AND');
         }
 
-        $query .= (!is_null($order))  ? ' ORDER BY ' : '';
+        $query .= (! is_null($order)) ? ' ORDER BY ' : '';
         $query .= (is_string($order)) ? $order . ' ' : '';
 
         if (is_array($order)) {
@@ -248,10 +243,10 @@ class PDOprovider extends Provider
             $query = rtrim(trim($query), ',');
         }
 
-        $query .= (!is_null($limit)) ? ' LIMIT '    : '';
-        $query .= (is_int($limit))   ? $limit . ' ' : '';
+        $query .= (! is_null($limit)) ? ' LIMIT ' : '';
+        $query .= (is_int($limit)) ? $limit . ' ' : '';
 
-        if (!is_null($statements) && is_array($statements)) {
+        if (! is_null($statements) && is_array($statements)) {
             return $this->statements(trim($query), $statements);
         }
 
@@ -273,7 +268,7 @@ class PDOprovider extends Provider
     {
         $input = [
             'columns' => '',
-            'values'  => ''
+            'values' => ''
         ];
 
         $query = 'INSERT INTO `' . $table . '` ';
@@ -290,7 +285,7 @@ class PDOprovider extends Provider
 
         $query .= 'VALUES (' . rtrim(trim($input['values']), ',') . ')';
 
-        if (!is_null($statements) && is_array($statements)) {
+        if (! is_null($statements) && is_array($statements)) {
             return $this->statements($query, $statements);
         }
 
@@ -320,7 +315,7 @@ class PDOprovider extends Provider
 
         $query = rtrim(trim($query), ',');
 
-        $query .= (!is_null($where)) ? ' WHERE ' : '';
+        $query .= (! is_null($where)) ? ' WHERE ' : '';
 
         $query .= (is_string($where)) ? $where . ' ' : '';
 
@@ -331,7 +326,7 @@ class PDOprovider extends Provider
             $query = rtrim(trim($query), 'AND');
         }
 
-        if (!is_null($statements) && is_array($statements)) {
+        if (! is_null($statements) && is_array($statements)) {
             return $this->statements($query, $statements);
         }
 
@@ -351,7 +346,7 @@ class PDOprovider extends Provider
      */
     public function replace($table, $data, $statements)
     {
-        $columns      = array_keys($data);
+        $columns = array_keys($data);
         $columnIdName = $columns[0];
 
         if (isset($statements[0][1]) && count($data) == count($statements)) {
@@ -393,7 +388,7 @@ class PDOprovider extends Provider
     {
         $query = 'DELETE FROM `' . $table . '` ';
 
-        $query .= (!is_null($where)) ? ' WHERE ' : '';
+        $query .= (! is_null($where)) ? ' WHERE ' : '';
 
         $query .= (is_string($where)) ? $where . ' ' : '';
 
@@ -405,7 +400,7 @@ class PDOprovider extends Provider
             $query = rtrim(trim($query), 'AND');
         }
 
-        if (!is_null($statements) && is_array($statements)) {
+        if (! is_null($statements) && is_array($statements)) {
             return $this->statements($query, $statements);
         }
 
@@ -491,6 +486,7 @@ class PDOprovider extends Provider
         if (is_object($response)) {
             return (int) $response->rowCount();
         }
+
         return (int) $response;
     }
 
@@ -515,15 +511,13 @@ class PDOprovider extends Provider
      */
     public function isConnected()
     {
-        return !is_null($this->conn);
+        return ! is_null($this->conn);
     }
 
     /**
      * Close/delete database connection.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function kill()
     {

@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use PHPUnit\Framework\TestCase;
@@ -33,13 +32,11 @@ final class DeleteTest extends TestCase
      * Setup.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->db = Database::getConnection(
             'identifier',
             'PDOprovider',
@@ -47,7 +44,7 @@ final class DeleteTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -55,8 +52,6 @@ final class DeleteTest extends TestCase
      * [QUERY] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryReturnRows()
     {
@@ -66,19 +61,17 @@ final class DeleteTest extends TestCase
              WHERE id = 1'
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [QUERY] [STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryStatementsWhereReturnRows()
     {
-        $statements[] = [":id", 2];
+        $statements[] = [':id', 2];
 
         $result = $this->db->query(
             'DELETE
@@ -87,20 +80,18 @@ final class DeleteTest extends TestCase
             $statements
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [QUERY] [STATEMENTS] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryStatementsWhereMultipleReturnRows()
     {
-        $statements[] = [":id", 3];
-        $statements[] = [":name", 'isis'];
+        $statements[] = [':id', 3];
+        $statements[] = [':name', 'isis'];
 
         $result = $this->db->query(
             'DELETE
@@ -109,19 +100,16 @@ final class DeleteTest extends TestCase
             $statements
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [QUERY] [MARKS STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryMarksStatementsWhereReturnRows()
     {
-
         $statements[] = [1, 3008];
         $statements[] = [2, 'isis'];
 
@@ -132,15 +120,13 @@ final class DeleteTest extends TestCase
             $statements
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [QUERY] [MARKS STATEMENTS] [WHERE SIMPLE] [DATA TYPE] [ROWS]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryMarksStatementsWhereDataTypeReturnRows()
     {
@@ -154,7 +140,7 @@ final class DeleteTest extends TestCase
             $statements
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
@@ -162,11 +148,9 @@ final class DeleteTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testQueryTableNameErrorException()
     {
@@ -178,11 +162,9 @@ final class DeleteTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testQueryColumnNameErrorException()
     {
@@ -197,8 +179,6 @@ final class DeleteTest extends TestCase
      * [METHOD] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodWhereReturnRows()
     {
@@ -208,15 +188,13 @@ final class DeleteTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodWhereReturnsRows()
     {
@@ -232,15 +210,13 @@ final class DeleteTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodStatementsWhereAdvancedReturnRows()
     {
@@ -256,15 +232,13 @@ final class DeleteTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodStatementsDataTypeWhereAdvancedRows()
     {
@@ -280,15 +254,13 @@ final class DeleteTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMarksStatementsWhereAdvancedReturnRows()
     {
@@ -304,15 +276,13 @@ final class DeleteTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMarksStatementsDataTypeWhereAdvanced()
     {
@@ -328,7 +298,7 @@ final class DeleteTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
@@ -336,11 +306,9 @@ final class DeleteTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testMethodTableNameErrorException()
     {
@@ -355,11 +323,9 @@ final class DeleteTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testMethodColumnNameErrorException()
     {
@@ -374,8 +340,6 @@ final class DeleteTest extends TestCase
      * [METHOD] [ALL ROWS] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testDeleteAllMethodReturnRows()
     {
@@ -384,20 +348,18 @@ final class DeleteTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(2, $result);
+        $this->assertSame(2, $result);
     }
 
     /**
      * [QUERY] [ALL ROWS] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testDeleteAllQueryReturnRows()
     {
         $result = $this->db->query('DELETE FROM test_table');
 
-        $this->assertEquals(0, $result);
+        $this->assertSame(0, $result);
     }
 }

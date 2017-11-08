@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use Eliasis\App\App;
@@ -25,8 +24,6 @@ final class ConnectionTest extends TestCase
      * Get connection test.
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testGetConnection()
     {
@@ -37,7 +34,7 @@ final class ConnectionTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
 
         $this->assertContains('identifier', $db::$id);
@@ -52,8 +49,6 @@ final class ConnectionTest extends TestCase
      * Get connection test when using config from the Eliasis Framework.
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testGetConnectionFromEliasis()
     {
@@ -61,15 +56,15 @@ final class ConnectionTest extends TestCase
 
         App::set('db', [
             'Eliasis' => [
-                'id'       => 'Eliasis',
+                'id' => 'Eliasis',
                 'provider' => 'PDOprovider',
-                'host'     => $GLOBALS['DB_HOST'],
-                'user'     => $GLOBALS['DB_USER'],
-                'name'     => $GLOBALS['DB_NAME'],
+                'host' => $GLOBALS['DB_HOST'],
+                'user' => $GLOBALS['DB_USER'],
+                'name' => $GLOBALS['DB_NAME'],
                 'password' => $GLOBALS['DB_PASSWORD'],
                 'settings' => ['charset' => 'utf8'],
-                'charset'  => 'utf8',
-                'engine'   => 'innodb',
+                'charset' => 'utf8',
+                'engine' => 'innodb',
             ],
         ]);
 
@@ -87,8 +82,6 @@ final class ConnectionTest extends TestCase
      * Move between multiple connections.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function testMoveBetweenMultipleConnections()
     {
@@ -106,11 +99,9 @@ final class ConnectionTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessage The provider doesn't exist: Josantonius\
-     *
-     * @return void
      */
     public function testExceptionWhenProviderNotExists()
     {
@@ -121,7 +112,7 @@ final class ConnectionTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -130,11 +121,9 @@ final class ConnectionTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Unknown|MySQL|service|not|known)
-     *
-     * @return void
      */
     public function testExceptionNameOrServiceNotKnown()
     {
@@ -145,7 +134,7 @@ final class ConnectionTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -154,11 +143,9 @@ final class ConnectionTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessage Access denied for user
-     *
-     * @return void
      */
     public function testExceptionAccessDeniedForUser()
     {
@@ -169,7 +156,7 @@ final class ConnectionTest extends TestCase
             '?',
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -178,11 +165,9 @@ final class ConnectionTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessage Access denied for user
-     *
-     * @return void
      */
     public function testExceptionAccessDeniedForUserPassword()
     {
@@ -193,7 +178,7 @@ final class ConnectionTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             '?',
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -202,11 +187,9 @@ final class ConnectionTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Unknown|database|Access|denied|user)
-     *
-     * @return void
      */
     public function testExceptionAccessDeniedForUserName()
     {
@@ -217,7 +200,7 @@ final class ConnectionTest extends TestCase
             $GLOBALS['DB_USER'],
             '?',
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 }

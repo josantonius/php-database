@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.0.0
  */
-
 namespace Josantonius\Database;
 
 use Josantonius\Database\Exception\DBException;
@@ -39,6 +38,49 @@ class Database
     public $provider;
 
     /**
+     * Last insert id of the last query.
+     *
+     * @since 1.0.0
+     *
+     * @var int
+     */
+    public $lastInsertId;
+
+    /**
+     * Get number of rows affected of the last query.
+     *
+     * @since 1.0.0
+     *
+     * @var int
+     */
+    public $rowCount;
+
+    /**
+     * Configurations for queries.
+     *
+     * @since 1.0.0
+     *
+     * @var null|array
+     */
+    protected $settings = [
+        'on' => null, // array  → db reference table (foreing)
+        'type' => null, // string → type of query
+        'data' => null, // array  → columns and values
+        'table' => null, // string → database table name
+        'order' => null, // mixed  → order clause
+        'charset' => null, // string → database charset
+        'limit' => null, // int    → limit clause
+        'where' => null, // mixed  → where clause
+        'engine' => null, // string → database engine
+        'result' => null, // string → result datatype: array|object|rows
+        'columns' => null, // mixed  → columns
+        'foreing' => null, // array  → foreing
+        'actions' => null, // array  → action when delete/update (foreing)
+        'reference' => null, // array  → references for foreing
+        'statements' => null, // array  → prepared statements
+    ];
+
+    /**
      * Database connection.
      *
      * @since 1.0.0
@@ -66,49 +108,6 @@ class Database
     private $response;
 
     /**
-     * Last insert id of the last query.
-     *
-     * @since 1.0.0
-     *
-     * @var int
-     */
-    public $lastInsertId;
-
-    /**
-     * Get number of rows affected of the last query.
-     *
-     * @since 1.0.0
-     *
-     * @var int
-     */
-    public $rowCount;
-
-    /**
-     * Configurations for queries.
-     *
-     * @since 1.0.0
-     *
-     * @var null|array
-     */
-    protected $settings = [
-        'on'         => null, // array  → db reference table (foreing)
-        'type'       => null, // string → type of query
-        'data'       => null, // array  → columns and values
-        'table'      => null, // string → database table name
-        'order'      => null, // mixed  → order clause
-        'charset'    => null, // string → database charset
-        'limit'      => null, // int    → limit clause
-        'where'      => null, // mixed  → where clause
-        'engine'     => null, // string → database engine
-        'result'     => null, // string → result datatype: array|object|rows
-        'columns'    => null, // mixed  → columns
-        'foreing'    => null, // array  → foreing
-        'actions'    => null, // array  → action when delete/update (foreing)
-        'reference'  => null, // array  → references for foreing
-        'statements' => null, // array  → prepared statements
-    ];
-
-    /**
      * Database provider constructor.
      *
      * @since 1.0.0
@@ -124,10 +123,8 @@ class Database
      *
      * @throws DBException → if the provider class specified does not exist
      * @throws DBException → if could not connect to provider
-     *
-     * @return void
      */
-    private function __construct(
+    protected function __construct(
         $provider,
         $host,
         $user,
@@ -137,7 +134,7 @@ class Database
     ) {
         $provider = "Josantonius\\Database\\Provider\\$provider";
 
-        if (!class_exists($provider)) {
+        if (! class_exists($provider)) {
             throw new DBException("The provider doesn't exist: $provider");
         }
 
@@ -145,12 +142,22 @@ class Database
 
         $this->provider->connect($host, $user, $name, $password, $settings);
 
-        if (!$this->provider->isConnected()) {
+        if (! $this->provider->isConnected()) {
             throw new DBException(
                 "Could not connect to provider: $provider. " .
                 $this->provider->getError()
             );
         }
+    }
+
+    /**
+     * Close connection to database.
+     *
+     * @since 1.0.0
+     */
+    public function __destruct()
+    {
+        $this->provider->kill();
     }
 
     /**
@@ -185,16 +192,16 @@ class Database
             return self::$conn[$id];
         }
 
-        if (class_exists($App = 'Eliasis\\App\\App')) {
-            $provider = $provider ?: $App::get('db', $id, 'provider');
-            $host     = $host     ?: $App::get('db', $id, 'host');
-            $user     = $user     ?: $App::get('db', $id, 'user');
-            $name     = $name     ?: $App::get('db', $id, 'name');
-            $password = $password ?: $App::get('db', $id, 'password');
-            $settings = $settings ?: $App::get('db', $id, 'settings');
+        if (class_exists($app = 'Eliasis\\App\\App')) {
+            $provider = $provider ?: $app::get('db', $id, 'provider');
+            $host = $host ?: $app::get('db', $id, 'host');
+            $user = $user ?: $app::get('db', $id, 'user');
+            $name = $name ?: $app::get('db', $id, 'name');
+            $password = $password ?: $app::get('db', $id, 'password');
+            $settings = $settings ?: $app::get('db', $id, 'settings');
         }
 
-        return self::$conn[$id] = new Database(
+        return self::$conn[$id] = new self(
             $provider,
             $host,
             $user,
@@ -228,12 +235,12 @@ class Database
 
         $this->query = $query;
 
-        $this->settings['result']     = $result;
+        $this->settings['result'] = $result;
         $this->settings['statements'] = $statements;
 
         $types = '|SELECT|INSERT|UPDATE|DELETE|CREATE|TRUNCATE|DROP|';
 
-        if (!strpos($types, $this->settings['type'])) {
+        if (! strpos($types, $this->settings['type'])) {
             throw new DBException(
                 'Unknown query type:' . $this->settings['type']
             );
@@ -366,7 +373,7 @@ class Database
      */
     public function select($columns = '*')
     {
-        $this->settings['type']    = 'SELECT';
+        $this->settings['type'] = 'SELECT';
         $this->settings['columns'] = $columns;
 
         return $this;
@@ -384,8 +391,8 @@ class Database
      */
     public function insert($data, $statements = null)
     {
-        $this->settings['type']       = 'INSERT';
-        $this->settings['data']       = $data;
+        $this->settings['type'] = 'INSERT';
+        $this->settings['data'] = $data;
         $this->settings['statements'] = $statements;
 
         return $this;
@@ -403,8 +410,8 @@ class Database
      */
     public function update($data, $statements = null)
     {
-        $this->settings['type']       = 'UPDATE';
-        $this->settings['data']       = $data;
+        $this->settings['type'] = 'UPDATE';
+        $this->settings['data'] = $data;
         $this->settings['statements'] = $statements;
 
         return $this;
@@ -422,8 +429,8 @@ class Database
      */
     public function replace($data, $statements = null)
     {
-        $this->settings['type']       = 'REPLACE';
-        $this->settings['data']       = $data;
+        $this->settings['type'] = 'REPLACE';
+        $this->settings['data'] = $data;
         $this->settings['statements'] = $statements;
 
         return $this;
@@ -608,7 +615,6 @@ class Database
                     $this->settings['result'],
                 ];
                 break;
-
             case 'INSERT':
                 $params = [
                     $this->settings['table'],
@@ -616,7 +622,6 @@ class Database
                     $this->settings['statements'],
                 ];
                 break;
-
             case 'UPDATE':
                 $params = [
                     $this->settings['table'],
@@ -625,7 +630,6 @@ class Database
                     $this->settings['where'],
                 ];
                 break;
-
             case 'REPLACE':
                 $params = [
                     $this->settings['table'],
@@ -633,7 +637,6 @@ class Database
                     $this->settings['statements'],
                 ];
                 break;
-
             case 'DELETE':
                 $params = [
                     $this->settings['table'],
@@ -641,7 +644,6 @@ class Database
                     $this->settings['where'],
                 ];
                 break;
-
             case 'CREATE':
                 $params = [
                     $this->settings['table'],
@@ -654,13 +656,11 @@ class Database
                     $this->settings['charset'],
                 ];
                 break;
-
             case 'TRUNCATE':
                 $params = [
                     $this->settings['table'],
                 ];
                 break;
-
             case 'DROP':
                 $params = [
                     $this->settings['table'],
@@ -697,8 +697,6 @@ class Database
      * Run query with prepared statements.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     private function implementPrepareStatements()
     {
@@ -712,8 +710,6 @@ class Database
      * Run query without prepared statements.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     private function implementQuery()
     {
@@ -762,6 +758,7 @@ class Database
             if ($this->settings['result'] === 'id') {
                 return $this->lastInsertId;
             }
+
             return $this->rowCount;
         } elseif ($type === 'SELECT') {
             if ($this->settings['result'] !== 'rows') {
@@ -782,34 +779,20 @@ class Database
      * Reset query parameters.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     private function reset()
     {
-        $this->settings['columns']    = null;
-        $this->settings['table']      = null;
-        $this->settings['where']      = null;
-        $this->settings['order']      = null;
-        $this->settings['limit']      = null;
+        $this->settings['columns'] = null;
+        $this->settings['table'] = null;
+        $this->settings['where'] = null;
+        $this->settings['order'] = null;
+        $this->settings['limit'] = null;
         $this->settings['statements'] = null;
-        $this->settings['foreing']    = null;
-        $this->settings['reference']  = null;
-        $this->settings['on']         = null;
-        $this->settings['actions']    = null;
-        $this->settings['engine']     = null;
-        $this->settings['charset']    = null;
-    }
-
-    /**
-     * Close connection to database.
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public function __destruct()
-    {
-        $this->provider->kill();
+        $this->settings['foreing'] = null;
+        $this->settings['reference'] = null;
+        $this->settings['on'] = null;
+        $this->settings['actions'] = null;
+        $this->settings['engine'] = null;
+        $this->settings['charset'] = null;
     }
 }

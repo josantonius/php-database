@@ -8,10 +8,7 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.0.0
  */
-
 namespace Josantonius\Database\Provider;
-
-use Josantonius\Database\Exception\DBException;
 
 /**
  * MSSQL database provider.
@@ -38,11 +35,13 @@ class MSSQLprovider extends Provider
     {
         try {
             $port = (isset($settings['port'])) ? $settings['port'] : '1433';
-            $this->conn = mssql_connect($host . ':' . $port, $user, $pass);
-            mssql_select_db($dbname, $this->conn);
+            $this->conn = mssql_connect($host . ':' . $port, $dbUser, $pass);
+            mssql_select_db($dbName, $this->conn);
+
             return $this->conn;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
+
             return null;
         }
     }
@@ -63,6 +62,7 @@ class MSSQLprovider extends Provider
             return mssql_query($query, $this->conn);
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
+
             return null;
         }
     }
@@ -99,7 +99,7 @@ class MSSQLprovider extends Provider
             $query .= $column . ' ' . $value . ', ';
         }
 
-        $query = rtrim(trim($query), ',') . ')'; # Remove final comma
+        $query = rtrim(trim($query), ',') . ')'; // Remove final comma
 
         return $this->query($query);
     }
@@ -109,7 +109,7 @@ class MSSQLprovider extends Provider
      *
      * @since 1.0.0
      *
-     * @param mixed $columns     → column/s name
+     * @param mixed  $columns    → column/s name
      * @param string $from       → table name
      * @param mixed  $where      → where clauses
      * @param mixed  $order      → query sort parameters
@@ -120,10 +120,10 @@ class MSSQLprovider extends Provider
      */
     public function select($columns, $from, $where, $order, $limit, $statements)
     {
-        $query  = 'SELECT ';
+        $query = 'SELECT ';
         $query .= (is_array($columns)) ? implode(', ', $columns) : $columns;
         $query .= ' FROM `' . $from . '` ';
-        $query .= (!is_null($where))  ? ' WHERE '    : '';
+        $query .= (! is_null($where)) ? ' WHERE ' : '';
         $query .= (is_string($where)) ? $where . ' ' : '';
 
         if (is_array($where)) {
@@ -134,7 +134,7 @@ class MSSQLprovider extends Provider
             $query = rtrim(trim($query), 'AND');
         }
 
-        $query .= (!is_null($order))  ? ' ORDER BY ' : '';
+        $query .= (! is_null($order)) ? ' ORDER BY ' : '';
         $query .= (is_string($order)) ? $order . ' ' : '';
 
         if (is_array($order)) {
@@ -144,10 +144,10 @@ class MSSQLprovider extends Provider
             $query = rtrim(trim($query), ',');
         }
 
-        $query .= (!is_null($limit)) ? ' LIMIT '    : '';
-        $query .= (is_int($limit))   ? $limit . ' ' : '';
+        $query .= (! is_null($limit)) ? ' LIMIT ' : '';
+        $query .= (is_int($limit)) ? $limit . ' ' : '';
 
-        if (!is_null($statements) && is_array($statements)) {
+        if (! is_null($statements) && is_array($statements)) {
             return $this->statements(trim($query), $statements);
         }
 
@@ -169,7 +169,7 @@ class MSSQLprovider extends Provider
     {
         $input = [
             'columns' => '',
-            'values'  => ''
+            'values' => ''
         ];
 
         $query = 'INSERT INTO `' . $table . '` ';
@@ -213,7 +213,7 @@ class MSSQLprovider extends Provider
 
         $query = rtrim(trim($query), ',');
 
-        $query .= (!is_null($where)) ? ' WHERE ' : '';
+        $query .= (! is_null($where)) ? ' WHERE ' : '';
 
         $query .= (is_string($where)) ? $where . ' ' : '';
 
@@ -271,8 +271,8 @@ class MSSQLprovider extends Provider
      */
     public function delete($table, $statements, $where)
     {
-        $query  = 'DELETE FROM `' . $table . '` ';
-        $query .= (!is_null($where)) ? ' WHERE '     : '';
+        $query = 'DELETE FROM `' . $table . '` ';
+        $query .= (! is_null($where)) ? ' WHERE ' : '';
         $query .= (is_string($where)) ? $where . ' ' : '';
 
         if (is_array($where)) {
@@ -329,14 +329,15 @@ class MSSQLprovider extends Provider
      */
     public function fetchResponse($response, $result)
     {
-
         if ($response) {
-            $data = array();
+            $data = [];
             while ($row = mssql_fetch_array($response)) {
                 $data[] = $row;
             }
+
             return $data;
         }
+
         return false;
     }
 
@@ -385,7 +386,7 @@ class MSSQLprovider extends Provider
      */
     public function isConnected()
     {
-        return !is_null($this->conn);
+        return ! is_null($this->conn);
     }
 
     /**

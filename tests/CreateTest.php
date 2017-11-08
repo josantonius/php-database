@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use PHPUnit\Framework\TestCase;
@@ -33,13 +32,11 @@ final class CreateTest extends TestCase
      * Setup.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->db = Database::getConnection(
             'identifier',
             'PDOprovider',
@@ -47,7 +44,7 @@ final class CreateTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -55,8 +52,6 @@ final class CreateTest extends TestCase
      * [QUERY] [CREATE TABLE] [RETURN TRUE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testCreateTableQuery()
     {
@@ -77,11 +72,9 @@ final class CreateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (error|syntax|Syntax)
-     *
-     * @return void
      */
     public function testCreateTableQueryError()
     {
@@ -99,15 +92,13 @@ final class CreateTest extends TestCase
      * [METHOD] [CREATE TABLE] [RETURN TRUE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testCreateTableMethod()
     {
         $params = [
-            'id'       => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY',
-            'name'     => 'VARCHAR(30) NOT NULL',
-            'email'    => 'VARCHAR(50)',
+            'id' => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY',
+            'name' => 'VARCHAR(30) NOT NULL',
+            'email' => 'VARCHAR(50)',
             'reg_date' => 'TIMESTAMP',
         ];
 
@@ -122,15 +113,13 @@ final class CreateTest extends TestCase
      * [METHOD] [CREATE TABLE] [RETURN TRUE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testCreateTableMethodExtra()
     {
         $params = [
-            'id'       => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY',
-            'name'     => 'VARCHAR(30) NOT NULL',
-            'email'    => 'VARCHAR(50)',
+            'id' => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY',
+            'name' => 'VARCHAR(30) NOT NULL',
+            'email' => 'VARCHAR(50)',
             'reg_date' => 'TIMESTAMP',
         ];
 
@@ -146,18 +135,16 @@ final class CreateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (error|syntax|Syntax)
-     *
-     * @return void
      */
     public function testCreateTableMethodError()
     {
         $params = [
-            'id'       => 'INT(6 UNSIGNED AUTO_INCREMENT PRIMARY KEY',
-            'name'     => 'VARCHAR(30) NOT NULL',
-            'email'    => 'VARCHAR(50)',
+            'id' => 'INT(6 UNSIGNED AUTO_INCREMENT PRIMARY KEY',
+            'name' => 'VARCHAR(30) NOT NULL',
+            'email' => 'VARCHAR(50)',
             'reg_date' => 'TIMESTAMP',
         ];
 
@@ -170,15 +157,13 @@ final class CreateTest extends TestCase
      * [METHOD] [CREATE TABLE] [RETURN TRUE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testCreateTableAdvancedMethod()
     {
         $params = [
-            'id'       => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY',
-            'name'     => 'VARCHAR(30) NOT NULL',
-            'email'    => 'VARCHAR(50)',
+            'id' => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY',
+            'name' => 'VARCHAR(30) NOT NULL',
+            'email' => 'VARCHAR(50)',
             'reg_date' => 'TIMESTAMP',
         ];
 
@@ -199,18 +184,16 @@ final class CreateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (error|syntax|Syntax)
-     *
-     * @return void
      */
     public function testCreateTableAdvancedMethodError()
     {
         $params = [
-            'id'       => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY',
-            'name'     => 'VARCHAR(30) NOT NULL',
-            'email'    => 'VARCHAR(50)',
+            'id' => 'INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY',
+            'name' => 'VARCHAR(30) NOT NULL',
+            'email' => 'VARCHAR(50)',
             'reg_date' => 'TIMESTAMP',
         ];
 

@@ -8,10 +8,7 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.0.0
  */
-
 namespace Josantonius\Database\Provider;
-
-use Josantonius\Database\Exception\DBException;
 
 /**
  * Provider handler.

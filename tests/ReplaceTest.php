@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use PHPUnit\Framework\TestCase;
@@ -33,13 +32,11 @@ final class ReplaceTest extends TestCase
      * Setup.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->db = Database::getConnection(
             'identifier',
             'PDOprovider',
@@ -47,7 +44,7 @@ final class ReplaceTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -55,14 +52,12 @@ final class ReplaceTest extends TestCase
      * [METHOD] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodReturnRows()
     {
         $data = [
-            'id'    => 3008,
-            'name'  => 'Manny',
+            'id' => 3008,
+            'name' => 'Manny',
             'email' => 'manny@email.com',
         ];
 
@@ -71,21 +66,19 @@ final class ReplaceTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [STATEMENTS] [WHERE ADVANCED] [LAST INSERT ID]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodStatementsAdvancedReturnID()
     {
         $data = [
-            'id'    => 4889,
-            'name'  => ':name',
+            'id' => 4889,
+            'name' => ':name',
             'email' => ':email',
         ];
 
@@ -97,21 +90,19 @@ final class ReplaceTest extends TestCase
 
         $result = $query->execute('id');
 
-        $this->assertEquals(4889, $result);
+        $this->assertSame(4889, $result);
     }
 
     /**
      * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS AFFECTED]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodStatementsDataTypeAvancedReturnRows()
     {
         $data = [
-            'id'    => 1,
-            'name'  => ':name',
+            'id' => 1,
+            'name' => ':name',
             'email' => ':email',
         ];
 
@@ -123,21 +114,19 @@ final class ReplaceTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMarksStatementsWhereAdvanceReturnRows()
     {
         $data = [
-            'id'    => 2,
-            'name'  => '?',
+            'id' => 2,
+            'name' => '?',
             'email' => '?',
         ];
 
@@ -149,21 +138,19 @@ final class ReplaceTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [DATATYPE] [WHEREADVANCED] [LAST INSERT ID]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMarksStatementsDataTypeWhereReturnID()
     {
         $data = [
-            'id'    => 4890,
-            'name'  => '?',
+            'id' => 4890,
+            'name' => '?',
             'email' => '?',
         ];
 
@@ -175,7 +162,7 @@ final class ReplaceTest extends TestCase
 
         $result = $query->execute('id');
 
-        $this->assertEquals(4890, $result);
+        $this->assertSame(4890, $result);
     }
 
     /**
@@ -183,17 +170,15 @@ final class ReplaceTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testMethodTableNameErrorException()
     {
         $data = [
-            'id'    => 1,
-            'name'  => 'Manny',
+            'id' => 1,
+            'name' => 'Manny',
             'email' => 'manny@email.com',
         ];
 
@@ -208,17 +193,15 @@ final class ReplaceTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testMethodColumnNameErrorException()
     {
         $data = [
-            'id'    => 1,
-            'xxxx'  => 'Manny',
+            'id' => 1,
+            'xxxx' => 'Manny',
             'email' => 'manny@email.com',
         ];
 

@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use PHPUnit\Framework\TestCase;
@@ -33,13 +32,11 @@ final class TruncateTest extends TestCase
      * Setup.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->db = Database::getConnection(
             'identifier',
             'PDOprovider',
@@ -47,7 +44,7 @@ final class TruncateTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -55,8 +52,6 @@ final class TruncateTest extends TestCase
      * [QUERY] [TRUNCATE TABLE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testTruncateTableQuery()
     {
@@ -65,7 +60,7 @@ final class TruncateTest extends TestCase
              VALUES ("Isis", "isis@email.com")'
         );
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
 
         $result = $this->db->query('TRUNCATE TABLE `test_table_three`');
 
@@ -77,11 +72,9 @@ final class TruncateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|not|found|Table|exists)
-     *
-     * @return void
      */
     public function testTruncateTableQueryTableNameError()
     {
@@ -92,14 +85,12 @@ final class TruncateTest extends TestCase
      * [METHOD] [TRUNCATE TABLE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testTruncateTableMethod()
     {
         $data = [
-            "name"  => "Isis",
-            "email" => "isis@email.com",
+            'name' => 'Isis',
+            'email' => 'isis@email.com',
         ];
 
         $query = $this->db->insert($data)
@@ -107,7 +98,7 @@ final class TruncateTest extends TestCase
 
         $result = $query->execute();
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
 
         $query = $this->db->truncate()
                           ->table('test_table_three');
@@ -122,11 +113,9 @@ final class TruncateTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|not|found|Table|exists)
-     *
-     * @return void
      */
     public function testTruncateTableMethodTableNameError()
     {

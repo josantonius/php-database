@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use PHPUnit\Framework\TestCase;
@@ -33,13 +32,11 @@ final class SelectTest extends TestCase
      * Setup.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->db = Database::getConnection(
             'identifier',
             'PDOprovider',
@@ -47,7 +44,7 @@ final class SelectTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -55,8 +52,6 @@ final class SelectTest extends TestCase
      * [QUERY] [MULTIPLE] [RETURN OBJECT]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryMultipleReturnObject()
     {
@@ -72,8 +67,6 @@ final class SelectTest extends TestCase
      * [QUERY] [ALL] [LIMIT] [RETURN ARRAY NUMERIC]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQuerySelectAllLimitReturnArrayNumeric()
     {
@@ -92,16 +85,14 @@ final class SelectTest extends TestCase
      * [QUERY] [MULTIPLE] [WHERE] [ORDER] [RETURN ARRAY ASSOC]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryMultipleWhereOrderReturnArrayAssoc()
     {
         $result = $this->db->query(
-            "SELECT id, name, email, reg_date
+            'SELECT id, name, email, reg_date
              FROM test_table
              WHERE id = 3008
-             ORDER BY id DESC",
+             ORDER BY id DESC',
             false,
             'array_assoc'
         );
@@ -113,8 +104,6 @@ final class SelectTest extends TestCase
      * [QUERY] [MULTIPLE] [RETURN ROWS NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryMultipleReturnRows()
     {
@@ -125,19 +114,17 @@ final class SelectTest extends TestCase
             'rows'
         );
 
-        $this->assertEquals(11, $result);
+        $this->assertSame(11, $result);
     }
 
     /**
      * [QUERY] [MULTIPLE] [STATEMENTS] [WHERE] [RETURN OBJECT]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testQueryMultipleStatementsWhereReturnObject()
     {
-        $statements[] = [":id", 4883];
+        $statements[] = [':id', 4883];
 
         $result = $this->db->query(
             'SELECT id, name, email, reg_date
@@ -154,11 +141,9 @@ final class SelectTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testQueryTableNamErrorException()
     {
@@ -173,11 +158,9 @@ final class SelectTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testQueryColumnNamErrorException()
     {
@@ -191,8 +174,6 @@ final class SelectTest extends TestCase
      * [METHOD] [ALL] [RETURN OBJECT]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodSelectAllReturnObject()
     {
@@ -208,12 +189,9 @@ final class SelectTest extends TestCase
      * [METHOD] [ALL] [RETURN ARRAY NUMERIC]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodSelectAllNumeric()
     {
-
         $query = $this->db->select()
                           ->from('test_table');
 
@@ -226,12 +204,9 @@ final class SelectTest extends TestCase
      * [METHOD] [ALL] [RETURN ARRAY ASSOC]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodSelectAllReturnArrayAssoc()
     {
-
         $query = $this->db->select()
                           ->from('test_table');
 
@@ -244,8 +219,6 @@ final class SelectTest extends TestCase
      * [METHOD] [LIMIT] [RETURN OBJECT]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodLimitReturnObject()
     {
@@ -262,8 +235,6 @@ final class SelectTest extends TestCase
      * [METHOD] [MULTIPLE] [WHERE MULTIPLE] [RETURN ARRAY ASSOC]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMultipleWhereReturnArrayAssoc()
     {
@@ -280,8 +251,6 @@ final class SelectTest extends TestCase
      * [METHOD] [SELECT-WHERE MULTIPLE] [ORDER SIMPLE] [LIMIT] [OBJECT]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMultipleWhereOrderLimitReturnObject()
     {
@@ -300,8 +269,6 @@ final class SelectTest extends TestCase
      * [METHOD] [SELECT-ORDER-WHERE MULTIPLE] [LIMIT] [RETURN OBJECT]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodOrderWhereMultipleLimitReturnObject()
     {
@@ -320,8 +287,6 @@ final class SelectTest extends TestCase
      * [METHOD] [STATEMENTS] [WHERE MULTIPLE] [RETURN OBJECT]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodStatementsWhereMultipleReturnObject()
     {
@@ -341,8 +306,6 @@ final class SelectTest extends TestCase
      * [METHOD] [STATEMENTS] [WHERE ADVANCED] [RETURN ARRAY ASSOC]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodStatementsWhereAdvancedReturnAssoc()
     {
@@ -364,8 +327,6 @@ final class SelectTest extends TestCase
      * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE MULTIPLE] [RETURN EMPTY ARRAY]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodWhenThereAreNoResults()
     {
@@ -394,8 +355,6 @@ final class SelectTest extends TestCase
      * [METHOD] [WHERE SIMPLE] [RETURN ROWS NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodWhereReturnRows()
     {
@@ -405,15 +364,13 @@ final class SelectTest extends TestCase
 
         $result = $query->execute('rows');
 
-        $this->assertEquals(11, $result);
+        $this->assertSame(11, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [RETURN ROWS NUMBER]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMarksStatementsAdvancedReturnRows()
     {
@@ -426,15 +383,13 @@ final class SelectTest extends TestCase
 
         $result = $query->execute('rows');
 
-        $this->assertEquals(1, $result);
+        $this->assertSame(1, $result);
     }
 
     /**
      * [METHOD] [MARKS STATEMENTS] [DATATYPE] [WHERE ADVANCED] [RETURN ROWS]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testMethodMarksDataTypeWhereAdvancedReturnRows()
     {
@@ -451,7 +406,7 @@ final class SelectTest extends TestCase
 
         $result = $query->execute('rows');
 
-        $this->assertEquals(2, $result);
+        $this->assertSame(2, $result);
     }
 
     /**
@@ -459,11 +414,9 @@ final class SelectTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
-     *
-     * @return void
      */
     public function testMethodTableNameErrorException()
     {
@@ -478,11 +431,9 @@ final class SelectTest extends TestCase
      *
      * @since 1.1.6
      *
-     * @expectedException Josantonius\Database\Exception\DBException
+     * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
-     *
-     * @return void
      */
     public function testMethodColumnNameErrorException()
     {

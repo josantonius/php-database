@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
  */
-
 namespace Josantonius\Database;
 
 use PHPUnit\Framework\TestCase;
@@ -33,13 +32,11 @@ class DropTest extends TestCase
      * Setup.
      *
      * @since 1.1.7
-     *
-     * @return void
      */
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->db = Database::getConnection(
             'identifier',
             'PDOprovider',
@@ -47,7 +44,7 @@ class DropTest extends TestCase
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_NAME'],
             $GLOBALS['DB_PASSWORD'],
-            array('charset' => 'utf8')
+            ['charset' => 'utf8']
         );
     }
 
@@ -55,8 +52,6 @@ class DropTest extends TestCase
      * [QUERY] [DROP TABLE] [RETURN TRUE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testDropTableQuery()
     {
@@ -69,8 +64,6 @@ class DropTest extends TestCase
      * [METHOD] [PDO-METHOD] [RETURN TRUE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testDropTableMethod()
     {
@@ -86,8 +79,6 @@ class DropTest extends TestCase
      * [METHOD] [PDO-METHOD] [RETURN TRUE]
      *
      * @since 1.1.6
-     *
-     * @return void
      */
     public function testDropTableMethodExtra()
     {
