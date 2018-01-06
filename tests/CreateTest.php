@@ -3,7 +3,7 @@
  * SQL database management to be used by several providers at the same time.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Database
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Database
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "CREATE" query
- *
- * @since 1.1.6
  */
 final class CreateTest extends TestCase
 {
@@ -50,8 +48,6 @@ final class CreateTest extends TestCase
 
     /**
      * [QUERY] [CREATE TABLE] [RETURN TRUE]
-     *
-     * @since 1.1.6
      */
     public function testCreateTableQuery()
     {
@@ -69,8 +65,6 @@ final class CreateTest extends TestCase
 
     /**
      * [QUERY] [CREATE TABLE] [EXCEPTION] [SINTAX ERROR]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
@@ -90,8 +84,6 @@ final class CreateTest extends TestCase
 
     /**
      * [METHOD] [CREATE TABLE] [RETURN TRUE]
-     *
-     * @since 1.1.6
      */
     public function testCreateTableMethod()
     {
@@ -111,8 +103,6 @@ final class CreateTest extends TestCase
 
     /**
      * [METHOD] [CREATE TABLE] [RETURN TRUE]
-     *
-     * @since 1.1.6
      */
     public function testCreateTableMethodExtra()
     {
@@ -132,8 +122,6 @@ final class CreateTest extends TestCase
 
     /**
      * [METHOD] [CREATE TABLE] [EXCEPTION] [SINTAX ERROR]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
@@ -155,8 +143,6 @@ final class CreateTest extends TestCase
 
     /**
      * [METHOD] [CREATE TABLE] [RETURN TRUE]
-     *
-     * @since 1.1.6
      */
     public function testCreateTableAdvancedMethod()
     {
@@ -181,8 +167,6 @@ final class CreateTest extends TestCase
 
     /**
      * [METHOD] [CREATE TABLE] [EXCEPTION] [SINTAX ERROR]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *

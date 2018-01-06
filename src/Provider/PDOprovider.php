@@ -3,7 +3,7 @@
  * SQL database management to be used by several providers at the same time.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Database
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Database
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.0.0
@@ -12,15 +12,11 @@ namespace Josantonius\Database\Provider;
 
 /**
  * PDO database provider.
- *
- * @since 1.0.0
  */
 class PDOprovider extends Provider
 {
     /**
      * Database connection.
-     *
-     * @since 1.0.0
      *
      * @param string $host                → database host
      * @param string $dbUser              → database user
@@ -69,8 +65,6 @@ class PDOprovider extends Provider
     /**
      * Run database queries.
      *
-     * @since 1.0.0
-     *
      * @param string $query → query
      * @param string $type  → SELECT INSERT UPDATE DELETE CREATE TRUNCATE
      *
@@ -93,8 +87,6 @@ class PDOprovider extends Provider
 
     /**
      * Execute prepared queries.
-     *
-     * @since 1.0.0
      *
      * @param string $query      → query
      * @param array  $statements → array with prepared parameters
@@ -142,8 +134,6 @@ class PDOprovider extends Provider
 
     /**
      * Create table statement.
-     *
-     * @since 1.0.0
      *
      * @param string $table     → table name
      * @param array  $data      → column name and configuration for data types
@@ -207,8 +197,6 @@ class PDOprovider extends Provider
     /**
      * Selec statement.
      *
-     * @since 1.0.0
-     *
      * @param mixed  $columns    → column/s name
      * @param string $from       → table name
      * @param mixed  $where      → where clauses
@@ -256,8 +244,6 @@ class PDOprovider extends Provider
     /**
      * Insert into statement.
      *
-     * @since 1.0.0
-     *
      * @param string $table      → table name
      * @param array  $data       → column name and value
      * @param array  $statements → array with prepared parameters
@@ -294,8 +280,6 @@ class PDOprovider extends Provider
 
     /**
      * Update statement.
-     *
-     * @since 1.0.0
      *
      * @param string $table      → table name
      * @param array  $data       → column name and value
@@ -336,8 +320,6 @@ class PDOprovider extends Provider
     /**
      * Replace a row in a table if it exists or insert a new row if not exist.
      *
-     * @since 1.0.0
-     *
      * @param string $table      → table name
      * @param array  $data       → column name and value
      * @param array  $statements → array with prepared parameters
@@ -376,8 +358,6 @@ class PDOprovider extends Provider
     /**
      * Delete statement.
      *
-     * @since 1.0.0
-     *
      * @param string $table      → table name
      * @param array  $statements → array with prepared parameters
      * @param mixed  $where      → where clauses
@@ -410,8 +390,6 @@ class PDOprovider extends Provider
     /**
      * Truncate table statement.
      *
-     * @since 1.0.0
-     *
      * @param string $table → table name
      *
      * @return int → 0
@@ -426,8 +404,6 @@ class PDOprovider extends Provider
     /**
      * Drop table statement.
      *
-     * @since 1.0.0
-     *
      * @param string $table → table name
      *
      * @return int → 0
@@ -441,8 +417,6 @@ class PDOprovider extends Provider
 
     /**
      * Process query as object or numeric or associative array.
-     *
-     * @since 1.0.0
      *
      * @param object $response → query result
      * @param string $result   → result as an object or array
@@ -463,8 +437,6 @@ class PDOprovider extends Provider
     /**
      * Get the last id of the query object.
      *
-     * @since 1.0.0
-     *
      * @return int → last row id modified or added
      */
     public function lastInsertId()
@@ -474,8 +446,6 @@ class PDOprovider extends Provider
 
     /**
      * Get rows number.
-     *
-     * @since 1.0.0
      *
      * @param object $response → query result
      *
@@ -493,8 +463,6 @@ class PDOprovider extends Provider
     /**
      * Get errors.
      *
-     * @since 1.0.0
-     *
      * @return string → get the message if there has been any error
      */
     public function getError()
@@ -505,8 +473,6 @@ class PDOprovider extends Provider
     /**
      * Check database connection state.
      *
-     * @since 1.0.0
-     *
      * @return bool true|false → check the connection and return true or false
      */
     public function isConnected()
@@ -516,8 +482,6 @@ class PDOprovider extends Provider
 
     /**
      * Close/delete database connection.
-     *
-     * @since 1.0.0
      */
     public function kill()
     {

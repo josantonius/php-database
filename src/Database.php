@@ -3,7 +3,7 @@
  * SQL database management to be used by several providers at the same time.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Database
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Database
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.0.0
@@ -14,8 +14,6 @@ use Josantonius\Database\Exception\DBException;
 
 /**
  * Database handler.
- *
- * @since 1.0.0
  */
 class Database
 {
@@ -31,16 +29,12 @@ class Database
     /**
      * Database provider.
      *
-     * @since 1.0.0
-     *
      * @var object
      */
     public $provider;
 
     /**
      * Last insert id of the last query.
-     *
-     * @since 1.0.0
      *
      * @var int
      */
@@ -49,16 +43,12 @@ class Database
     /**
      * Get number of rows affected of the last query.
      *
-     * @since 1.0.0
-     *
      * @var int
      */
     public $rowCount;
 
     /**
      * Configurations for queries.
-     *
-     * @since 1.0.0
      *
      * @var null|array
      */
@@ -83,16 +73,12 @@ class Database
     /**
      * Database connection.
      *
-     * @since 1.0.0
-     *
      * @var array
      */
     private static $conn;
 
     /**
      * Query.
-     *
-     * @since 1.0.0
      *
      * @var string
      */
@@ -101,16 +87,12 @@ class Database
     /**
      * Query response.
      *
-     * @since 1.0.0
-     *
      * @var object
      */
     private $response;
 
     /**
      * Database provider constructor.
-     *
-     * @since 1.0.0
      *
      * @param string $provider            → name of provider class
      * @param string $host                → database host
@@ -152,8 +134,6 @@ class Database
 
     /**
      * Close connection to database.
-     *
-     * @since 1.0.0
      */
     public function __destruct()
     {
@@ -164,8 +144,6 @@ class Database
      * Get connection.
      *
      * Create a new if it doesn't exist or another provider is used.
-     *
-     * @since 1.0.0
      *
      * @param string $id                  → identifying name for the database
      * @param string $provider            → name of provider class
@@ -214,8 +192,6 @@ class Database
     /**
      * Process query and prepare it for the provider.
      *
-     * @since 1.0.0
-     *
      * @param string $query      → query
      * @param array  $statements → null by default or array for statements
      *
@@ -253,8 +229,6 @@ class Database
 
     /**
      * Create table statement.
-     *
-     * @since 1.0.0
      *
      * @param array $data → column name and configuration for data types
      *
@@ -365,8 +339,6 @@ class Database
     /**
      * Select statement.
      *
-     * @since 1.0.0
-     *
      * @param mixed $columns → column/s name
      *
      * @return object
@@ -381,8 +353,6 @@ class Database
 
     /**
      * Insert into statement.
-     *
-     * @since 1.0.0
      *
      * @param array $data       → column name and value
      * @param array $statements → null by default or array for statements
@@ -401,8 +371,6 @@ class Database
     /**
      * Update statement.
      *
-     * @since 1.0.0
-     *
      * @param array $data       → column name and value
      * @param array $statements → null by default or array for statements
      *
@@ -419,8 +387,6 @@ class Database
 
     /**
      * Replace a row in a table if it exists or insert a new row if not exist.
-     *
-     * @since 1.0.0
      *
      * @param array $data       → column name and value
      * @param array $statements → null by default or array for statements
@@ -439,8 +405,6 @@ class Database
     /**
      * Delete statement.
      *
-     * @since 1.0.0
-     *
      * @return object
      */
     public function delete()
@@ -452,8 +416,6 @@ class Database
 
     /**
      * Truncate table statement.
-     *
-     * @since 1.0.0
      *
      * @return object
      */
@@ -467,8 +429,6 @@ class Database
     /**
      * Drop table statement.
      *
-     * @since 1.0.0
-     *
      * @return object
      */
     public function drop()
@@ -480,8 +440,6 @@ class Database
 
     /**
      * Set database table name.
-     *
-     * @since 1.0.0
      *
      * @param string $table → table name
      *
@@ -497,8 +455,6 @@ class Database
     /**
      * Set database table name.
      *
-     * @since 1.0.0
-     *
      * @param string $table → table name
      *
      * @return object
@@ -513,8 +469,6 @@ class Database
     /**
      * Set database table name.
      *
-     * @since 1.0.0
-     *
      * @param string $table → table name
      *
      * @return object
@@ -528,8 +482,6 @@ class Database
 
     /**
      * Where clauses.
-     *
-     * @since 1.0.0
      *
      * @param mixed $clauses    → column name and value
      * @param array $statements → null by default or array for statements
@@ -555,8 +507,6 @@ class Database
     /**
      * Set SELECT order.
      *
-     * @since 1.0.0
-     *
      * @param string $type → query sort parameters
      *
      * @return object
@@ -571,8 +521,6 @@ class Database
     /**
      * Set SELECT limit.
      *
-     * @since 1.0.0
-     *
      * @param int $number → query limiting parameters
      *
      * @return object
@@ -586,8 +534,6 @@ class Database
 
     /**
      * Execute query.
-     *
-     * @since 1.0.0
      *
      * @param string $result → 'obj'         → result as object
      *                       → 'array_num'   → result as numeric array
@@ -680,8 +626,6 @@ class Database
     /**
      * Query handler.
      *
-     * @since 1.0.0
-     *
      * @return object → returns query to be executed by provider class
      */
     private function implement()
@@ -695,8 +639,6 @@ class Database
 
     /**
      * Run query with prepared statements.
-     *
-     * @since 1.0.0
      */
     private function implementPrepareStatements()
     {
@@ -708,8 +650,6 @@ class Database
 
     /**
      * Run query without prepared statements.
-     *
-     * @since 1.0.0
      */
     private function implementQuery()
     {
@@ -721,8 +661,6 @@ class Database
 
     /**
      * Get response after executing the query.
-     *
-     * @since 1.0.0
      *
      * @throws DBException → error executing query
      *
@@ -745,8 +683,6 @@ class Database
 
     /**
      * Process query as object or numeric or associative array.
-     *
-     * @since 1.0.0
      *
      * @return mixed|bool → results
      */
@@ -777,8 +713,6 @@ class Database
 
     /**
      * Reset query parameters.
-     *
-     * @since 1.0.0
      */
     private function reset()
     {

@@ -3,7 +3,7 @@
  * SQL database management to be used by several providers at the same time.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Database
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Database
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "INSERT" query.
- *
- * @since 1.1.6
  */
 final class InsertTest extends TestCase
 {
@@ -50,8 +48,6 @@ final class InsertTest extends TestCase
 
     /**
      * [QUERY] [RETURN ROWS AFFECTED]
-     *
-     * @since 1.1.6
      */
     public function testInsertReturnRows()
     {
@@ -65,8 +61,6 @@ final class InsertTest extends TestCase
 
     /**
      * [QUERY] [RETURN LAST INSERT ID]
-     *
-     * @since 1.1.6
      */
     public function testInsertReturnID()
     {
@@ -82,8 +76,6 @@ final class InsertTest extends TestCase
 
     /**
      * [QUERY] [STATEMENTS] [RETURN ROWS AFFECTED]
-     *
-     * @since 1.1.6
      */
     public function testInsertStatementsReturnRows()
     {
@@ -101,8 +93,6 @@ final class InsertTest extends TestCase
 
     /**
      * [QUERY] [STATEMENTS] [DATA-TYPE] [RETURN ROWS AFFECTED]
-     *
-     * @since 1.1.6
      */
     public function testInsertStatementsDataTypeReturnRows()
     {
@@ -121,8 +111,6 @@ final class InsertTest extends TestCase
 
     /**
      * [QUERY] [STATEMENTS] [DATA-TYPE] [RETURN ROWS AFFECTED] [EXCEPTION]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
@@ -143,8 +131,6 @@ final class InsertTest extends TestCase
 
     /**
      * [QUERY] [MARKS STATEMENTS] [RETURN LAST INSERT ID]
-     *
-     * @since 1.1.6
      */
     public function testInsertStatementsReturnID()
     {
@@ -163,8 +149,6 @@ final class InsertTest extends TestCase
 
     /**
      * [QUERY] [MARKS STATEMENTS] [DATA-TYPE] [RETURN LAST INSERT ID]
-     *
-     * @since 1.1.6
      */
     public function testInsertStatementsDataTypeReturnID()
     {
@@ -185,8 +169,6 @@ final class InsertTest extends TestCase
     /**
      * [QUERY] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
@@ -202,8 +184,6 @@ final class InsertTest extends TestCase
     /**
      * [QUERY] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
@@ -218,8 +198,6 @@ final class InsertTest extends TestCase
 
     /**
      * [METHOD] [RETURN ROWS AFFECTED]
-     *
-     * @since 1.1.6
      */
     public function testInsertMethodReturnRows()
     {
@@ -238,8 +216,6 @@ final class InsertTest extends TestCase
 
     /**
      * [METHOD] [STATEMENTS] [RETURN LAST INSERT ID]
-     *
-     * @since 1.1.6
      */
     public function testInsertMethodStatementsReturnID()
     {
@@ -261,8 +237,6 @@ final class InsertTest extends TestCase
 
     /**
      * [METHOD] [STATEMENTS] [DATA-TYPE] [RETURN LAST INSERT ID]
-     *
-     * @since 1.1.6
      */
     public function testInsertMethodStatementsDataTypeReturnID()
     {
@@ -284,8 +258,6 @@ final class InsertTest extends TestCase
 
     /**
      * [METHOD] [MARKS STATEMENTS] [RETURN LAST INSERT ID]
-     *
-     * @since 1.1.6
      */
     public function testInsertMethodMarksStatementsReturnID()
     {
@@ -307,8 +279,6 @@ final class InsertTest extends TestCase
 
     /**
      * [METHOD] [MARKS STATEMENTS] [DATA-TYPE] [RETURN ROWS AFFECTED]
-     *
-     * @since 1.1.6
      */
     public function testInsertMethodMarksDataTypeReturnRows()
     {
@@ -331,8 +301,6 @@ final class InsertTest extends TestCase
     /**
      * [METHOD] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
@@ -352,8 +320,6 @@ final class InsertTest extends TestCase
 
     /**
      * [METHOD] [EXCEPTION]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *

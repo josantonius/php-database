@@ -3,7 +3,7 @@
  * SQL database management to be used by several providers at the same time.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Database
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Database
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "DELETE" query.
- *
- * @since 1.1.6
  */
 final class DeleteTest extends TestCase
 {
@@ -50,8 +48,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [QUERY] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testQueryReturnRows()
     {
@@ -66,8 +62,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [QUERY] [STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testQueryStatementsWhereReturnRows()
     {
@@ -85,8 +79,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [QUERY] [STATEMENTS] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testQueryStatementsWhereMultipleReturnRows()
     {
@@ -105,8 +97,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [QUERY] [MARKS STATEMENTS] [WHERE SIMPLE] [ROWS AFFECTED]
-     *
-     * @since 1.1.6
      */
     public function testQueryMarksStatementsWhereReturnRows()
     {
@@ -125,8 +115,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [QUERY] [MARKS STATEMENTS] [WHERE SIMPLE] [DATA TYPE] [ROWS]
-     *
-     * @since 1.1.6
      */
     public function testQueryMarksStatementsWhereDataTypeReturnRows()
     {
@@ -146,8 +134,6 @@ final class DeleteTest extends TestCase
     /**
      * [QUERY] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
@@ -159,8 +145,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [QUERY] [EXCEPTION]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
@@ -177,8 +161,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [METHOD] [WHERE SIMPLE] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testMethodWhereReturnRows()
     {
@@ -193,8 +175,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [METHOD] [WHERE MULTIPLE] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testMethodWhereReturnsRows()
     {
@@ -215,8 +195,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [METHOD] [STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testMethodStatementsWhereAdvancedReturnRows()
     {
@@ -237,8 +215,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS]
-     *
-     * @since 1.1.6
      */
     public function testMethodStatementsDataTypeWhereAdvancedRows()
     {
@@ -259,8 +235,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [ROWS AFFECTED]
-     *
-     * @since 1.1.6
      */
     public function testMethodMarksStatementsWhereAdvancedReturnRows()
     {
@@ -281,8 +255,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [METHOD] [MARKS STATEMENTS] [DATA-TYPE] [WHERE ADVANCED] [ROWS]
-     *
-     * @since 1.1.6
      */
     public function testMethodMarksStatementsDataTypeWhereAdvanced()
     {
@@ -304,8 +276,6 @@ final class DeleteTest extends TestCase
     /**
      * [METHOD] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
@@ -320,8 +290,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [METHOD] [EXCEPTION]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
@@ -338,8 +306,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [METHOD] [ALL ROWS] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testDeleteAllMethodReturnRows()
     {
@@ -353,8 +319,6 @@ final class DeleteTest extends TestCase
 
     /**
      * [QUERY] [ALL ROWS] [ROWS AFFECTED NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testDeleteAllQueryReturnRows()
     {

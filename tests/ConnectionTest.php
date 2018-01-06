@@ -3,7 +3,7 @@
  * SQL database management to be used by several providers at the same time.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Database
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Database
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
@@ -15,15 +15,11 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Database connection tests.
- *
- * @since 1.1.6
  */
 final class ConnectionTest extends TestCase
 {
     /**
      * Get connection test.
-     *
-     * @since 1.1.6
      */
     public function testGetConnection()
     {
@@ -47,8 +43,6 @@ final class ConnectionTest extends TestCase
 
     /**
      * Get connection test when using config from the Eliasis Framework.
-     *
-     * @since 1.1.6
      */
     public function testGetConnectionFromEliasis()
     {
@@ -97,8 +91,6 @@ final class ConnectionTest extends TestCase
     /**
      * Test when provider not exists.
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessage The provider doesn't exist: Josantonius\
@@ -118,8 +110,6 @@ final class ConnectionTest extends TestCase
 
     /**
      * Test for exception: Name or service not known.
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
@@ -141,8 +131,6 @@ final class ConnectionTest extends TestCase
     /**
      * Test for exception: Access denied for user.
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessage Access denied for user
@@ -163,8 +151,6 @@ final class ConnectionTest extends TestCase
     /**
      * Test for exception: Access denied for user (password).
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessage Access denied for user
@@ -184,8 +170,6 @@ final class ConnectionTest extends TestCase
 
     /**
      * Test for exception: Access denied for user (name).
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *

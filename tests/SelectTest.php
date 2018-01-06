@@ -3,7 +3,7 @@
  * SQL database management to be used by several providers at the same time.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Database
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Database
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "SELECT" query.
- *
- * @since 1.1.6
  */
 final class SelectTest extends TestCase
 {
@@ -50,8 +48,6 @@ final class SelectTest extends TestCase
 
     /**
      * [QUERY] [MULTIPLE] [RETURN OBJECT]
-     *
-     * @since 1.1.6
      */
     public function testQueryMultipleReturnObject()
     {
@@ -65,8 +61,6 @@ final class SelectTest extends TestCase
 
     /**
      * [QUERY] [ALL] [LIMIT] [RETURN ARRAY NUMERIC]
-     *
-     * @since 1.1.6
      */
     public function testQuerySelectAllLimitReturnArrayNumeric()
     {
@@ -83,8 +77,6 @@ final class SelectTest extends TestCase
 
     /**
      * [QUERY] [MULTIPLE] [WHERE] [ORDER] [RETURN ARRAY ASSOC]
-     *
-     * @since 1.1.6
      */
     public function testQueryMultipleWhereOrderReturnArrayAssoc()
     {
@@ -102,8 +94,6 @@ final class SelectTest extends TestCase
 
     /**
      * [QUERY] [MULTIPLE] [RETURN ROWS NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testQueryMultipleReturnRows()
     {
@@ -119,8 +109,6 @@ final class SelectTest extends TestCase
 
     /**
      * [QUERY] [MULTIPLE] [STATEMENTS] [WHERE] [RETURN OBJECT]
-     *
-     * @since 1.1.6
      */
     public function testQueryMultipleStatementsWhereReturnObject()
     {
@@ -139,8 +127,6 @@ final class SelectTest extends TestCase
     /**
      * [QUERY] [MULTIPLE] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
@@ -156,8 +142,6 @@ final class SelectTest extends TestCase
     /**
      * [QUERY] [MULTIPLE] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (Column|not|found|Unknown|column)
@@ -172,8 +156,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [ALL] [RETURN OBJECT]
-     *
-     * @since 1.1.6
      */
     public function testMethodSelectAllReturnObject()
     {
@@ -187,8 +169,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [ALL] [RETURN ARRAY NUMERIC]
-     *
-     * @since 1.1.6
      */
     public function testMethodSelectAllNumeric()
     {
@@ -202,8 +182,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [ALL] [RETURN ARRAY ASSOC]
-     *
-     * @since 1.1.6
      */
     public function testMethodSelectAllReturnArrayAssoc()
     {
@@ -217,8 +195,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [LIMIT] [RETURN OBJECT]
-     *
-     * @since 1.1.6
      */
     public function testMethodLimitReturnObject()
     {
@@ -233,8 +209,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [MULTIPLE] [WHERE MULTIPLE] [RETURN ARRAY ASSOC]
-     *
-     * @since 1.1.6
      */
     public function testMethodMultipleWhereReturnArrayAssoc()
     {
@@ -249,8 +223,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [SELECT-WHERE MULTIPLE] [ORDER SIMPLE] [LIMIT] [OBJECT]
-     *
-     * @since 1.1.6
      */
     public function testMethodMultipleWhereOrderLimitReturnObject()
     {
@@ -267,8 +239,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [SELECT-ORDER-WHERE MULTIPLE] [LIMIT] [RETURN OBJECT]
-     *
-     * @since 1.1.6
      */
     public function testMethodOrderWhereMultipleLimitReturnObject()
     {
@@ -285,8 +255,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [STATEMENTS] [WHERE MULTIPLE] [RETURN OBJECT]
-     *
-     * @since 1.1.6
      */
     public function testMethodStatementsWhereMultipleReturnObject()
     {
@@ -304,8 +272,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [STATEMENTS] [WHERE ADVANCED] [RETURN ARRAY ASSOC]
-     *
-     * @since 1.1.6
      */
     public function testMethodStatementsWhereAdvancedReturnAssoc()
     {
@@ -325,8 +291,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [STATEMENTS] [DATA-TYPE] [WHERE MULTIPLE] [RETURN EMPTY ARRAY]
-     *
-     * @since 1.1.6
      */
     public function testMethodWhenThereAreNoResults()
     {
@@ -353,8 +317,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [WHERE SIMPLE] [RETURN ROWS NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testMethodWhereReturnRows()
     {
@@ -369,8 +331,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [MARKS STATEMENTS] [WHERE ADVANCED] [RETURN ROWS NUMBER]
-     *
-     * @since 1.1.6
      */
     public function testMethodMarksStatementsAdvancedReturnRows()
     {
@@ -388,8 +348,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [MARKS STATEMENTS] [DATATYPE] [WHERE ADVANCED] [RETURN ROWS]
-     *
-     * @since 1.1.6
      */
     public function testMethodMarksDataTypeWhereAdvancedReturnRows()
     {
@@ -412,8 +370,6 @@ final class SelectTest extends TestCase
     /**
      * [METHOD] [ALL] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|view|not|found|exist|Table)
@@ -428,8 +384,6 @@ final class SelectTest extends TestCase
 
     /**
      * [METHOD] [EXCEPTION]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *

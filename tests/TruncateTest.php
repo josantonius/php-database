@@ -3,7 +3,7 @@
  * SQL database management to be used by several providers at the same time.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Database
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Database
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Database
  * @since     1.1.6
@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for "TRUNCATE" query.
- *
- * @since 1.1.6
  */
 final class TruncateTest extends TestCase
 {
@@ -50,8 +48,6 @@ final class TruncateTest extends TestCase
 
     /**
      * [QUERY] [TRUNCATE TABLE]
-     *
-     * @since 1.1.6
      */
     public function testTruncateTableQuery()
     {
@@ -70,8 +66,6 @@ final class TruncateTest extends TestCase
     /**
      * [QUERY] [TRUNCATE TABLE] [EXCEPTION]
      *
-     * @since 1.1.6
-     *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
      * @expectedExceptionMessageRegExp (table|not|found|Table|exists)
@@ -83,8 +77,6 @@ final class TruncateTest extends TestCase
 
     /**
      * [METHOD] [TRUNCATE TABLE]
-     *
-     * @since 1.1.6
      */
     public function testTruncateTableMethod()
     {
@@ -110,8 +102,6 @@ final class TruncateTest extends TestCase
 
     /**
      * [METHOD] [TRUNCATE TABLE] [EXCEPTION]
-     *
-     * @since 1.1.6
      *
      * @expectedException \Josantonius\Database\Exception\DBException
      *
