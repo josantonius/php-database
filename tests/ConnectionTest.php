@@ -10,7 +10,7 @@
  */
 namespace Josantonius\Database;
 
-use Eliasis\App\App;
+use Eliasis\Framework\App;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -48,7 +48,7 @@ final class ConnectionTest extends TestCase
     {
         App::run(dirname(__DIR__));
 
-        App::set('db', [
+        App::setOption('db', [
             'Eliasis' => [
                 'id' => 'Eliasis',
                 'provider' => 'PDOprovider',

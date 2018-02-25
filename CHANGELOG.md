@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.0 - 2018-02-25
+
+* Some methods were modified to adapt them to the new version of Eliasis Framework.
+
 ## 1.1.9 - 2018-01-06
 
 * The tests were fixed.
