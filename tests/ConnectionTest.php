@@ -10,7 +10,6 @@
  */
 namespace Josantonius\Database;
 
-use Eliasis\Framework\App;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -39,36 +38,22 @@ final class ConnectionTest extends TestCase
             'Josantonius\Database\Database',
             get_class($db)
         );
-    }
 
-    /**
-     * Get connection test when using config from the Eliasis Framework.
-     */
-    public function testGetConnectionFromEliasis()
-    {
-        App::run(dirname(__DIR__));
+        $db = Database::getConnection(
+            'api',
+            'PDOprovider',
+            $GLOBALS['DB_HOST'],
+            $GLOBALS['DB_USER'],
+            $GLOBALS['DB_NAME'],
+            $GLOBALS['DB_PASSWORD'],
+            ['charset' => 'utf8']
+        );
 
-        App::setOption('db', [
-            'Eliasis' => [
-                'id' => 'Eliasis',
-                'provider' => 'PDOprovider',
-                'host' => $GLOBALS['DB_HOST'],
-                'user' => $GLOBALS['DB_USER'],
-                'name' => $GLOBALS['DB_NAME'],
-                'password' => $GLOBALS['DB_PASSWORD'],
-                'settings' => ['charset' => 'utf8'],
-                'charset' => 'utf8',
-                'engine' => 'innodb',
-            ],
-        ]);
-
-        $db = Database::getConnection('Eliasis');
-
-        $this->assertContains('Eliasis', $db::$id);
+        $this->assertContains('api', $db::$id);
 
         $this->assertContains(
-            'Josantonius\Database\Provider\PDOprovider',
-            get_class($db->provider)
+            'Josantonius\Database\Database',
+            get_class($db)
         );
     }
 
@@ -83,9 +68,9 @@ final class ConnectionTest extends TestCase
 
         $this->assertContains('identifier', $db::$id);
 
-        $db = Database::getConnection('Eliasis');
+        $db = Database::getConnection('api');
 
-        $this->assertContains('Eliasis', $db::$id);
+        $this->assertContains('api', $db::$id);
     }
 
     /**

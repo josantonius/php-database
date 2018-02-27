@@ -170,15 +170,6 @@ class Database
             return self::$conn[$id];
         }
 
-        if (class_exists($app = 'Eliasis\\Framework\\App')) {
-            $provider = $provider ?: $app::getOption('db', $id, 'provider');
-            $host = $host ?: $app::getOption('db', $id, 'host');
-            $user = $user ?: $app::getOption('db', $id, 'user');
-            $name = $name ?: $app::getOption('db', $id, 'name');
-            $password = $password ?: $app::getOption('db', $id, 'password');
-            $settings = $settings ?: $app::getOption('db', $id, 'settings');
-        }
-
         return self::$conn[$id] = new self(
             $provider,
             $host,
