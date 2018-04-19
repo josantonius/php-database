@@ -502,7 +502,7 @@ $db->replace($data, $statements)
 ### - DELETE statement:
 
 ```php
-$db->replace($data, $statements)
+$db->delete($data, $statements)
    ->from($table)
    ->where($clauses, $statements)
    ->execute();
