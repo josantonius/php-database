@@ -48,11 +48,20 @@ class Database
     public $rowCount;
 
     /**
+     * Database settings.
+     *
+     * @var array
+     */
+    public $settings;
+
+    /**
      * Configurations for queries.
+     *
+     * @since 1.2.1
      *
      * @var null|array
      */
-    protected $settings = [
+    private $items = [
         'on' => null, // array  → db reference table (foreing)
         'type' => null, // string → type of query
         'data' => null, // array  → columns and values
@@ -130,6 +139,8 @@ class Database
                 $this->provider->getError()
             );
         }
+
+        $this->settings = $settings;
     }
 
     /**
@@ -198,18 +209,18 @@ class Database
      */
     public function query($query, $statements = null, $result = 'obj')
     {
-        $this->settings['type'] = trim(explode(' ', $query)[0]);
+        $this->items['type'] = trim(explode(' ', $query)[0]);
 
         $this->query = $query;
 
-        $this->settings['result'] = $result;
-        $this->settings['statements'] = $statements;
+        $this->items['result'] = $result;
+        $this->items['statements'] = $statements;
 
-        $types = '|SELECT|INSERT|UPDATE|DELETE|CREATE|TRUNCATE|DROP|';
+        $types = '|SELECT|INSERT|UPDATE|DELETE|CREATE|TRUNCATE|DROP|USE|';
 
-        if (! strpos($types, $this->settings['type'])) {
+        if (! strpos($types, $this->items['type'])) {
             throw new DBException(
-                'Unknown query type:' . $this->settings['type']
+                'Unknown query type:' . $this->items['type']
             );
         }
 
@@ -227,8 +238,8 @@ class Database
      */
     public function create($data)
     {
-        $this->settings['type'] = 'CREATE';
-        $this->settings['data'] = $data;
+        $this->items['type'] = 'CREATE';
+        $this->items['data'] = $data;
 
         return $this;
     }
@@ -244,7 +255,7 @@ class Database
      */
     public function foreing($id)
     {
-        $this->settings['foreing'][] = $id;
+        $this->items['foreing'][] = $id;
 
         return $this;
     }
@@ -260,7 +271,7 @@ class Database
      */
     public function reference($table)
     {
-        $this->settings['reference'][] = $table;
+        $this->items['reference'][] = $table;
 
         return $this;
     }
@@ -276,7 +287,7 @@ class Database
      */
     public function on($table)
     {
-        $this->settings['on'][] = $table;
+        $this->items['on'][] = $table;
 
         return $this;
     }
@@ -292,7 +303,7 @@ class Database
      */
     public function actions($action)
     {
-        $this->settings['actions'][] = $action;
+        $this->items['actions'][] = $action;
 
         return $this;
     }
@@ -308,7 +319,7 @@ class Database
      */
     public function engine($type)
     {
-        $this->settings['engine'] = $type;
+        $this->items['engine'] = $type;
 
         return $this;
     }
@@ -322,7 +333,7 @@ class Database
      */
     public function charset($type)
     {
-        $this->settings['charset'] = $type;
+        $this->items['charset'] = $type;
 
         return $this;
     }
@@ -336,8 +347,8 @@ class Database
      */
     public function select($columns = '*')
     {
-        $this->settings['type'] = 'SELECT';
-        $this->settings['columns'] = $columns;
+        $this->items['type'] = 'SELECT';
+        $this->items['columns'] = $columns;
 
         return $this;
     }
@@ -352,9 +363,9 @@ class Database
      */
     public function insert($data, $statements = null)
     {
-        $this->settings['type'] = 'INSERT';
-        $this->settings['data'] = $data;
-        $this->settings['statements'] = $statements;
+        $this->items['type'] = 'INSERT';
+        $this->items['data'] = $data;
+        $this->items['statements'] = $statements;
 
         return $this;
     }
@@ -369,9 +380,9 @@ class Database
      */
     public function update($data, $statements = null)
     {
-        $this->settings['type'] = 'UPDATE';
-        $this->settings['data'] = $data;
-        $this->settings['statements'] = $statements;
+        $this->items['type'] = 'UPDATE';
+        $this->items['data'] = $data;
+        $this->items['statements'] = $statements;
 
         return $this;
     }
@@ -386,9 +397,9 @@ class Database
      */
     public function replace($data, $statements = null)
     {
-        $this->settings['type'] = 'REPLACE';
-        $this->settings['data'] = $data;
-        $this->settings['statements'] = $statements;
+        $this->items['type'] = 'REPLACE';
+        $this->items['data'] = $data;
+        $this->items['statements'] = $statements;
 
         return $this;
     }
@@ -400,7 +411,7 @@ class Database
      */
     public function delete()
     {
-        $this->settings['type'] = 'DELETE';
+        $this->items['type'] = 'DELETE';
 
         return $this;
     }
@@ -412,7 +423,7 @@ class Database
      */
     public function truncate()
     {
-        $this->settings['type'] = 'TRUNCATE';
+        $this->items['type'] = 'TRUNCATE';
 
         return $this;
     }
@@ -424,7 +435,7 @@ class Database
      */
     public function drop()
     {
-        $this->settings['type'] = 'DROP';
+        $this->items['type'] = 'DROP';
 
         return $this;
     }
@@ -438,7 +449,7 @@ class Database
      */
     public function in($table)
     {
-        $this->settings['table'] = $table;
+        $this->items['table'] = $table;
 
         return $this;
     }
@@ -452,7 +463,7 @@ class Database
      */
     public function table($table)
     {
-        $this->settings['table'] = $table;
+        $this->items['table'] = $table;
 
         return $this;
     }
@@ -466,7 +477,7 @@ class Database
      */
     public function from($table)
     {
-        $this->settings['table'] = $table;
+        $this->items['table'] = $table;
 
         return $this;
     }
@@ -481,15 +492,15 @@ class Database
      */
     public function where($clauses, $statements = null)
     {
-        $this->settings['where'] = $clauses;
+        $this->items['where'] = $clauses;
 
-        if (is_array($this->settings['statements'])) {
-            $this->settings['statements'] = array_merge(
-                $this->settings['statements'],
+        if (is_array($this->items['statements'])) {
+            $this->items['statements'] = array_merge(
+                $this->items['statements'],
                 $statements
             );
         } else {
-            $this->settings['statements'] = $statements;
+            $this->items['statements'] = $statements;
         }
 
         return $this;
@@ -504,7 +515,7 @@ class Database
      */
     public function order($type)
     {
-        $this->settings['order'] = $type;
+        $this->items['order'] = $type;
 
         return $this;
     }
@@ -518,7 +529,7 @@ class Database
      */
     public function limit($number)
     {
-        $this->settings['limit'] = $number;
+        $this->items['limit'] = $number;
 
         return $this;
     }
@@ -536,71 +547,71 @@ class Database
      */
     public function execute($result = 'obj')
     {
-        $this->settings['result'] = $result;
+        $this->items['result'] = $result;
 
-        $type = strtolower($this->settings['type']);
+        $type = strtolower($this->items['type']);
 
-        switch ($this->settings['type']) {
+        switch ($this->items['type']) {
             case 'SELECT':
                 $params = [
-                    $this->settings['columns'],
-                    $this->settings['table'],
-                    $this->settings['where'],
-                    $this->settings['order'],
-                    $this->settings['limit'],
-                    $this->settings['statements'],
-                    $this->settings['result'],
+                    $this->items['columns'],
+                    $this->items['table'],
+                    $this->items['where'],
+                    $this->items['order'],
+                    $this->items['limit'],
+                    $this->items['statements'],
+                    $this->items['result'],
                 ];
                 break;
             case 'INSERT':
                 $params = [
-                    $this->settings['table'],
-                    $this->settings['data'],
-                    $this->settings['statements'],
+                    $this->items['table'],
+                    $this->items['data'],
+                    $this->items['statements'],
                 ];
                 break;
             case 'UPDATE':
                 $params = [
-                    $this->settings['table'],
-                    $this->settings['data'],
-                    $this->settings['statements'],
-                    $this->settings['where'],
+                    $this->items['table'],
+                    $this->items['data'],
+                    $this->items['statements'],
+                    $this->items['where'],
                 ];
                 break;
             case 'REPLACE':
                 $params = [
-                    $this->settings['table'],
-                    $this->settings['data'],
-                    $this->settings['statements'],
+                    $this->items['table'],
+                    $this->items['data'],
+                    $this->items['statements'],
                 ];
                 break;
             case 'DELETE':
                 $params = [
-                    $this->settings['table'],
-                    $this->settings['statements'],
-                    $this->settings['where'],
+                    $this->items['table'],
+                    $this->items['statements'],
+                    $this->items['where'],
                 ];
                 break;
             case 'CREATE':
                 $params = [
-                    $this->settings['table'],
-                    $this->settings['data'],
-                    $this->settings['foreing'],
-                    $this->settings['reference'],
-                    $this->settings['on'],
-                    $this->settings['actions'],
-                    $this->settings['engine'],
-                    $this->settings['charset'],
+                    $this->items['table'],
+                    $this->items['data'],
+                    $this->items['foreing'],
+                    $this->items['reference'],
+                    $this->items['on'],
+                    $this->items['actions'],
+                    $this->items['engine'],
+                    $this->items['charset'],
                 ];
                 break;
             case 'TRUNCATE':
                 $params = [
-                    $this->settings['table'],
+                    $this->items['table'],
                 ];
                 break;
             case 'DROP':
                 $params = [
-                    $this->settings['table'],
+                    $this->items['table'],
                 ];
                 break;
         }
@@ -608,8 +619,6 @@ class Database
         $provider = [$this->provider, $type];
 
         $this->response = call_user_func_array($provider, $params);
-
-        $this->reset();
 
         return $this->getResponse();
     }
@@ -621,7 +630,7 @@ class Database
      */
     private function implement()
     {
-        if (is_array($this->settings['statements'])) {
+        if (is_array($this->items['statements'])) {
             return $this->implementPrepareStatements();
         }
 
@@ -635,7 +644,7 @@ class Database
     {
         $this->response = $this->provider->statements(
             $this->query,
-            $this->settings['statements']
+            $this->items['statements']
         );
     }
 
@@ -646,7 +655,7 @@ class Database
     {
         $this->response = $this->provider->query(
             $this->query,
-            $this->settings['type']
+            $this->items['type']
         );
     }
 
@@ -664,12 +673,17 @@ class Database
         $this->rowCount = $this->provider->rowCount($this->response);
 
         if (is_null($this->response)) {
+            $this->reset();
             throw new DBException(
                 'Error executing the query ' . $this->provider->getError()
             );
         }
 
-        return $this->fetchResponse();
+        $response = $this->fetchResponse();
+
+        $this->reset();
+
+        return $response;
     }
 
     /**
@@ -679,19 +693,19 @@ class Database
      */
     private function fetchResponse()
     {
-        $type = $this->settings['type'];
+        $type = $this->items['type'];
 
         if (strpos('|INSERT|UPDATE|DELETE|REPLACE|', $type)) {
-            if ($this->settings['result'] === 'id') {
+            if ($this->items['result'] === 'id') {
                 return $this->lastInsertId;
             }
 
             return $this->rowCount;
         } elseif ($type === 'SELECT') {
-            if ($this->settings['result'] !== 'rows') {
+            if ($this->items['result'] !== 'rows') {
                 return $this->provider->fetchResponse(
                     $this->response,
-                    $this->settings['result']
+                    $this->items['result']
                 );
             }
             if (is_object($this->response)) {
@@ -707,17 +721,17 @@ class Database
      */
     private function reset()
     {
-        $this->settings['columns'] = null;
-        $this->settings['table'] = null;
-        $this->settings['where'] = null;
-        $this->settings['order'] = null;
-        $this->settings['limit'] = null;
-        $this->settings['statements'] = null;
-        $this->settings['foreing'] = null;
-        $this->settings['reference'] = null;
-        $this->settings['on'] = null;
-        $this->settings['actions'] = null;
-        $this->settings['engine'] = null;
-        $this->settings['charset'] = null;
+        $this->items['columns'] = null;
+        $this->items['table'] = null;
+        $this->items['where'] = null;
+        $this->items['order'] = null;
+        $this->items['limit'] = null;
+        $this->items['statements'] = null;
+        $this->items['foreing'] = null;
+        $this->items['reference'] = null;
+        $this->items['on'] = null;
+        $this->items['actions'] = null;
+        $this->items['engine'] = null;
+        $this->items['charset'] = null;
     }
 }

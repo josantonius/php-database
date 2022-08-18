@@ -1,6 +1,7 @@
 # PHP Database library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/Database/v/stable)](https://packagist.org/packages/josantonius/Database) [![Latest Unstable Version](https://poser.pugx.org/josantonius/Database/v/unstable)](https://packagist.org/packages/josantonius/Database) [![License](https://poser.pugx.org/josantonius/Database/license)](LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc05a7b06c554a3e844ece8f360a05ed)](https://www.codacy.com/app/Josantonius/PHP-Database?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Josantonius/PHP-Database&amp;utm_campaign=Badge_Grade) [![Total Downloads](https://poser.pugx.org/josantonius/Database/downloads)](https://packagist.org/packages/josantonius/Database) [![Travis](https://travis-ci.org/Josantonius/PHP-Database.svg)](https://travis-ci.org/Josantonius/PHP-Database) [![PSR2](https://img.shields.io/badge/PSR-2-1abc9c.svg)](http://www.php-fig.org/psr/psr-2/) [![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](http://www.php-fig.org/psr/psr-4/) [![CodeCov](https://codecov.io/gh/Josantonius/PHP-Database/branch/master/graph/badge.svg)](https://codecov.io/gh/Josantonius/PHP-Database)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/Database/v/stable)](https://packagist.org/packages/josantonius/Database)
+[![License](https://poser.pugx.org/josantonius/Database/license)](LICENSE)
 
 [English version](README.md)
 
@@ -21,13 +22,10 @@ Biblioteca para la administración de bases de datos SQL para ser utilizada por 
 - [DELETE](#delete)
 - [TRUNCATE TABLE](#truncate)
 - [DROP TABLE](#drop)
+- [Tipos de datos soportados para sentencias preparadas](#tipos-de-datos-soportados-para-sentencias-preparadas)
 - [Tests](#tests)
-- [Tareas pendientes](#-tareas-pendientes)
-- [Manejador de excepciones](#manejador-de-excepciones)
-- [Contribuir](#contribuir)
-- [Repositorio](#repositorio)
+- [Patrocinar](#patrocinar)
 - [Licencia](#licencia)
-- [Copyright](#copyright)
 
 ---
 
@@ -35,35 +33,35 @@ Biblioteca para la administración de bases de datos SQL para ser utilizada por 
 
 Esta clase es soportada por versiones de **PHP 5.6** o superiores y es compatible con versiones de **HHVM 3.0** o superiores.
 
-## Instalación 
+## Instalación
 
 La mejor forma de instalar esta extensión es a través de [Composer](http://getcomposer.org/download/).
 
 Para instalar **PHP Database library**, simplemente escribe:
 
-    $ composer require Josantonius/Database
+    composer require Josantonius/Database
 
 El comando anterior sólo instalará los archivos necesarios, si prefieres **descargar todo el código fuente** puedes utilizar:
 
-    $ composer require Josantonius/Database --prefer-source
+    composer require Josantonius/Database --prefer-source
 
 También puedes **clonar el repositorio** completo con Git:
 
-    $ git clone https://github.com/Josantonius/PHP-Database.git
+    git clone https://github.com/Josantonius/PHP-Database.git
 
 O **instalarlo manualmente**:
 
 Descargar [Database.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php), [Provider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider.php), [PDOprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider.php), [MSSQLprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php) and [DBException.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php):
 
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php
 
 ## Get connection
 
-### - Get connection:
+### - Get connection
 
 ```php
 Database::getConnection($id, $provider, $host, $user, $name, $password, $settings);
@@ -76,11 +74,11 @@ Database::getConnection($id, $provider, $host, $user, $name, $password, $setting
 | $host | Host. | string | No | null |
 | $user | Usuario. | string | No | null |
 | $name | Nombre. | string | No | null |
-| $password | Password . | string | No | null |
+| $password | Password. | string | No | null |
 
 | Attribute | Key | Description | Type | Required | Default
 | --- | --- | --- | --- | --- | --- |
-| $settings | | Opciones | array | No | null |
+| $settings | | Opciones. Una vez realizada la conexión, esta configuración estará disponible en el objeto de conexión a la base de datos: $db->settings. | array | No | null |
 | $settings | 'port' | Puerto. | string | No |  |
 | $settings | 'charset' | Charset. | string | No | |
 
@@ -116,7 +114,7 @@ $externalDB = Database::getConnection('external');
 
 ## Query
 
-### - Procesar la consulta y prepararla para el proveedor:
+### - Procesar la consulta y prepararla para el proveedor
 
 ```php
 $db->query($query, $statements, $result);
@@ -161,7 +159,7 @@ $db->query(
 
 ## CREATE TABLE
 
-### - CREATE TABLE:
+### - CREATE TABLE
 
 ```php
 $db->create($data)
@@ -220,7 +218,7 @@ $db->create($params)
 
 ## SELECT
 
-### - Declaración SELECT:
+### - Declaración SELECT
 
 ```php
 $db->select($columns)
@@ -288,7 +286,7 @@ $db->select('name')
 
 ## INSERT INTO
 
-### - Declaración INSERT INTO:
+### - Declaración INSERT INTO
 
 ```php
 $db->insert($data, $statements)
@@ -347,7 +345,7 @@ $db->insert($data, $statements)
 
 ## UPDATE
 
-### - Declaración UPDATE:
+### - Declaración UPDATE
 
 ```php
 $db->update($data, $statements)
@@ -367,7 +365,7 @@ $db->update($data, $statements)
 | | $statements | Declaraciones preparadas. | array | No | null |
 | execute() | | Ejecutar consulta. | method | Sí | |
 
-**# Return** (int) → número de filas afectadas 
+**# Return** (int) → número de filas afectadas
 
 ```php
 #UPDATE ejemplo básico
@@ -438,7 +436,7 @@ $db->update($data, $statements['data'])
 
 ## REPLACE
 
-### - Reemplazar una línea en una tabla si existe o insertar una nueva línea si no existe:
+### - Reemplazar una línea en una tabla si existe o insertar una nueva línea si no existe
 
 ```php
 $db->replace($data, $statements)
@@ -500,7 +498,7 @@ $db->replace($data, $statements)
 
 ## DELETE
 
-### - Declaración DELETE:
+### - Declaración DELETE
 
 ```php
 $db->delete($data, $statements)
@@ -520,7 +518,7 @@ $db->delete($data, $statements)
 | | $statements | Declaraciones preparadas. | array | No | null |
 | execute() | | Ejecutar consulta. | method | Sí | |
 
-**# Return** (int) → número de filas afectadas 
+**# Return** (int) → número de filas afectadas
 
 ```php
 #DELETE all
@@ -567,7 +565,7 @@ $db->delete()
 
 ## TRUNCATE TABLE
 
-### - Declaración TRUNCATE TABLE:
+### - Declaración TRUNCATE TABLE
 
 ```php
 $db->truncate()
@@ -591,7 +589,7 @@ $db->truncate()
 
 ## DROP TABLE
 
-### - Declaración DROP TABLE:
+### - Declaración DROP TABLE
 
 ```php
 $db->drop()
@@ -613,70 +611,65 @@ $db->drop()
    ->execute();
 ```
 
-## Tests 
+## Tipos de datos soportados para sentencias preparadas
+
+### Booleano
+
+- bool
+- boolean
+
+### Nulo
+
+- null
+
+### Números enteros
+
+- int
+- integer
+
+### Cadenas de texto
+
+- str
+- string
+
+**Si algún tipo de dato no coincide con los anteriores, será validado como una cadena de texto.**
+
+**Si no se especifica ningún tipo de dato, el tipo de dato no será validado en la consulta preparada.**
+
+## Tests
 
 Para ejecutar las [pruebas](tests) necesitarás [Composer](http://getcomposer.org/download/) y seguir los siguientes pasos:
 
-    $ git clone https://github.com/Josantonius/PHP-Database.git
+    git clone https://github.com/Josantonius/PHP-Database.git
     
-    $ cd PHP-Database
+    cd PHP-Database
 
-    $ composer install
+    composer install
 
 Ejecutar pruebas unitarias con [PHPUnit](https://phpunit.de/):
 
-    $ composer phpunit
+    composer phpunit
 
 Ejecutar pruebas de estándares de código [PSR2](http://www.php-fig.org/psr/psr-2/) con [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
 
-    $ composer phpcs
+    composer phpcs
 
 Ejecutar pruebas con [PHP Mess Detector](https://phpmd.org/) para detectar inconsistencias en el estilo de codificación:
 
-    $ composer phpmd
+    composer phpmd
 
 Ejecutar todas las pruebas anteriores:
 
-    $ composer tests
+    composer tests
 
-## ☑ Tareas pendientes
+## Patrocinar
 
-- [ ] Añadir nueva funcionalidad.
-- [ ] Mejorar pruebas.
-- [ ] Mejorar documentación.
-- [ ] Refactorizar código para las reglas de estilo de código deshabilitadas. Ver [phpmd.xml](phpmd.xml) y [.php_cs.dist](.php_cs.dist).
-
-## Manejador de excepciones
-
-Esta biblioteca utiliza [control de excepciones](src/Exception) que puedes personalizar a tu gusto.
-
-## Contribuir
-
-Si deseas colaborar, puedes echar un vistazo a la lista de
-[issues](https://github.com/Josantonius/PHP-Database/issues) o [tareas pendientes](#-tareas-pendientes).
-
-**Pull requests**
-
-* [Fork and clone](https://help.github.com/articles/fork-a-repo).
-* Ejecuta el comando `composer install` para instalar dependencias.
-  Esto también instalará las [dependencias de desarrollo](https://getcomposer.org/doc/03-cli.md#install).
-* Ejecuta el comando `composer fix` para estandarizar el código.
-* Ejecuta las [pruebas](#tests).
-* Crea una nueva rama (**branch**), **commit**, **push** y envíame un
-  [pull request](https://help.github.com/articles/using-pull-requests).
-
-## Repositorio
-
-La estructura de archivos de este repositorio se creó con [PHP-Skeleton](https://github.com/Josantonius/PHP-Skeleton).
+Si este proyecto te ayuda a reducir el tiempo de desarrollo,
+[puedes patrocinarme](https://github.com/josantonius/lang/es-ES/README.md#patrocinar)
+para apoyar mi trabajo :blush:
 
 ## Licencia
 
-Este proyecto está licenciado bajo **licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más información.
+Este repositorio tiene una licencia [MIT License](LICENSE).
 
-## Copyright
-
-2017 - 2018 Josantonius, [josantonius.com](https://josantonius.com/)
-
-Si te ha resultado útil, házmelo saber :wink:
-
-Puedes contactarme en [Twitter](https://twitter.com/Josantonius) o a través de mi [correo electrónico](mailto:hello@josantonius.com).
+Copyright © 2017-2022, [Josantonius](https://github.com/josantonius/lang/es-ES/README.md#contacto)

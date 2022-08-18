@@ -19,15 +19,10 @@ namespace Josantonius\Database\Exception;
  */
 class DBException extends \Exception
 {
-    /**
-     * Exception handler.
-     *
-     * @param string $msg    → message error (Optional)
-     * @param int    $status → HTTP response status code (Optional)
-     */
-    public function __construct($msg = '', $status = 0)
+    public function __construct(string $message, int $code = 0, int $httpCode = 400)
     {
-        $this->message = $msg;
-        $this->statusCode = $status;
+        $this->message = $message;
+        $this->code = $code ?? $this->code;
+        $this->httpCode = $httpCode;
     }
 }

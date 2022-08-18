@@ -1,6 +1,7 @@
 # PHP Database library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/Database/v/stable)](https://packagist.org/packages/josantonius/Database) [![Latest Unstable Version](https://poser.pugx.org/josantonius/Database/v/unstable)](https://packagist.org/packages/josantonius/Database) [![License](https://poser.pugx.org/josantonius/Database/license)](LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc05a7b06c554a3e844ece8f360a05ed)](https://www.codacy.com/app/Josantonius/PHP-Database?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Josantonius/PHP-Database&amp;utm_campaign=Badge_Grade) [![Total Downloads](https://poser.pugx.org/josantonius/Database/downloads)](https://packagist.org/packages/josantonius/Database) [![Travis](https://travis-ci.org/Josantonius/PHP-Database.svg)](https://travis-ci.org/Josantonius/PHP-Database) [![PSR2](https://img.shields.io/badge/PSR-2-1abc9c.svg)](http://www.php-fig.org/psr/psr-2/) [![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](http://www.php-fig.org/psr/psr-4/) [![CodeCov](https://codecov.io/gh/Josantonius/PHP-Database/branch/master/graph/badge.svg)](https://codecov.io/gh/Josantonius/PHP-Database)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/Database/v/stable)](https://packagist.org/packages/josantonius/Database)
+[![License](https://poser.pugx.org/josantonius/Database/license)](LICENSE)
 
 [Versión en español](README-ES.md)
 
@@ -20,13 +21,10 @@ SQL database management to be used by several providers at the same time.
 - [DELETE](#delete)
 - [TRUNCATE TABLE](#truncate)
 - [DROP TABLE](#drop)
+- [Supported datatypes for prepared statements](#supported-datatypes-for-prepared-statements)
 - [Tests](#tests)
-- [TODO](#-todo)
-- [Exception Handler](#exception-handler)
-- [Contribute](#contribute)
-- [Repository](#repository)
+- [Sponsor](#Sponsor)
 - [License](#license)
-- [Copyright](#copyright)
 
 ---
 
@@ -40,29 +38,29 @@ The preferred way to install this extension is through [Composer](http://getcomp
 
 To install **PHP Database library**, simply:
 
-    $ composer require Josantonius/Database
+    composer require Josantonius/Database
 
 The previous command will only install the necessary files, if you prefer to **download the entire source code** you can use:
 
-    $ composer require Josantonius/Database --prefer-source
+    composer require Josantonius/Database --prefer-source
 
 You can also **clone the complete repository** with Git:
 
-    $ git clone https://github.com/Josantonius/PHP-Database.git
+    git clone https://github.com/Josantonius/PHP-Database.git
 
 Or **install it manually**:
 
 Download [Database.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php), [Provider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider.php), [PDOprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider.php), [MSSQLprovider.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php) and [DBException.php](https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php):
 
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Database.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/Provider.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/PDOprovider.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Provider/MSSQLprovider.php
+    wget https://raw.githubusercontent.com/Josantonius/PHP-Database/master/src/Exception/DBException.php
 
 ## Get connection
 
-### - Get connection:
+### - Get connection
 
 ```php
 Database::getConnection($id, $provider, $host, $user, $name, $password, $settings);
@@ -79,7 +77,7 @@ Database::getConnection($id, $provider, $host, $user, $name, $password, $setting
 
 | Attribute | Key | Description | Type | Required | Default
 | --- | --- | --- | --- | --- | --- |
-| $settings | | Database options. | array | No | null |
+| $settings | | Database options. Once the connection is made, this configuration will be available in the database connection object: $db->settings. | array | No | null |
 | $settings | 'port' | Database port. | string | No |  |
 | $settings | 'charset' | Database charset. | string | No | |
 
@@ -115,7 +113,7 @@ $externalDB = Database::getConnection('external');
 
 ## Query
 
-### - Process query and prepare it for the provider:
+### - Process query and prepare it for the provider
 
 ```php
 $db->query($query, $statements, $result);
@@ -160,7 +158,7 @@ $db->query(
 
 ## CREATE TABLE
 
-### - CREATE TABLE statement:
+### - CREATE TABLE statement
 
 ```php
 $db->create($data)
@@ -219,7 +217,7 @@ $db->create($params)
 
 ## SELECT
 
-### - SELECT statement:
+### - SELECT statement
 
 ```php
 $db->select($columns)
@@ -287,7 +285,7 @@ $db->select('name')
 
 ## INSERT INTO
 
-### - INSERT INTO statement:
+### - INSERT INTO statement
 
 ```php
 $db->insert($data, $statements)
@@ -346,7 +344,7 @@ $db->insert($data, $statements)
 
 ## UPDATE
 
-### - UPDATE statement:
+### - UPDATE statement
 
 ```php
 $db->update($data, $statements)
@@ -366,7 +364,7 @@ $db->update($data, $statements)
 | | $statements | Statements. | array | No | null |
 | execute() | | Execute query. | method | Yes | |
 
-**# Return** (int) → rows affected 
+**# Return** (int) → rows affected
 
 ```php
 #UPDATE basic example
@@ -437,7 +435,7 @@ $db->update($data, $statements['data'])
 
 ## REPLACE
 
-### - Replace a row in a table if it exists or insert a new row if not exist:
+### - Replace a row in a table if it exists or insert a new row if not exist
 
 ```php
 $db->replace($data, $statements)
@@ -499,7 +497,7 @@ $db->replace($data, $statements)
 
 ## DELETE
 
-### - DELETE statement:
+### - DELETE statement
 
 ```php
 $db->delete($data, $statements)
@@ -519,7 +517,7 @@ $db->delete($data, $statements)
 | | $statements | Statements. | array | No | null |
 | execute() | | Execute query. | method | Yes | |
 
-**# Return** (int) → rows affected 
+**# Return** (int) → rows affected
 
 ```php
 #DELETE all
@@ -566,7 +564,7 @@ $db->delete()
 
 ## TRUNCATE TABLE
 
-### - TRUNCATE TABLE statement:
+### - TRUNCATE TABLE statement
 
 ```php
 $db->truncate()
@@ -590,7 +588,7 @@ $db->truncate()
 
 ## DROP TABLE
 
-### - DROP TABLE statement:
+### - DROP TABLE statement
 
 ```php
 $db->drop()
@@ -630,70 +628,64 @@ require_once __DIR__ . '/Database.php';
 use Josantonius\Database\Database;
 ```
 
-## Tests 
+## Supported datatypes for prepared statements
+
+### Boolean
+
+- bool
+- boolean
+
+### Null
+
+- null
+
+### Integer numbers
+
+- int
+- integer
+
+### Text strings
+
+- str
+- string
+
+**If any type of data that does not match the aboves, it will be validated as a string.**
+
+**If no data type is specified, the data type will not be validated in the prepared query.**
+
+## Tests
 
 To run [tests](tests) you just need [composer](http://getcomposer.org/download/) and to execute the following:
 
-    $ git clone https://github.com/Josantonius/PHP-Database.git
+    git clone https://github.com/Josantonius/PHP-Database.git
     
-    $ cd PHP-Database
+    cd PHP-Database
 
-    $ composer install
+    composer install
 
 Run unit tests with [PHPUnit](https://phpunit.de/):
 
-    $ composer phpunit
+    composer phpunit
 
 Run [PSR2](http://www.php-fig.org/psr/psr-2/) code standard tests with [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
 
-    $ composer phpcs
+    composer phpcs
 
 Run [PHP Mess Detector](https://phpmd.org/) tests to detect inconsistencies in code style:
 
-    $ composer phpmd
+    composer phpmd
 
 Run all previous tests:
 
-    $ composer tests
+    composer tests
 
-## ☑ TODO
+## Sponsor
 
-- [ ] Add new feature.
-- [ ] Improve tests.
-- [ ] Improve documentation.
-- [ ] Refactor code for disabled code style rules. See [phpmd.xml](phpmd.xml) and [.php_cs.dist](.php_cs.dist).
-
-## Exception Handler
-
-This library uses [exception handler](src/Exception) that you can customize.
-
-## Contribute
-
-If you would like to help, please take a look at the list of
-[issues](https://github.com/Josantonius/PHP-Database/issues) or the [To Do](#-todo) checklist.
-
-**Pull requests**
-
-* [Fork and clone](https://help.github.com/articles/fork-a-repo).
-* Run the command `composer install` to install the dependencies.
-  This will also install the [dev dependencies](https://getcomposer.org/doc/03-cli.md#install).
-* Run the command `composer fix` to excute code standard fixers.
-* Run the [tests](#tests).
-* Create a **branch**, **commit**, **push** and send me a
-  [pull request](https://help.github.com/articles/using-pull-requests).
-
-## Repository
-
-The file structure from this repository was created with [PHP-Skeleton](https://github.com/Josantonius/PHP-Skeleton).
+If this project helps you to reduce your development time,
+[you can sponsor me](https://github.com/josantonius#sponsor) to support my open source work :blush:
 
 ## License
 
-This project is licensed under **MIT license**. See the [LICENSE](LICENSE) file for more info.
+This repository is licensed under the [MIT License](LICENSE).
 
-## Copyright
-
-2017 - 2018 Josantonius, [josantonius.com](https://josantonius.com/)
-
-If you find it useful, let me know :wink:
-
-You can contact me on [Twitter](https://twitter.com/Josantonius) or through my [email](mailto:hello@josantonius.com).
+Copyright © 2017-2022, [Josantonius](https://github.com/josantonius#contact)

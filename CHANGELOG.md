@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 1.2.1 - 2022-08-18
+
+* The repository was archived.
+
+* Fixed bug in `insert` and `update` methods of the `PDOprovider` class. Now correctly accepts null and boolean data types when the query is not prepared.
+
+* The `$settings` attribute of the `Josantonius\Database\Database` class has been renamed to `$items`.
+
+* The `$settings` attribute of the `Josantonius\Database\Database` class will now be used as a public attribute and will save an array with the database options passed by the user when connecting.
+
+* Compatibility was added to refer to data types in prepared queries:
+
+* boolean
+* integer
+* string
+
+* `USE` was added as a valid query type.
+
 ## 1.2.0 - 2018-02-25
 
 * Some methods were modified to adapt them to the new version of Eliasis Framework.
@@ -40,7 +58,6 @@
 
 * Changed `Josantonius\Database\Test\` namespace to  `Josantonius\Database\` namespace .
 
-
 ## 1.1.6 - 2017-09-26
 
 * Unit tests supported by `PHPUnit` were added.
@@ -48,7 +65,7 @@
 * The repository was synchronized with `Travis CI` to implement continuous integration.
 
 * Type attributes were deleted from HTML tags. Since HTML5 doesn't longer necessary.
- 
+
 * Added `Database/src/bootstrap.php` file
 
 * Added `Database/tests/bootstrap.php` file.
@@ -57,7 +74,7 @@
 * Added `Database/_config.yml` file.
 * Added `Database/.travis.yml` file.
 
-* Renamed `Josantonius\Provider\PDOprovider` class to `Josantonius\Provider\PDOprovider\PDOprovider` class. 
+* Renamed `Josantonius\Provider\PDOprovider` class to `Josantonius\Provider\PDOprovider\PDOprovider` class.
 
 * Renamed `Josantonius\Provider\MSSQLprovider` class to `Josantonius\Provider\MSSQLprovider\MSSQLprovider` class.
 
@@ -213,7 +230,7 @@
     ],
 ]
 
-* Eliasis Framework url: https://github.com/Eliasis-Framework/Eliasis
+* Eliasis Framework url: <https://github.com/Eliasis-Framework/Eliasis>
 
 ## 1.1.3 - 2017-05-14
 

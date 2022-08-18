@@ -106,20 +106,24 @@ class PDOprovider extends Provider
 
                 switch ($dataType) {
                     case 'bool':
+                    case 'boolean':
                         $query->bindValue($param, $value, \PDO::PARAM_BOOL);
-                        continue;
+                        break;
                     case 'null':
                         $query->bindValue($param, $value, \PDO::PARAM_NULL);
-                        continue;
+                        break;
                     case 'int':
+                    case 'integer':
                         $query->bindValue($param, $value, \PDO::PARAM_INT);
-                        continue;
+                        break;
                     case 'str':
+                    default:
                         $query->bindValue($param, $value, \PDO::PARAM_STR);
-                        continue;
+                        break;
+                    case false:
+                        $query->bindValue($param, $value);
+                        break;
                 }
-
-                $query->bindValue($param, $value);
             }
 
             $query->execute();
@@ -183,7 +187,6 @@ class PDOprovider extends Provider
         foreach ($data as $column => $value) {
             $query .= $column . ' ' . $value . ', ';
         }
-
         $engine = (! is_null($engine)) ? ' ENGINE=' . $engine : '';
         $charset = (! is_null($charset)) ? ' CHARSET=' . $charset : '';
 
@@ -264,6 +267,9 @@ class PDOprovider extends Provider
 
             $value = (is_null($statements) && is_string($value)) ? "'$value'" : $value;
 
+            $value = is_null($value) ? 'NULL' : $value;
+            $value = is_bool($value) ? ($value ? 'true' : 'false') : $value;
+
             $input['values'] .= $value . ', ';
         }
 
@@ -294,6 +300,10 @@ class PDOprovider extends Provider
 
         foreach ($data as $column => $value) {
             $value = (is_null($statements) && is_string($value)) ? "'$value'" : $value;
+
+            $value = is_null($value) ? 'NULL' : $value;
+            $value = is_bool($value) ? ($value ? 'true' : 'false') : $value;
+
             $query .= $column . '=' . $value . ', ';
         }
 
